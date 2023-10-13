@@ -8,8 +8,8 @@
 </template>
 
 <script>
-	// import { getTest } from '../../request/module.uts'
-	import {getTest} from '../../request/module.uts'
+	import {state} from '../../stores/index.uts'
+	import { getTest } from '../../request/module.uts'
 	export default {
 		data() {
 			return {
@@ -17,9 +17,7 @@
 			}
 		},
 		onLoad() {
-			// console.log('test', getTest().then(res => {
-			// 	console.log(res)
-			// }))
+			if(!state.hasLogin) return
 			getTest().then(res => {
 				console.log(res)
 			})

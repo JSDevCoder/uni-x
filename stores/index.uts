@@ -3,19 +3,22 @@ import {reactive} from 'vue'
  * 定义state类型约束
  */
 export type State = {
-	val: string
+	hasLogin: boolean
 }
 
 /**
  * 定义state
  */
 export const state = reactive({
-	val: ''
+	hasLogin: false
 } as State)
 
 /**
  * 定义actions
  */
-export const setParam = (val: string) => {
-	state.val = val
+export const setData = (key: string, value: any) => {
+	state[key] = value
+	uni.setStorageSync('state', state)
 }
+
+console.log(state)

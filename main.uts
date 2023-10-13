@@ -1,6 +1,7 @@
 import App from './App'
 
 import { createSSRApp } from 'vue'
+import store from './stores/index.uts'
 export function createApp() {
   const app = createSSRApp(App)
   return {

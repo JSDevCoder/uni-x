@@ -1,0 +1,45 @@
+.form {
+	padding: 20rpx;
+}
+
+.form-item {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	border-bottom: 1px solid #f2f2f2;
+	padding-bottom: 20rpx;
+}
+
+.form-item-label {
+	min-width: 120rpx;
+}
+
+.form-input {
+	flex-grow: 1;
+}
+
+.form-btns {
+	
+}
+
+.form-submit, .form-cancel {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 80rpx;
+	border-radius: 20rpx;
+	margin-top: 20rpx;
+}
+
+.form-submit {
+	background-color: #007aff;
+	
+}
+
+.form-submit-text {
+	color: #fff;
+}
+
+.form-cancel {
+	background-color: #d8d8d8;
+}
