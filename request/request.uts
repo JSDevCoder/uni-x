@@ -1,0 +1,135 @@
+/**
+ * 封装uni.request
+ */
+class UtxRequest {
+	// 请求对象
+	requestTask : RequestTask | null = null
+
+	// 默认请求参数
+	defaultOpts = {
+		baseURL: '',
+		api: '',
+		method: 'GET',
+		data: null as UTSJSONObject | null,
+		header: {}
+	} as UTSJSONObject
+
+	/**
+	 * 构造函数
+	 */
+	constructor(opts : UTSJSONObject) {
+		const doMap = this.defaultOpts.toMap()
+		const oMap = opts.toMap()
+		oMap.forEach((v, k) => {
+			if (doMap.has(k)) {
+				this.defaultOpts.set(k, v)
+			}
+		})
+	}
+
+	/**
+	 * 前置拦截器
+	 */
+	beforeInterceptors(opts : UTSJSONObject) {
+		const doMap = this.defaultOpts.toMap()
+		const oMap = opts.toMap()
+		oMap.forEach((v, k) => {
+			if (doMap.has(k)) {
+				this.defaultOpts.set(k, v)
+			}
+		})
+		console.log('defaultOpts', this.defaultOpts)
+		console.log('opts', opts)
+	}
+
+	/**
+	 * 后置拦截器
+	 */
+	afterInterceptors() {
+
+	}
+
+	/**
+	 * 发送请求
+	 */
+	request(api : string, data : UTSJSONObject, method ?: string | null) : Promise<any> {
+		const dData = this.defaultOpts.getAny('data') as UTSJSONObject
+		data.toMap().forEach((v, k) => {
+			dData.set(k, v)
+		})
+		this.defaultOpts.set('api', api)
+		this.defaultOpts.set('method', method)
+		this.defaultOpts.set('data', dData)
+		return new Promise((resolve, reject) => {
+			console.log('defaultOpts', this.defaultOpts)
+			this.requestTask = uni.request({
+				url: this.defaultOpts.getString('baseURL') + api,
+				data: this.defaultOpts.getAny('data'),
+				method: this.defaultOpts.getString('method'),
+				success: res => {
+					console.log('res', res)
+					if (res.statusCode == 200) {
+						const resData = res.data as UTSJSONObject
+						console.log('resData', resData)
+						if (resData.getNumber('code') == 1) {
+							resolve(resData)
+						} else {
+							// this.statusHandle(resData.getNumber('code'), resData.getString('msg'))
+						}
+					} else {
+						this.statusHandle(res.statusCode, '服务器出错')
+					}
+				},
+				fail: err => {
+					console.log('err', err)
+					reject(err)
+					uni.showToast({
+						title: '请求失败',
+						icon: 'none'
+					})
+				}
+			})
+		})
+	}
+
+	/**
+	 * POST请求
+	 */
+	post(api : string, data : UTSJSONObject) : Promise<any> {
+		return this.request(api, data, 'POST')
+	}
+
+	/**
+	 * GET请求
+	 */
+	getJSON(api : string, data : UTSJSONObject) : Promise<any> {
+		return this.request(api, data, 'GET')
+	}
+
+	statusHandle(code : number, msg : string) {
+		let title = ''
+		if (code == 500) {
+			// 服务器出错
+			title = '服务器出错'
+		} else if (code == 404) {
+			title = 'API不存在'
+		} else if (code == 401) {
+			uni.showToast({
+				title: '无访问权限',
+				icon: 'none'
+			})
+			uni.reLaunch({
+				url: '/pages/user/index'
+			})
+			return
+		} else if (code == 0) {
+			title = msg
+		}
+		uni.showToast({
+			title,
+			icon: 'none'
+		})
+	}
+}
+
+export default UtxRequest

@@ -1,0 +1,5 @@
+import ins from './index.uts'
+
+export function getTest(): Promise<any> {
+	return ins.getJSON('/api/index/gonggao123', {test: 12333})
+}

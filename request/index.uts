@@ -1,0 +1,13 @@
+import UtxRequest from './request.uts'
+
+const reqIns = new UtxRequest({
+	baseURL: 'https://www.tvpdd.com',
+	header: {
+		'Content-Type': 'application/json'
+	},
+	data: {
+		device: '456'
+	}
+})
+
+export default reqIns

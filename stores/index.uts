@@ -1,0 +1,21 @@
+import {reactive} from 'vue'
+/**
+ * 定义state类型约束
+ */
+export type State = {
+	val: string
+}
+
+/**
+ * 定义state
+ */
+export const state = reactive({
+	val: ''
+} as State)
+
+/**
+ * 定义actions
+ */
+export const setParam = (val: string) => {
+	state.val = val
+}
