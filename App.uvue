@@ -6,7 +6,7 @@
 			console.log('App Launch')
 			setTimeout(() => {
 				const hasLogin = state.hasLogin
-				if(!hasLogin) {
+				if (!hasLogin) {
 					uni.redirectTo({
 						url: '/pages/users/index'
 					})

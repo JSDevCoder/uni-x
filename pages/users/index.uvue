@@ -30,6 +30,7 @@
 </template>
 
 <script>
+	import { userLogin } from '../../request/apis/users.uts'
 	export default {
 		data() {
 			return {
@@ -41,6 +42,9 @@
 			formSubmit() {
 				console.log('submit')
 				console.log({ username: this.username, userpwd: this.userpwd })
+				userLogin(this.username, this.userpwd).then(res => {
+					console.log(res)
+				})
 			},
 			formCancel() {
 				console.log('cancel')

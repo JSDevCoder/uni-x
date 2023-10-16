@@ -16,8 +16,10 @@ export const state = reactive({
 /**
  * 定义actions
  */
-export const setData = (key: string, value: any) => {
-	state[key] = value
+export const setData = (data: UTSJSONObject) => {
+	data.toMap().forEach((v, k) => {
+		state[k] = v
+	})
 	uni.setStorageSync('state', state)
 }
 

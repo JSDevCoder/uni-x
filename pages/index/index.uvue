@@ -9,7 +9,6 @@
 
 <script>
 	import {state} from '../../stores/index.uts'
-	import { getTest } from '../../request/module.uts'
 	export default {
 		data() {
 			return {
@@ -18,9 +17,6 @@
 		},
 		onLoad() {
 			if(!state.hasLogin) return
-			getTest().then(res => {
-				console.log(res)
-			})
 		},
 		methods: {
 

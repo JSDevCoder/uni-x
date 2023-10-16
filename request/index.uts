@@ -1,12 +1,9 @@
 import UtxRequest from './request.uts'
 
 const reqIns = new UtxRequest({
-	baseURL: 'https://www.tvpdd.com',
+	baseURL: 'https://www.fastmock.site/mock/f3db82b0eeba8d6ec09d1947627bb194/uni-x',
 	header: {
 		'Content-Type': 'application/json'
-	},
-	data: {
-		device: '456'
 	}
 })
 
