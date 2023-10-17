@@ -1,12 +1,16 @@
 <script lang="uts">
-	import { state } from './stores/index.uts'
+	import { store, setData } from './stores/index.uts'
 	let firstBackTime = 0
 	export default {
 		onLaunch: function () {
 			console.log('App Launch')
+			const stateLocal = uni.getStorageSync('state') as UTSJSONObject | null
+			console.log(stateLocal?.getBoolean('hasLogin'))
+			setData(stateLocal)
+			
 			setTimeout(() => {
-				const hasLogin = state.hasLogin
-				if (!hasLogin) {
+				const hasLogin = store.state.getBoolean('hasLogin')
+				if (hasLogin != true) {
 					uni.redirectTo({
 						url: '/pages/users/index'
 					})

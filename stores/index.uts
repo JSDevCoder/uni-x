@@ -1,26 +1,26 @@
-import {reactive} from 'vue'
+import { reactive } from 'vue'
 /**
  * 定义state类型约束
  */
 export type State = {
-	hasLogin: boolean
+	state : UTSJSONObject
 }
 
 /**
  * 定义state
  */
-export const state = reactive({
-	hasLogin: false
+export const store = reactive({
+	state: {
+		hasLogin: false
+	}
 } as State)
 
 /**
  * 定义actions
  */
-export const setData = (data: UTSJSONObject) => {
-	data.toMap().forEach((v, k) => {
-		state[k] = v
+export const setData = (data : UTSJSONObject | null) => {
+	data?.toMap()?.forEach((v, k) => {
+		store.state.set(k, v)
 	})
-	uni.setStorageSync('state', state)
+	uni.setStorageSync('state', store.state)
 }
-
-console.log(state)

@@ -31,6 +31,9 @@
 
 <script>
 	import { userLogin } from '../../request/apis/users.uts'
+	import useLoginFormValid from './logic/useLoginFormValid.uts';
+	import { setData } from '../../stores/index.uts'
+
 	export default {
 		data() {
 			return {
@@ -38,13 +41,36 @@
 				userpwd: ''
 			};
 		},
+		onLoad() {
+
+		},
 		methods: {
 			formSubmit() {
-				console.log('submit')
-				console.log({ username: this.username, userpwd: this.userpwd })
-				userLogin(this.username, this.userpwd).then(res => {
-					console.log(res)
+				const result = useLoginFormValid(this.username, this.userpwd)
+				console.log(result)
+				if (result != null) {
+					uni.showToast({
+						title: result[0],
+						icon: 'none',
+						position: 'top'
+					})
+					return
+				}
+				uni.showLoading({
+					title: 'loading'
 				})
+				userLogin(this.username, this.userpwd).then((res : UTSJSONObject) => {
+					if (res.getString('code') == '1000') {
+						const attrs : UTSJSONObject = { hasLogin: true }
+						setData(attrs)
+						uni.switchTab({
+							url: '/pages/index/index'
+						})
+					}
+				}).finally(() => {
+					uni.hideLoading()
+				})
+
 			},
 			formCancel() {
 				console.log('cancel')

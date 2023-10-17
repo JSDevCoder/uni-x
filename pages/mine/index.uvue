@@ -1,19 +1,43 @@
 <template>
 	<view>
-		
+		<view class="logout" @tap="logout">
+			<text class="logout-txt">退出登录</text>
+		</view>
 	</view>
 </template>
 
 <script>
+	import { setData } from '../../stores/index.uts';
 	export default {
 		data() {
 			return {
-				
+
 			};
+		},
+		methods: {
+			logout() {
+				setData({ hasLogin: false } as UTSJSONObject)
+				uni.reLaunch({
+					url: '/pages/users/index'
+				})
+			}
 		}
 	}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+	.logout {
+		width: 200rpx;
+		height: 80rpx;
+		background-color: $uni-color-primary;
+		border-radius: 20rpx;
+		margin: 80rpx;
+	}
 
+	.logout-txt {
+		font-size: 32rpx;
+		text-align: center;
+		line-height: 80rpx;
+		color: #fff;
+	}
 </style>

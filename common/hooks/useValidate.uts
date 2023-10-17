@@ -1,0 +1,50 @@
+// 验证规则
+export type Valid = {
+	require ?: string, // y/n
+	desc : string
+}
+
+// 返回值
+type ReturnVal = {
+	checkValid : (formData : Map<string, string>, rules : Map<string, Array<Valid>>) => boolean,
+	getError : () => Array<string>
+}
+
+/**
+ * 验证表单
+ * @param formData 表单数据
+ * @param rules 表单验证规则
+ */
+export default function useFormValid() : ReturnVal {
+	// 错误信息
+	let errorMsg : Array<string> = []
+
+
+	// 验证表单数据
+	const checkValid = (formData : Map<string, string>, rules : Map<string, Array<Valid>>) : boolean => {
+		let statusArr : Array<string> = []
+		formData.forEach((v, k) => {
+			if (rules.has(k)) {
+				rules.get(k)?.forEach(_v => {
+					if (_v.require == 'y' && v == '') {
+						statusArr.push('n')
+						errorMsg.push(_v.desc)
+						return
+					}
+					statusArr.push('y')
+				})
+			}
+		})
+		return statusArr.indexOf('n') == -1
+	}
+
+	// 表单错误信息
+	const getError = () : Array<string> => {
+		return errorMsg
+	}
+
+	return {
+		checkValid,
+		getError
+	} as ReturnVal
+}

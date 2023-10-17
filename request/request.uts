@@ -11,7 +11,7 @@ class UtxRequest {
 		baseURL: '',
 		api: '',
 		method: 'GET',
-		data: {} as UTSJSONObject,
+		data: {} as UTSJSONObject | null,
 		header: {}
 	}
 
@@ -31,7 +31,7 @@ class UtxRequest {
 	/**
 	 * 发送请求
 	 */
-	request(api : string, method : string, data : UTSJSONObject | null,) : Promise<any> {
+	request(api : string, method : string, data : UTSJSONObject | null,) : Promise<UTSJSONObject> {
 		const dData = this.defaultOpts.get('data') as UTSJSONObject
 		data?.toMap()?.forEach((v, k) => {
 			dData.set(k, v)
@@ -75,14 +75,14 @@ class UtxRequest {
 	/**
 	 * POST请求
 	 */
-	post(api : string, data : UTSJSONObject | null) : Promise<any> {
+	post(api : string, data : UTSJSONObject | null) : Promise<UTSJSONObject> {
 		return this.request(api, 'POST', data)
 	}
 
 	/**
 	 * GET请求
 	 */
-	getJSON(api : string, data : UTSJSONObject | null) : Promise<any> {
+	getJSON(api : string, data : UTSJSONObject | null) : Promise<UTSJSONObject> {
 		return this.request(api, 'GET', data)
 	}
 
@@ -99,9 +99,8 @@ class UtxRequest {
 				})
 				break;
 			case '1002':
-				setData({
-					hasLogin: false
-				})
+				const attrs : UTSJSONObject = { hasLogin: false }
+				setData(attrs)
 				uni.reLaunch({
 					url: '/pages/users/index'
 				})

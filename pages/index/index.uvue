@@ -8,7 +8,7 @@
 </template>
 
 <script>
-	import {state} from '../../stores/index.uts'
+	// import {state} from '../../stores/index.uts'
 	export default {
 		data() {
 			return {
@@ -16,7 +16,7 @@
 			}
 		},
 		onLoad() {
-			if(!state.hasLogin) return
+			// if(!state.hasLogin) return
 		},
 		methods: {
 

@@ -1,0 +1,26 @@
+import useValidate, { Valid } from '../../../common/hooks/useValidate.uts'
+
+export default function useLoginFormValid(username : string, userpwd : string) : Array<string> | null {
+	// 表单数据
+	const formData = new Map<string, string>()
+	formData.set('username', username)
+	formData.set('userpwd', userpwd)
+
+	// 验证规则
+	const rules = new Map<string, Array<Valid>>()
+	rules.set('username', [{
+		require: 'y',
+		desc: '用户名必填'
+	}] as Array<Valid>)
+	rules.set('userpwd', [{
+		require: 'y',
+		desc: '密码必填'
+	}] as Array<Valid>)
+
+	const validate = useValidate()
+	const valid = validate.checkValid(formData, rules);
+	if (!valid) {
+		return validate.getError()
+	}
+	return null
+}
