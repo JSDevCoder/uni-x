@@ -7,4 +7,11 @@ const reqIns = new UtxRequest({
 	}
 })
 
+reqIns.beforeInterceptors((config : UTSJSONObject) : UTSJSONObject => {
+	const data = config.get('data') as UTSJSONObject | null
+	data?.set('param', 'ttt')
+	config.set('data', data)
+	return config
+})
+
 export default reqIns
