@@ -43,13 +43,6 @@ class UtxRequest {
 	}
 	
 	/**
-	 * 后置拦截
-	 */
-	afterInterceptors(callback: Cb) {
-		callback(this.reqResult)
-	}
-
-	/**
 	 * 发送请求
 	 */
 	request(api : string, method : string, data : UTSJSONObject | null,) : Promise<UTSJSONObject> {

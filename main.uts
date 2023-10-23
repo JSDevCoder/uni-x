@@ -1,7 +1,7 @@
 import App from './App'
 
 import { createSSRApp } from 'vue'
-import {store, setData} from './stores/index.uts'
+// import {store, setData} from './stores/index.uts'
 
 
 
