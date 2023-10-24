@@ -1,0 +1,42 @@
+<template>
+	<view class="ux-grid" ref="uxGrid">
+		<slot></slot>
+	</view>
+</template>
+
+<script>
+	export default {
+		name: "ux-grid",
+		data() {
+			return {
+
+			};
+		},
+		props: {
+			row: {
+				type: Number,
+				default: 1
+			},
+			col: {
+				type: Number,
+				default: 4
+			}
+		},
+		mounted() {
+			console.log(this.$slots)
+			let slots = this.$slots.get('default')
+			console.log('default slots------------>',slots)
+			console.log(this.$refs['uxGrid'] as UniViewElement)
+			
+		},
+		methods: {
+			changeGrid(index : number) : void {
+				this.$emit('change-grid', index)
+			}
+		}
+	}
+</script>
+
+<style>
+
+</style>

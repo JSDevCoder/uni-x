@@ -1,11 +1,13 @@
 <template>
-	<view class="ux-popup" v-if="isShow">
-		<view class="ux-popup-content" :class="[type]">
-			<!-- 内容区域 -->
-			<slot></slot>
+	<view>
+		<view class="ux-popup" v-if="isShow">
+			<view class="ux-popup-content" :class="[type]">
+				<!-- 内容区域 -->
+				<slot></slot>
+			</view>
+			<!-- 遮罩层 -->
+			<view class="ux-popup-mask" @tap="isCloseMask">zhe zhao</view>
 		</view>
-		<!-- 遮罩层 -->
-		<view class="ux-popup-mask" @tap="isCloseMask">zhe zhao</view>
 	</view>
 </template>
 <script>

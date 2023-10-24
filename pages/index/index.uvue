@@ -1,10 +1,18 @@
 <template>
-	<view class="content">
-		<image class="logo" src="/static/logo.png" @tap="openPopup"></image>
-		<view class="text-area">
-			<text class="title">{{title}}</text>
-		</view>
+	<view class="container">
+		<ux-title title="组件列表"></ux-title>
+		<ux-grid>
+			<ux-grid-item>1</ux-grid-item>
+			<ux-grid-item>2</ux-grid-item>
+			<ux-grid-item>3</ux-grid-item>
+			<ux-grid-item>4</ux-grid-item>
+		</ux-grid>
 	</view>
+	<view @tap="openPopup">
+		点击打开弹窗
+	</view>
+
+	<!-- ux-popup -->
 	<ux-popup ref="uxPopup">
 		<view class="wrap">
 			neirong
@@ -40,8 +48,8 @@
 </script>
 
 <style>
-.wrap{
-	height: 400rpx;
-	background-color: #fff;
-}
+	.wrap {
+		height: 400rpx;
+		background-color: #fff;
+	}
 </style>

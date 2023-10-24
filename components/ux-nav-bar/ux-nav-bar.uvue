@@ -1,0 +1,20 @@
+<template>
+	<view>
+		
+	</view>
+</template>
+
+<script>
+	export default {
+		name:"ux-nav-bar",
+		data() {
+			return {
+				
+			};
+		}
+	}
+</script>
+
+<style>
+
+</style>
