@@ -6,7 +6,7 @@
 				<slot></slot>
 			</view>
 			<!-- 遮罩层 -->
-			<view class="ux-popup-mask" @tap="isCloseMask">zhe zhao</view>
+			<view class="ux-popup-mask" @tap="isCloseMask"></view>
 		</view>
 	</view>
 </template>
@@ -62,6 +62,12 @@
 
 	.ux-popup-content.bottom {
 		bottom: 0;
+		transition: bottom .3s;
+	}
+	
+	.ux-popup-content.top {
+		top: 0;
+		transition: top .3s;
 	}
 
 	.ux-popup-mask {
@@ -72,5 +78,6 @@
 		bottom: 0;
 		z-index: 88;
 		background-color: rgba(0, 0, 0, 0.3);
+		transition: background .3s;
 	}
 </style>

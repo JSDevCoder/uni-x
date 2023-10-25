@@ -32,7 +32,7 @@
 <script>
 	import { userLogin } from '../../request/apis/users.uts'
 	import useLoginFormValid from './logic/useLoginFormValid.uts';
-	import { setData } from '../../stores/index.uts'
+	import { setHasLogin } from '../../stores/index.uts'
 
 	export default {
 		data() {
@@ -61,8 +61,7 @@
 				})
 				userLogin(this.username, this.userpwd).then((res : UTSJSONObject) => {
 					if (res.getString('code') == '1000') {
-						const attrs : UTSJSONObject = { hasLogin: true }
-						setData(attrs)
+						setHasLogin(true)
 						uni.switchTab({
 							url: '/pages/index/index'
 						})

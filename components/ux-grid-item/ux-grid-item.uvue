@@ -1,5 +1,5 @@
 <template>
-	<view class="ux-grid-item">
+	<view class="ux-grid-item" :style="{width: 750 / col + 'rpx'}">
 		<slot></slot>
 	</view>
 </template>
@@ -11,10 +11,22 @@
 			return {
 				
 			};
+		},
+		props:{
+			col: {
+				type: Number,
+				default: 4
+			}
 		}
 	}
 </script>
 
 <style>
-
+.ux-grid-item{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding: 20rpx;
+}
 </style>

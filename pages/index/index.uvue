@@ -2,18 +2,15 @@
 	<view class="container">
 		<ux-title title="组件列表"></ux-title>
 		<ux-grid>
-			<ux-grid-item>1</ux-grid-item>
-			<ux-grid-item>2</ux-grid-item>
-			<ux-grid-item>3</ux-grid-item>
-			<ux-grid-item>4</ux-grid-item>
+			<ux-grid-item :col="4" v-for="(item,index) in components" :key="index" @tap="tapGridItem(index)">
+				<text class="icon">{{item.icon}}</text>
+				<text class="name">{{item.name}}</text>
+			</ux-grid-item>
 		</ux-grid>
-	</view>
-	<view @tap="openPopup">
-		点击打开弹窗
 	</view>
 
 	<!-- ux-popup -->
-	<ux-popup ref="uxPopup">
+	<ux-popup ref="uxPopup" type="top">
 		<view class="wrap">
 			neirong
 		</view>
@@ -23,12 +20,21 @@
 <script>
 	// import {state} from '../../stores/index.uts'
 	// import { ComponentPublicInstance } from 'vue'
+	type Item = {
+		name : string,
+		icon : string
+	}
+	type Fn = () => void
 	export default {
 		data() {
 			return {
 				title: 'Hello',
-				uxPopup: null as UxPopupComponentPublicInstance | null
-
+				uxPopup: null as UxPopupComponentPublicInstance | null,
+				components: [{ name: '标题', icon: '标' },
+				{ name: '弹窗', icon: '弹' },
+				{ name: '宫格', icon: '宫' },
+				{ name: '导航栏', icon: '导' },
+				{ name: 'Tab切换', icon: 'T' }] as Array<Item>
 			}
 		},
 		onLoad() {
@@ -38,6 +44,12 @@
 			this.uxPopup = this.$refs['uxPopup'] as UxPopupComponentPublicInstance
 		},
 		methods: {
+			tapGridItem(index : number) {
+				const fns = [() => { }, () => {
+					this.openPopup()
+				}] as Array<Fn>
+				fns[index]()
+			},
 			openPopup() {
 				// this.uxPopup?.$callMethod('open')
 				this.uxPopup?.open?.()
@@ -51,5 +63,22 @@
 	.wrap {
 		height: 400rpx;
 		background-color: #fff;
+	}
+
+	.icon {
+		width: 60rpx;
+		height: 60rpx;
+		border-radius: 60rpx;
+		margin-bottom: 20rpx;
+		border: 1rpx solid #f60;
+		text-align: center;
+		line-height: 62rpx;
+		font-size: 24rpx;
+		background-color: #f99;
+		color: #fff;
+	}
+
+	.name {
+		font-size: 24rpx;
 	}
 </style>

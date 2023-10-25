@@ -1,21 +1,19 @@
 <script lang="uts">
-	// import { store, setData } from './stores/index.uts'
+	import { setHasLogin } from './stores/index.uts'
 	let firstBackTime = 0
 	export default {
 		onLaunch: function () {
-			// console.log('App Launch')
-			// const stateLocal = uni.getStorageSync('state') as UTSJSONObject | null
-			// console.log(stateLocal?.getBoolean('hasLogin'))
-			// setData(stateLocal)
-			
-			// setTimeout(() => {
-			// 	const hasLogin = store.state.getBoolean('hasLogin')
-			// 	if (hasLogin != true) {
-			// 		uni.redirectTo({
-			// 			url: '/pages/users/index'
-			// 		})
-			// 	}
-			// }, 0)
+			console.log('App Launch')
+			// 判断登录状态
+			const localHasLogin = uni.getStorageSync('hasLogin')
+			console.log(typeof localHasLogin)
+			if(typeof localHasLogin == 'boolean') {
+				setHasLogin(localHasLogin as boolean)
+			}else{
+				uni.redirectTo({
+					url: '/pages/users/index'
+				})
+			}
 		},
 		onShow: function () {
 			console.log('App Show')

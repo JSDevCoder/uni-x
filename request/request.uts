@@ -1,4 +1,4 @@
-import { state, setData } from '../stores/index.uts'
+import { state, setHasLogin } from '../stores/index.uts'
 
 // 回调函数类型
 type Cb = (args : UTSJSONObject) => UTSJSONObject
@@ -113,8 +113,7 @@ class UtxRequest {
 				})
 				break;
 			case '1002':
-				const attrs : UTSJSONObject = { hasLogin: false }
-				setData(attrs)
+				setHasLogin(false)
 				uni.reLaunch({
 					url: '/pages/users/index'
 				})

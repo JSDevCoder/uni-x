@@ -1,6 +1,6 @@
 <template>
-	<view class="ux-grid" ref="uxGrid">
-		<slot></slot>
+	<view class="ux-grid">
+		<slot :col="col"></slot>
 	</view>
 </template>
 
@@ -23,11 +23,7 @@
 			}
 		},
 		mounted() {
-			console.log(this.$slots)
-			let slots = this.$slots.get('default')
-			console.log('default slots------------>',slots)
-			console.log(this.$refs['uxGrid'] as UniViewElement)
-			
+			console.log(this.$slots.get('default'))
 		},
 		methods: {
 			changeGrid(index : number) : void {
@@ -38,5 +34,10 @@
 </script>
 
 <style>
-
+.ux-grid{
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	flex-wrap: wrap;
+}
 </style>
