@@ -1,16 +1,27 @@
 <template>
-	<view class="container">
-		<ux-title title="组件列表"></ux-title>
-		<ux-grid>
-			<ux-grid-item :col="4" v-for="(item,index) in components" :key="index" @tap="tapGridItem(index)">
-				<text class="icon">{{item.icon}}</text>
-				<text class="name">{{item.name}}</text>
-			</ux-grid-item>
-		</ux-grid>
-	</view>
+	<!-- 导航栏 -->
+	<ux-nav-bar :back="true" :left-menus="leftMenus" :right-menus="rightMenus"></ux-nav-bar>
+
+	<!-- #ifdef APP -->
+	<scroll-view style="flex:1">
+	<!-- #endif -->
+
+		<view class="container">
+			<ux-title title="组件列表"></ux-title>
+			<ux-grid>
+				<ux-grid-item :col="4" v-for="(item,index) in components" :key="index" @tap="tapGridItem(index)">
+					<text class="icon">{{item.icon}}</text>
+					<text class="name">{{item.name}}</text>
+				</ux-grid-item>
+			</ux-grid>
+		</view>
+
+	<!-- #ifdef APP -->
+	</scroll-view>
+	<!-- #endif -->
 
 	<!-- ux-popup -->
-	<ux-popup ref="uxPopup" type="top">
+	<ux-popup ref="uxPopup" type="bottom">
 		<view class="wrap">
 			neirong
 		</view>
@@ -18,13 +29,9 @@
 </template>
 
 <script>
-	// import {state} from '../../stores/index.uts'
-	// import { ComponentPublicInstance } from 'vue'
-	type Item = {
-		name : string,
-		icon : string
-	}
-	type Fn = () => void
+	import { state } from '../../stores/index.uts'
+	import { Menu } from '@/components/ux-nav-bar/types/types.uts'
+	import { Item, Fn } from './types/types.uts'
 	export default {
 		data() {
 			return {
@@ -34,11 +41,13 @@
 				{ name: '弹窗', icon: '弹' },
 				{ name: '宫格', icon: '宫' },
 				{ name: '导航栏', icon: '导' },
-				{ name: 'Tab切换', icon: 'T' }] as Array<Item>
+				{ name: 'Tab切换', icon: 'T' }] as Array<Item>,
+				leftMenus: [{ icon: '<', type: 'back' }, { icon: '+', text: '测试' }] as Array<Menu>,
+				rightMenus: [{ icon: '+', text: '分享' }, { text: '测试' }] as Array<Menu>
 			}
 		},
 		onLoad() {
-			// if(!state.hasLogin) return
+			if (!state.hasLogin) return
 		},
 		onReady() {
 			this.uxPopup = this.$refs['uxPopup'] as UxPopupComponentPublicInstance
@@ -51,7 +60,6 @@
 				fns[index]()
 			},
 			openPopup() {
-				// this.uxPopup?.$callMethod('open')
 				this.uxPopup?.open?.()
 			}
 
@@ -59,7 +67,12 @@
 	}
 </script>
 
-<style>
+<style lang="scss" scoped>
+	.container {
+		padding-top: 140rpx;
+		background-color: antiquewhite;
+	}
+
 	.wrap {
 		height: 400rpx;
 		background-color: #fff;

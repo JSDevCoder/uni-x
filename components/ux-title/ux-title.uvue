@@ -1,7 +1,8 @@
 <template>
 	<view class="ux-title">
-		<text class="ux-title-text" v-if="title.length">{{title}}</text>
-		<slot></slot>
+		<slot>
+			<text class="ux-title-text" v-if="title.length">{{title}}</text>
+		</slot>
 	</view>
 </template>
 
@@ -22,7 +23,7 @@
 	}
 </script>
 
-<style>
+<style lang="scss" scoped>
 	.ux-title {
 		padding: 20rpx;
 		display: flex;

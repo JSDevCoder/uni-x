@@ -38,11 +38,14 @@
 			},
 			open() {
 				this.isShow = true
+			},
+			close() {
+				this.isShow = false
 			}
 		}
 	}
 </script>
-<style>
+<style lang="scss" scoped>
 	.ux-popup {
 		position: fixed;
 		left: 0;
