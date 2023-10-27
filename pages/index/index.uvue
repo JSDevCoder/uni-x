@@ -1,6 +1,6 @@
 <template>
 	<!-- 导航栏 -->
-	<ux-nav-bar :back="true" :left-menus="leftMenus" :right-menus="rightMenus"></ux-nav-bar>
+	<ux-nav-bar></ux-nav-bar>
 
 	<!-- #ifdef APP -->
 	<scroll-view style="flex:1">
@@ -8,11 +8,8 @@
 
 		<view class="container">
 			<ux-title title="组件列表"></ux-title>
-			<ux-grid>
-				<ux-grid-item :col="4" v-for="(item,index) in components" :key="index" @tap="tapGridItem(index)">
-					<text class="icon">{{item.icon}}</text>
-					<text class="name">{{item.name}}</text>
-				</ux-grid-item>
+			<ux-grid :col="5" @change="changeGridItem">
+				<ux-grid-item :text="item.name" :index="index" v-for="(item,index) in components" :key="index"></ux-grid-item>
 			</ux-grid>
 		</view>
 
@@ -53,7 +50,8 @@
 			this.uxPopup = this.$refs['uxPopup'] as UxPopupComponentPublicInstance
 		},
 		methods: {
-			tapGridItem(index : number) {
+			changeGridItem(index : number) {
+				console.log(index)
 				const fns = [() => { }, () => {
 					this.openPopup()
 				}] as Array<Fn>
@@ -76,22 +74,5 @@
 	.wrap {
 		height: 400rpx;
 		background-color: #fff;
-	}
-
-	.icon {
-		width: 60rpx;
-		height: 60rpx;
-		border-radius: 60rpx;
-		margin-bottom: 20rpx;
-		border: 1rpx solid #f60;
-		text-align: center;
-		line-height: 62rpx;
-		font-size: 24rpx;
-		background-color: #f99;
-		color: #fff;
-	}
-
-	.name {
-		font-size: 24rpx;
 	}
 </style>

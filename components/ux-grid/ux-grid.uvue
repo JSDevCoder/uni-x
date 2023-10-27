@@ -1,43 +1,40 @@
 <template>
-	<view class="ux-grid">
-		<slot :col="col"></slot>
+	<view class="ux-grid" ref="ux-grid" :data-col="col" @tap="changeGrid">
+		<slot></slot>
 	</view>
 </template>
 
 <script>
 	export default {
 		name: "ux-grid",
-		data() {
-			return {
-
-			};
-		},
 		props: {
-			row: {
-				type: Number,
-				default: 1
-			},
+			// 每行的列数
 			col: {
 				type: Number,
 				default: 4
 			}
 		},
 		mounted() {
-			console.log(this.$slots.get('default'))
+			
 		},
 		methods: {
-			changeGrid(index : number) : void {
-				this.$emit('change-grid', index)
+			changeGrid(e:Event){
+				console.log(e.target?.tagName)
+				if(e.target!!.tagName == 'VIEW'){
+					this.$emit('change', e.target!!.dataset.get('index'))
+				}else{
+					this.$emit('change', e.target!!.parentElement!!.dataset.get('index'))
+				}
 			}
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
-.ux-grid{
-	display: flex;
-	flex-direction: row;
-	justify-content: flex-start;
-	flex-wrap: wrap;
-}
+	.ux-grid {
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		flex-wrap: wrap;
+	}
 </style>

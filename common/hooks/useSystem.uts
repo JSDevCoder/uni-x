@@ -1,0 +1,14 @@
+// 设备像素比
+export const devicePixelRatio: number = uni.getSystemInfoSync().devicePixelRatio
+
+// 设备可用窗口宽度
+export const winWidth: number = uni.getSystemInfoSync().windowWidth
+
+/**
+ * px -> rpx
+ * @param num {Number} px像素值
+ * @returns rpx值
+ */
+export function px2rpx(num : number) : number {
+	return num * devicePixelRatio
+}
