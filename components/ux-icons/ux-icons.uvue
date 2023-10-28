@@ -1,0 +1,58 @@
+<template>
+	<text ref="ux-text" class="ux">{{icons}}</text>
+</template>
+
+<script>
+	import { useIcons } from './logic/icons.uts'
+	export default {
+		name: "ux-icons",
+		
+		data() {
+			return {
+				icons: null as string | null
+			};
+		},
+		
+		props: {
+			// 图标名称
+			name: {
+				type: String,
+				default: ''
+			},
+			
+			// 图标大小
+			size: {
+				type: Number,
+				default: 16
+			},
+			
+			// 图标颜色
+			color: {
+				type: String,
+				default: '#333'
+			}
+		},
+		
+		created() {
+			this.icons = useIcons(this.name)
+		},
+		
+		mounted() {
+			const uxText = this.$refs['ux-text'] as UniTextElement
+			uxText.style.setProperty('font-size', this.size + 'px')
+			uxText.style.setProperty('color', this.color)
+		}
+	}
+</script>
+
+<style lang="scss" scoped>
+	@font-face {
+		font-family: 'ux';
+		src: url('https://at.alicdn.com/t/c/font_3749800_eh9mplxh7iv.ttf?t=1698458906561');
+	}
+
+	.ux {
+		font-family: 'ux';
+		font-size: 16px;
+	}
+</style>

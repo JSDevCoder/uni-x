@@ -1,0 +1,9 @@
+// export default {
+// 	search: 'e6f7'
+// }
+export function useIcons(name: string): string|null {
+	const icons = new Map<string, string>()
+	icons.set('search', '\ue6f7')
+	// 其他图标
+	return icons.get(name)
+}

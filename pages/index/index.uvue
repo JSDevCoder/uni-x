@@ -1,15 +1,16 @@
 <template>
 	<!-- 导航栏 -->
-	<ux-nav-bar></ux-nav-bar>
+	<ux-nav-bar :left-menus="leftMenus" @on-left-menus="onLeftMenus"></ux-nav-bar>
 
 	<!-- #ifdef APP -->
 	<scroll-view style="flex:1">
 	<!-- #endif -->
 
 		<view class="container">
-			<ux-title title="组件列表"></ux-title>
-			<ux-grid :col="5" @change="changeGridItem">
-				<ux-grid-item :text="item.name" :index="index" v-for="(item,index) in components" :key="index"></ux-grid-item>
+			<ux-title title="组件列表" icon="search"></ux-title>
+			<ux-grid :col="3" :border="true" @change="changeGridItem">
+				<ux-grid-item :text="item.name" :icon="item.icon" :index="index" v-for="(item,index) in components"
+					:key="index"></ux-grid-item>
 			</ux-grid>
 		</view>
 
@@ -34,13 +35,14 @@
 			return {
 				title: 'Hello',
 				uxPopup: null as UxPopupComponentPublicInstance | null,
-				components: [{ name: '标题', icon: '标' },
-				{ name: '弹窗', icon: '弹' },
-				{ name: '宫格', icon: '宫' },
-				{ name: '导航栏', icon: '导' },
-				{ name: 'Tab切换', icon: 'T' }] as Array<Item>,
-				leftMenus: [{ icon: '<', type: 'back' }, { icon: '+', text: '测试' }] as Array<Menu>,
-				rightMenus: [{ icon: '+', text: '分享' }, { text: '测试' }] as Array<Menu>
+				components: [{ name: '标题', icon: 'search' },
+				{ name: '弹窗', icon: 'search' },
+				{ name: '宫格', icon: 'search' },
+				{ name: '导航栏', icon: 'search' },
+				{ name: 'Tab切换', icon: 'search' },
+				{ name: 'icon图标', icon: 'search' }] as Array<Item>,
+				leftMenus: [{ icon: 'search', type: 'back', color: '#fff' }, { icon: 'search', text: '测试', color: '#fff' }] as Array<Menu>,
+				rightMenus: [{ icon: 'search', text: '分享', color: '#fff' }, { text: '测试' }] as Array<Menu>
 			}
 		},
 		onLoad() {
@@ -50,6 +52,9 @@
 			this.uxPopup = this.$refs['uxPopup'] as UxPopupComponentPublicInstance
 		},
 		methods: {
+			onLeftMenus(index : number) {
+				console.log(index)
+			},
 			changeGridItem(index : number) {
 				console.log(index)
 				const fns = [() => { }, () => {
@@ -67,7 +72,7 @@
 
 <style lang="scss" scoped>
 	.container {
-		padding-top: 140rpx;
+		padding: 140rpx 20rpx 20rpx 20rpx;
 		background-color: antiquewhite;
 	}
 

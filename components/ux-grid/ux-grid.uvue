@@ -1,5 +1,5 @@
 <template>
-	<view class="ux-grid" ref="ux-grid" :data-col="col" @tap="changeGrid">
+	<view class="ux-grid" ref="ux-grid" :data-col="col" @tap="change">
 		<slot></slot>
 	</view>
 </template>
@@ -12,18 +12,35 @@
 			col: {
 				type: Number,
 				default: 4
+			},
+
+			// 是否有边框
+			border: {
+				type: Boolean,
+				default: false
 			}
 		},
+		
 		mounted() {
-			
+			if(this.border == true) {
+				const uxGrid = this.$refs['ux-grid'] as UniViewElement
+				uxGrid.style.setProperty('box-shadow', '1px 1px 1px inset #d8d8d8')
+				uxGrid.children.forEach(v => {
+					v.style.setProperty('box-shadow', '-1px -1px 1px inset #d8d8d8')
+				})
+			}
 		},
+
 		methods: {
-			changeGrid(e:Event){
-				console.log(e.target?.tagName)
-				if(e.target!!.tagName == 'VIEW'){
-					this.$emit('change', e.target!!.dataset.get('index'))
-				}else{
-					this.$emit('change', e.target!!.parentElement!!.dataset.get('index'))
+			/**
+			 * 点击选中某一项grid-item
+			 * @param e {Event} 事件对象
+			 */
+			change(e : Event) {
+				if (e.target?.tagName == 'VIEW') {
+					this.$emit('change', e.target?.dataset?.get('index'))
+				} else {
+					this.$emit('change', e.target?.parentElement?.dataset?.get('index'))
 				}
 			}
 		}
@@ -36,5 +53,6 @@
 		flex-direction: row;
 		justify-content: flex-start;
 		flex-wrap: wrap;
+		background-color: #fff;
 	}
 </style>

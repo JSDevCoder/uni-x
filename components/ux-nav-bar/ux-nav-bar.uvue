@@ -1,16 +1,17 @@
 <template>
-	<view :class="{position: position}">
+	<view :class="{ position }">
 		<!-- 状态栏 -->
 		<ux-status-bar :bg-color="bgColor"></ux-status-bar>
 
 		<!-- 导航栏 -->
-		<view class="ux-nav-bar" :style="{backgroundColor: bgColor}">
+		<view class="ux-nav-bar" :style="{ backgroundColor: bgColor }">
 			<!-- 左侧 -->
 			<view class="ux-nav-bar__leftmenus">
 				<slot name="left-menus">
 					<view class="left-menus-item" v-for="(item, index) in leftMenus" :key="index"
 						@tap="tapLeftMenus(index)">
-						<text class="left-menus-item__icon" v-if="item.icon">{{item.icon}}</text>
+						<ux-icons class="left-menus-item__icon" :name="item.icon" :color="item.color" :size="item.size"
+							v-if="item.icon"></ux-icons>
 						<text class="left-menus-item__text" v-if="item.text">{{item.text}}</text>
 					</view>
 				</slot>
@@ -19,7 +20,7 @@
 			<!-- 标题 -->
 			<view class="ux-nav-bar__title">
 				<slot name="title">
-					<text class="title-text" :style="{color: color}">{{title}}</text>
+					<text class="title-text" :style="{ color }">{{title}}</text>
 				</slot>
 			</view>
 
@@ -28,7 +29,8 @@
 				<slot name="right-menus">
 					<view class="right-menus-item" v-for="(item, index) in rightMenus" :key="index"
 						@tap="tapRightMenus(index)">
-						<text class="right-menus-item__icon" v-if="item.icon">{{item.icon}}</text>
+						<ux-icons class="right-menus-item__icon" :name="item.icon" :color="item.color" :size="item.size"
+							v-if="item.icon"></ux-icons>
 						<text class="right-menus-item__text" v-if="item.text">{{item.text}}</text>
 					</view>
 				</slot>
@@ -113,7 +115,7 @@
 			 * @param index {Number} 按钮下标
 			 */
 			tapLeftMenus(index : number) {
-				this.$emit('left-menus', index)
+				this.$emit('on-left-menus', index)
 			},
 
 			/**
@@ -121,7 +123,7 @@
 			 * @param index {Number} 按钮下标
 			 */
 			tapRightMenus(index : number) {
-				this.$emit('right-menus', index)
+				this.$emit('on-right-menus', index)
 			}
 		}
 	}
@@ -145,7 +147,8 @@
 			left: 0;
 			top: 0;
 			bottom: 0;
-			min-width: 80rpx;
+			z-index: 99;
+			max-width: 160rpx;
 			padding-left: 20rpx;
 			display: flex;
 			flex-direction: row;
@@ -158,9 +161,7 @@
 				justify-content: center;
 				margin-right: 28rpx;
 
-				&__icon {
-					color: #fff;
-				}
+				&__icon {}
 
 				&__text {
 					font-size: 24rpx;
@@ -174,7 +175,8 @@
 			right: 0;
 			top: 0;
 			bottom: 0;
-			min-width: 80rpx;
+			z-index: 99;
+			max-width: 160rpx;
 			display: flex;
 			flex-direction: row;
 
@@ -185,9 +187,7 @@
 				justify-content: center;
 				margin-right: 28rpx;
 
-				&__icon {
-					color: #fff;
-				}
+				&__icon {}
 
 				&__text {
 					font-size: 24rpx;

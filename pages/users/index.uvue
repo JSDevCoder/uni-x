@@ -79,7 +79,7 @@
 </script>
 
 <style lang="scss" scoped>
-	@import url(../../common/scss/form.css);
+	@import url(../../common/css/form.css);
 
 	.container {
 		
