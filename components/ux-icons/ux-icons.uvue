@@ -48,7 +48,7 @@
 <style lang="scss" scoped>
 	@font-face {
 		font-family: 'ux';
-		src: url('https://at.alicdn.com/t/c/font_3749800_eh9mplxh7iv.ttf?t=1698458906561');
+		src: url('/static/ttf/ux.ttf');
 	}
 
 	.ux {

@@ -1,22 +1,35 @@
 <template>
 	<!-- 导航栏 -->
-	<ux-nav-bar :left-menus="leftMenus" @on-left-menus="onLeftMenus"></ux-nav-bar>
+	<ux-nav-bar :left-menus="leftMenus" :right-menus="rightMenus" @on-left-menus="onLeftMenus" @on-right-menus="onRightMenus"></ux-nav-bar>
+
 
 	<!-- #ifdef APP -->
-	<scroll-view style="flex:1">
+	<scroll-view class="scroll-view">
 	<!-- #endif -->
 
 		<view class="container">
-			<ux-title title="组件列表" icon="search"></ux-title>
-			<ux-grid :col="3" :border="true" @change="changeGridItem">
-				<ux-grid-item :text="item.name" :icon="item.icon" :index="index" v-for="(item,index) in components"
-					:key="index"></ux-grid-item>
-			</ux-grid>
-		</view>
 
+			<!-- tab切换 -->
+			<ux-tab>
+				<ux-tab-item label="基础组件" :index="0">
+					<ux-title title="组件列表" icon="trademark"></ux-title>
+					<ux-grid :col="3" :border="true" @change="changeGridItem">
+						<ux-grid-item :text="item.name" :icon="item.icon" :index="index"
+							v-for="(item,index) in components" :key="index"></ux-grid-item>
+					</ux-grid>
+				</ux-tab-item>
+				<ux-tab-item label="业务组件" :index="1">
+					标签er内容456
+				</ux-tab-item>
+				<ux-tab-item label="API" :index="2">
+					标签三内容789
+				</ux-tab-item>
+			</ux-tab>
+		</view>
 	<!-- #ifdef APP -->
 	</scroll-view>
 	<!-- #endif -->
+
 
 	<!-- ux-popup -->
 	<ux-popup ref="uxPopup" type="bottom">
@@ -35,14 +48,14 @@
 			return {
 				title: 'Hello',
 				uxPopup: null as UxPopupComponentPublicInstance | null,
-				components: [{ name: '标题', icon: 'search' },
-				{ name: '弹窗', icon: 'search' },
-				{ name: '宫格', icon: 'search' },
-				{ name: '导航栏', icon: 'search' },
-				{ name: 'Tab切换', icon: 'search' },
-				{ name: 'icon图标', icon: 'search' }] as Array<Item>,
-				leftMenus: [{ icon: 'search', type: 'back', color: '#fff' }, { icon: 'search', text: '测试', color: '#fff' }] as Array<Menu>,
-				rightMenus: [{ icon: 'search', text: '分享', color: '#fff' }, { text: '测试' }] as Array<Menu>
+				components: [{ name: '标题', icon: 'trademark' },
+				{ name: '弹窗', icon: 'plus' },
+				{ name: '宫格', icon: 'plus' },
+				{ name: '导航栏', icon: 'plus' },
+				{ name: 'Tab切换', icon: 'plus' },
+				{ name: 'icon图标', icon: 'plus' }] as Array<Item>,
+				leftMenus: [{ icon: 'chevron-left', type: 'back', color: '#fff' }, { icon: 'plus', text: '测试', color: '#fff' }] as Array<Menu>,
+				rightMenus: [{ icon: 'share-square', color: '#fff' }, { icon: 'bell', color: '#fff' }] as Array<Menu>,
 			}
 		},
 		onLoad() {
@@ -53,7 +66,10 @@
 		},
 		methods: {
 			onLeftMenus(index : number) {
-				console.log(index)
+				console.log('left-menus', index)
+			},
+			onRightMenus(index : number) {
+				console.log('right-menus', index)
 			},
 			changeGridItem(index : number) {
 				console.log(index)
@@ -71,9 +87,12 @@
 </script>
 
 <style lang="scss" scoped>
+	.scroll-view {
+		flex: 1;
+	}
+
 	.container {
-		padding: 140rpx 20rpx 20rpx 20rpx;
-		background-color: antiquewhite;
+		padding: 160rpx 20rpx 20rpx 20rpx;
 	}
 
 	.wrap {

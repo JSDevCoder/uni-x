@@ -1,0 +1,96 @@
+<template>
+	<view class="ux-tab" ref="ux-tab">
+		<view class="ux-tab-head">
+			<view class="ux-tab-head__item" :class="{active: idx == index}" :style="{width: 100 / labels.length + '%'}"
+				v-for="(item, index) in labels" :key="index" @tap="activeTabItem(index)">
+				<text class="ux-tab-head__item-text">{{item}}</text>
+			</view>
+		</view>
+		<view class="ux-tab-body" ref="ux-tab-body">
+			<slot></slot>
+		</view>
+	</view>
+</template>
+
+<script>
+	import { px2rpx } from '@/common/hooks/useSystem.uts'
+	export default {
+		name: "ux-tab",
+
+		data() {
+			return {
+				idx: 0 as number,
+				labels: [] as string[]
+			};
+		},
+
+		mounted() {
+			const uxTabBody = this.$refs['ux-tab-body'] as UniViewElement
+			const labels : string[] = []
+			setTimeout(() => {
+				uxTabBody.children.forEach(v => {
+					if (v.dataset.get('label') != null) {
+						let label = v.dataset.get('label') as string
+						labels.push(label)
+						let h = v.getBoundingClientRect().height
+						v.style.setProperty('height', px2rpx(h) + 'rpx')
+					}
+				})
+				console.log(labels)
+				this.labels = labels
+			}, 300)
+		},
+
+		methods: {
+			activeTabItem(index : number) {
+				const uxTabBody = this.$refs['ux-tab-body'] as UniViewElement
+				uxTabBody.children.forEach(v => {
+					if (v.dataset.get('index') != null) {
+						let idx = v.dataset.get('index') as number
+						if (idx == index) {
+							this.idx = index
+							v.style.setProperty('display', 'block')
+						} else {
+							v.style.setProperty('display', 'none')
+						}
+					}
+				})
+				this.$emit('on-tab-click', index)
+			}
+		}
+	}
+</script>
+
+<style lang="scss" scoped>
+	.ux-tab {
+		position: relative;
+
+		&-head {
+			height: 88rpx;
+			display: flex;
+			flex-direction: row;
+			background-color: #fff;
+			border-radius: 20rpx;
+
+			&__item {
+
+				&.active {
+					background-color: pink;
+					border-radius: 20rpx;
+					transition: background-color border-radius .3s ease;
+				}
+
+				&-text {
+					text-align: center;
+					line-height: 88rpx;
+				}
+			}
+		}
+
+		&-body {
+			display: flex;
+			flex-direction: row;
+			justify-content: flex-start;
+		}
+	}
+</style>

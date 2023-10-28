@@ -3,7 +3,12 @@
 // }
 export function useIcons(name: string): string|null {
 	const icons = new Map<string, string>()
-	icons.set('search', '\ue6f7')
+	icons.set('search', '\ue8da')
+	icons.set('chevron-left', '\ue6b3')
+	icons.set('bell', '\uea78')
+	icons.set('plus', '\ue895')
+	icons.set('trademark', '\ue97f')
+	icons.set('share-square', '\ue9fe')
 	// 其他图标
 	return icons.get(name)
 }

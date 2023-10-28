@@ -1,0 +1,35 @@
+<template>
+	<view class="ux-tab-item" :data-label="label" :data-index="index">
+		<slot></slot>
+	</view>
+</template>
+
+<script>
+	export default {
+		name:"ux-tab-item",
+		data() {
+			return {
+				
+			};
+		},
+		props:{
+			// 标签
+			label: {
+				type: String,
+				default: ''
+			},
+			
+			// 标签对应的下标
+			index: {
+				type: Number,
+				default: 0
+			}
+		}
+	}
+</script>
+
+<style lang="scss" scoped>
+.ux-tab-item {
+	width: 100%;
+}
+</style>
