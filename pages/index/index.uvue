@@ -10,7 +10,7 @@
 		<view class="container">
 
 			<!-- tab切换 -->
-			<ux-tab>
+			<ux-tab :width="710">
 				<ux-tab-item label="基础组件" :index="0">
 					<ux-title title="组件列表" icon="trademark"></ux-title>
 					<ux-grid :col="3" :border="true" @change="changeGridItem">
@@ -52,7 +52,7 @@
 				{ name: '弹窗', icon: 'plus' },
 				{ name: '宫格', icon: 'plus' },
 				{ name: '导航栏', icon: 'plus' },
-				{ name: 'Tab切换', icon: 'plus' },
+				{ name: '选项卡', icon: 'plus' },
 				{ name: 'icon图标', icon: 'plus' }] as Array<Item>,
 				leftMenus: [{ icon: 'chevron-left', type: 'back', color: '#fff' }, { icon: 'plus', text: '测试', color: '#fff' }] as Array<Menu>,
 				rightMenus: [{ icon: 'share-square', color: '#fff' }, { icon: 'bell', color: '#fff' }] as Array<Menu>,

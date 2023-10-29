@@ -1,0 +1,8 @@
+export type Point = {
+	startX : number
+	startY : number
+	moveX : number
+	moveY : number
+	initialPos : number
+	isMove : boolean
+}
