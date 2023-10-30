@@ -7,8 +7,8 @@
 				<text class="ux-tab-head__item-text">{{item}}</text>
 			</view>
 		</view>
-		<view class="ux-tab-body" ref="ux-tab-body" :style="{width: allWidth + 'rpx'}" :data-w="width" @touchstart="onTouchStart" @touchend="onTouchEnd"
-			@touchmove="onTouchMove">
+		<view class="ux-tab-body" ref="ux-tab-body" :style="{width: allWidth + 'rpx'}" :data-w="width"
+			@touchstart="onTouchStart" @touchend="onTouchEnd" @touchmove="onTouchMove">
 			<slot></slot>
 		</view>
 	</view>
@@ -34,7 +34,7 @@
 				} as Point
 			};
 		},
-		
+
 		props: {
 			// 选项卡每一项的宽度
 			width: {
@@ -46,9 +46,9 @@
 		computed: {
 			// 当前选中项
 			current: () : number => state.current,
-			
+
 			// 总的选项卡宽度
-			allWidth: (): number => this.width * this.labels.length
+			allWidth: () : number => this.width * this.labels.length
 		},
 
 		mounted() {
@@ -78,11 +78,11 @@
 				const touches = e.changedTouches[0]
 				this.point.startX = touches.pageX
 				this.point.startY = touches.pageY
-				this.point.initialPos = state.current * -710
+				this.point.initialPos = state.current * -this.width
 				this.point.isMove = true
 
 			},
-			
+
 			/**
 			 * TouchMove
 			 * @param e {TouchEvent} touch事件对象
@@ -94,7 +94,7 @@
 				this.point.moveX = touches.pageX
 				this.point.moveY = touches.pageY
 			},
-			
+
 			/**
 			 * TouchEnd
 			 * @param e {TouchEvent} touch事件对象
@@ -112,12 +112,12 @@
 						if (state.current <= 0) return
 						state.current -= 1
 					}
-					this.point.initialPos = -710 * state.current
+					this.point.initialPos = -this.width * state.current
 					const uxTabBody = this.$refs['ux-tab-body'] as UniViewElement
 					uxTabBody.style.setProperty('transform', 'translateX(' + this.point.initialPos + 'rpx)')
 				}
 			},
-			
+
 			/**
 			 * 点击tab每一项
 			 * @param index {Number} 每一项的下标
@@ -125,7 +125,7 @@
 			activeTabItem(index : number) {
 				state.current = index
 				const uxTabBody = this.$refs['ux-tab-body'] as UniViewElement
-				uxTabBody.style.setProperty('transform', 'translateX(' + (state.current * -710) + 'rpx)')
+				uxTabBody.style.setProperty('transform', 'translateX(' + (state.current * -this.width) + 'rpx)')
 				this.$emit('on-tab-click', index)
 			}
 		}
@@ -147,7 +147,7 @@
 			&__item {
 
 				&.active {
-					background-color: pink;
+					background-color: #007aff;
 					border-radius: 20rpx;
 					transition: background-color border-radius .3s ease;
 				}

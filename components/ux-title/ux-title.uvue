@@ -1,10 +1,10 @@
 <template>
-	<view class="ux-title">
+	<view class="ux-title" :class="{ 'border-bottom': border }">
 		<slot>
 			<view class="ux-title-icon" v-if="icon != ''">
 				<ux-icons :name="icon" :color="color" :size="size"></ux-icons>
 			</view>
-			<text class="ux-title-text" v-if="title.length">{{ title }}</text>
+			<text class="ux-title-text" :class="[fontSize]" v-if="title.length">{{ title }}</text>
 		</slot>
 	</view>
 </template>
@@ -30,6 +30,12 @@
 				default: ''
 			},
 			
+			// 是否下边线
+			border: {
+				type: Boolean,
+				default: false
+			},
+			
 			// 图标大小
 			size: {
 				type: Number,
@@ -40,6 +46,12 @@
 			color: {
 				type: String,
 				default: '#333'
+			},
+			
+			// 字体大小
+			fontSize: {
+				type: String,
+				default: 'base'
 			}
 		}
 	}
@@ -51,9 +63,23 @@
 		display: flex;
 		flex-direction: row;
 		align-items: center;
+		
+		&.border-bottom {
+			border-bottom: 1px solid #d8d8d8;
+		}
 
 		&-text {
-			font-size: 32rpx;
+			&.sm {
+				font-size: 12px;
+			}
+			
+			&.base {
+				font-size: 16px;
+			}
+			
+			&.large {
+				font-size: 20px;
+			}
 		}
 
 		&-icon {
