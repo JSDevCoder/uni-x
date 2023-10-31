@@ -41,7 +41,7 @@
 
 <script>
 	import { Menu } from './types/types.uts'
-	import { type PropType } from 'vue'
+	import type { PropType } from 'vue'
 
 	export default {
 		name: "ux-nav-bar",

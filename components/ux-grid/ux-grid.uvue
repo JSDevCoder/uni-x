@@ -38,9 +38,11 @@
 			 */
 			change(e : Event) {
 				if (e.target?.tagName == 'VIEW') {
-					this.$emit('change', e.target?.dataset?.get('index'))
+					console.log(e.target?.dataset?.get('index'))
+					this.$emit('on-change', e.target?.dataset?.get('index'))
 				} else {
-					this.$emit('change', e.target?.parentElement?.dataset?.get('index'))
+					console.log(e.target?.parentElement?.dataset?.get('index'))
+					this.$emit('on-change', e.target?.parentElement?.dataset?.get('index'))
 				}
 			}
 		}

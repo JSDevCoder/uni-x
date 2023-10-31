@@ -20,6 +20,14 @@
 				"enablePullDownRefresh": false
 			}
 
+		},
+		{
+			"path" : "pages/index/ux-title-detail",
+			"style" : 
+			{
+				"navigationBarTitleText" : "ux-title 组件",
+				"enablePullDownRefresh" : false
+			}
 		}
 	],
 	"tabBar": {

@@ -10,26 +10,33 @@
 		<view class="container">
 
 			<!-- tab切换 -->
-			<ux-tab :width="710">
-				<ux-tab-item label="基础组件" :index="0">
-					<ux-title title="基本组件" font-size="sm" icon="trademark" :size="12"></ux-title>
-					<ux-grid :col="3" :border="true" @change="changeGridItem">
-						<ux-grid-item :text="item.name" :icon="item.icon" :index="index"
-							v-for="(item,index) in simpleComponents" :key="index"></ux-grid-item>
-					</ux-grid>
-					<ux-title title="复杂组件" font-size="sm" icon="trademark" :size="12"></ux-title>
-					<ux-grid :col="4" :border="true" @change="changeGridItem">
-						<ux-grid-item :text="item.name" :icon="item.icon" :index="index"
-							v-for="(item,index) in complexComponents" :key="index"></ux-grid-item>
-					</ux-grid>
-				</ux-tab-item>
-				<ux-tab-item label="业务组件" :index="1">
-					标签er内容456
-				</ux-tab-item>
-				<ux-tab-item label="API" :index="2">
-					标签三内容789
-				</ux-tab-item>
+			<ux-tab :tabs="tabs" :width="710 / tabs.length" @on-tab-click="onTabClick">
+				<template v-slot:ux-tab-slot_3>
+					<text class="slot">slot内容</text>
+				</template>
 			</ux-tab>
+				
+			<view class="item" v-if="idx == 0">
+				<ux-title title="基本组件" font-size="sm" icon="trademark" :size="12"></ux-title>
+				<ux-grid :col="3" :border="true" @on-change="changeSimple">
+					<ux-grid-item :text="item.name" :icon="item.icon" :index="index"
+						v-for="(item,index) in simpleComponents" :key="index"></ux-grid-item>
+				</ux-grid>
+				<ux-title title="复杂组件" font-size="sm" icon="trademark" :size="12"></ux-title>
+				<ux-grid :col="4" :border="true" @on-change="changeComplex">
+					<ux-grid-item :text="item.name" :icon="item.icon" :index="index"
+						v-for="(item,index) in complexComponents" :key="index"></ux-grid-item>
+				</ux-grid>
+			</view>
+			<view class="item" v-else-if="idx == 1">
+				原生组件
+			</view>
+			<view class="item" v-else-if="idx == 2">
+				API调用
+			</view>
+			<view class="item" v-else-if="idx == 3">
+				使用slot更新tab-item内容
+			</view>
 		</view>
 	<!-- #ifdef APP -->
 	</scroll-view>
@@ -46,42 +53,49 @@
 
 <script>
 	import { state } from '../../stores/index.uts'
-	import { Menu } from '@/components/ux-nav-bar/types/types.uts'
 	import { Item, Fn } from './types/types.uts'
 	export default {
 		data() {
 			return {
 				title: 'Hello',
 				uxPopup: null as UxPopupComponentPublicInstance | null,
+				idx: 0 as number,
+				tabs: ['基础组件', '原生组件', 'API调用', 'ce shi'] as string[],
 				simpleComponents: [
 					{ name: '标题', icon: 'trademark' }, ,
-					{ name: '宫格', icon: 'plus' }] as Array<Item>,
+					{ name: '宫格', icon: 'th' }] as Array<Item>,
 				complexComponents: [
-					{ name: '弹窗', icon: 'plus' },
+					{ name: '弹窗', icon: 'object-group' },
 					{ name: '导航栏', icon: 'plus' },
 					{ name: '选项卡', icon: 'plus' },
 					{ name: 'icon图标', icon: 'plus' }] as Array<Item>
 			}
 		},
+
 		onLoad() {
 			if (!state.hasLogin) return
 		},
+
 		onReady() {
 			this.uxPopup = this.$refs['uxPopup'] as UxPopupComponentPublicInstance
 		},
+
 		methods: {
-			onLeftMenus(index : number) {
-				console.log('left-menus', index)
+			onTabClick(index: number) {
+				this.idx = index
 			},
-			onRightMenus(index : number) {
-				console.log('right-menus', index)
+			
+			changeSimple(index : number) {
+				const names = ['ux-title', 'ux-grid']
+				uni.navigateTo({
+					url: `/pages/index/${names[index]}-detail`
+				})
 			},
-			changeGridItem(index : number) {
-				console.log(index)
-				const fns = [() => { }, () => {
-					this.openPopup()
-				}] as Array<Fn>
-				fns[index]()
+			changeComplex(index : number) {
+				const names = ['ux-popup', 'ux-nav-bar', 'ux-tab', 'ux-icons']
+				uni.navigateTo({
+					url: `/pages/index/${names[index]}`
+				})
 			},
 			openPopup() {
 				this.uxPopup?.open?.()
@@ -103,5 +117,14 @@
 	.wrap {
 		height: 400rpx;
 		background-color: #fff;
+	}
+	
+	.slot {
+		text-align: center;
+		line-height: 88rpx;
+	}
+	
+	.item {
+		padding: 20rpx 0;
 	}
 </style>

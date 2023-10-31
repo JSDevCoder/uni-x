@@ -1,131 +1,77 @@
 <template>
-	<view class="ux-tab" ref="ux-tab">
+	<view class="ux-tab">
+		<!-- tab -->
 		<view class="ux-tab-head">
-			<view class="ux-tab-head__item" :class="{active: current == index}"
-				:style="{width: width / labels.length + 'rpx'}" v-for="(item, index) in labels" :key="index"
-				@tap="activeTabItem(index)">
-				<text class="ux-tab-head__item-text">{{item}}</text>
+			<view class="ux-tab-item" :style="{width: width + 'rpx'}" v-for="(item, index) in tabs" :key="index"
+				@tap="onTabClick(index)">
+				<slot :name="`ux-tab-slot_${index}`">
+					<text class="ux-tab-item_text" :style="{color: idx == index ? color : '#333'}">{{item}}</text>
+				</slot>
 			</view>
 		</view>
-		<view class="ux-tab-body" ref="ux-tab-body" :style="{width: allWidth + 'rpx'}" :data-w="width"
-			@touchstart="onTouchStart" @touchend="onTouchEnd" @touchmove="onTouchMove">
-			<slot></slot>
+		
+		<!-- 滑块 -->
+		<view class="ux-tab-slider" :style="{
+				width: sliderWidth + 'rpx', 
+				left: width * idx + (width - sliderWidth) / 2 + 'rpx', 
+				backgroundColor: sliderColor
+			}">
 		</view>
 	</view>
 </template>
 
 <script>
-	import { px2rpx } from '@/common/hooks/useSystem.uts'
-	import { state } from './logic/state.uts';
-	import { Point } from './types/index.uts'
+	import type { PropType } from 'vue'
 	export default {
 		name: "ux-tab",
 
 		data() {
 			return {
-				labels: [] as string[],
-				point: {
-					startX: 0,
-					startY: 0,
-					moveX: 0,
-					moveY: 0,
-					initialPos: 0,
-					isMove: false
-				} as Point
-			};
-		},
-
-		props: {
-			// 选项卡每一项的宽度
-			width: {
-				type: Number,
-				default: 750
+				idx: 0
 			}
 		},
 
-		computed: {
-			// 当前选中项
-			current: () : number => state.current,
+		props: {
+			// 默认tabs数据
+			tabs: {
+				type: Array as PropType<string[]>,
+				default() : string[] {
+					return [] as string[]
+				}
+			},
 
-			// 总的选项卡宽度
-			allWidth: () : number => this.width * this.labels.length
-		},
+			// 选项宽度
+			width: {
+				type: Number,
+				default: 250
+			},
 
-		mounted() {
-			// 生成labels数组，以及将选项高度转为rpx
-			const uxTabBody = this.$refs['ux-tab-body'] as UniViewElement
-			const labels : string[] = []
-			setTimeout(() => {
-				uxTabBody.children.forEach(v => {
-					if (v.dataset.get('label') != null) {
-						let label = v.dataset.get('label') as string
-						labels.push(label)
-						let h = v.getBoundingClientRect().height
-						v.style.setProperty('height', px2rpx(h) + 'rpx')
-					}
-				})
-				this.labels = labels
-			}, 300)
+			// 滑块宽度
+			sliderWidth: {
+				type: Number,
+				default: 80
+			},
+			
+			// 选项颜色
+			color: {
+				type: String,
+				default: '#007aff'
+			},
+			
+			// 滑块
+			sliderColor: {
+				type: String,
+				default: '#007aff'
+			}
 		},
 
 		methods: {
 			/**
-			 * TouchStart
-			 * @param e {TouchEvent} touch事件对象
-			 */
-			onTouchStart(e : TouchEvent) {
-				e.preventDefault()
-				const touches = e.changedTouches[0]
-				this.point.startX = touches.pageX
-				this.point.startY = touches.pageY
-				this.point.initialPos = state.current * -this.width
-				this.point.isMove = true
-
-			},
-
-			/**
-			 * TouchMove
-			 * @param e {TouchEvent} touch事件对象
-			 */
-			onTouchMove(e : TouchEvent) {
-				e.preventDefault()
-				if (this.point.isMove != true) return
-				const touches = e.touches[0]
-				this.point.moveX = touches.pageX
-				this.point.moveY = touches.pageY
-			},
-
-			/**
-			 * TouchEnd
-			 * @param e {TouchEvent} touch事件对象
-			 */
-			onTouchEnd() {
-				const deltaX = this.point.moveX - this.point.startX
-				const deltaY = this.point.moveY - this.point.startY
-				this.point.isMove = false
-				// 横向移动
-				if (Math.abs(deltaX) > Math.abs(deltaY)) {
-					if (deltaX < 0) {
-						if (state.current >= this.labels.length - 1) return
-						state.current += 1
-					} else {
-						if (state.current <= 0) return
-						state.current -= 1
-					}
-					this.point.initialPos = -this.width * state.current
-					const uxTabBody = this.$refs['ux-tab-body'] as UniViewElement
-					uxTabBody.style.setProperty('transform', 'translateX(' + this.point.initialPos + 'rpx)')
-				}
-			},
-
-			/**
 			 * 点击tab每一项
 			 * @param index {Number} 每一项的下标
 			 */
-			activeTabItem(index : number) {
-				state.current = index
-				const uxTabBody = this.$refs['ux-tab-body'] as UniViewElement
-				uxTabBody.style.setProperty('transform', 'translateX(' + (state.current * -this.width) + 'rpx)')
+			onTabClick(index : number) {
+				this.idx = index
 				this.$emit('on-tab-click', index)
 			}
 		}
@@ -134,58 +80,29 @@
 
 <style lang="scss" scoped>
 	.ux-tab {
-		position: relative;
-		min-height: 300rpx;
+		background-color: #fff;
 
 		&-head {
-			height: 88rpx;
+			position: relative;
 			display: flex;
 			flex-direction: row;
-			background-color: #fff;
-			border-radius: 20rpx;
-
-			&__item {
-
-				&.active {
-					background-color: #007aff;
-					border-radius: 20rpx;
-					transition: background-color border-radius .3s ease;
-				}
-
-				&-text {
-					text-align: center;
-					line-height: 88rpx;
-				}
+		}
+		
+		&-item {
+		
+			&_text {
+				text-align: center;
+				line-height: 88rpx;
 			}
 		}
 
-		&-body {
-			display: flex;
-			flex-direction: row;
-			justify-content: flex-start;
-			overflow: visible;
-			transition: transform .4s;
-
-			&__item {
-				width: 710rpx;
-				height: 600rpx;
-
-				&.a {
-					background-color: red;
-				}
-
-				&.b {
-					background-color: blueviolet;
-				}
-
-				&.c {
-					background-color: orangered;
-				}
-
-				&.d {
-					background-color: cyan;
-				}
-			}
+		&-slider {
+			position: absolute;
+			bottom: 0;
+			z-index: 99;
+			height: 2px;
+			background-color: green;
+			transition: left .3s;
 		}
 	}
 </style>

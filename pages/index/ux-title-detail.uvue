@@ -1,0 +1,47 @@
+<template>
+	<view class="container">
+		<ux-title title="组件 ux-title"></ux-title>
+		<ux-title title="组件参数"></ux-title>
+		<view>
+			标题
+			title: String
+		</view>
+		<view>
+			是否下边线
+			border: Boolean
+		</view>
+		<view>
+			字体大小
+			fontSize: Number
+		</view>
+		<view>
+			图标名称
+			icon: String
+		</view>
+		<view>
+			图标大小
+			size: Number
+		</view>
+		<view>
+			图标颜色
+			color: String
+		</view>
+		<ux-title title="组件调用方式"></ux-title>
+	</view>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+
+			};
+		}
+	}
+</script>
+
+<style lang="scss" scoped>
+	.container {
+		padding: 20rpx;
+	}
+</style>

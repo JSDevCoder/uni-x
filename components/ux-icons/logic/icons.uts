@@ -1,6 +1,8 @@
-// export default {
-// 	search: 'e6f7'
-// }
+/**
+ * 生成icons Map集合
+ * @param name {String} 图标名
+ * @returns 通过输入的图标名获取对应的图标代码
+ */
 export function useIcons(name: string): string|null {
 	const icons = new Map<string, string>()
 	icons.set('search', '\ue8da')
@@ -9,6 +11,8 @@ export function useIcons(name: string): string|null {
 	icons.set('plus', '\ue895')
 	icons.set('trademark', '\ue97f')
 	icons.set('share-square', '\ue9fe')
+	icons.set('th', '\ue961')
+	icons.set('object-group', '\ue85f')
 	// 其他图标
 	return icons.get(name)
 }

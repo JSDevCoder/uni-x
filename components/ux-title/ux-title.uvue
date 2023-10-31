@@ -24,16 +24,22 @@
 				default: '标题'
 			},
 			
-			// 图标名称
-			icon: {
-				type: String,
-				default: ''
-			},
-			
 			// 是否下边线
 			border: {
 				type: Boolean,
 				default: false
+			},
+			
+			// 字体大小
+			fontSize: {
+				type: String,
+				default: 'base'
+			},
+			
+			// 图标名称
+			icon: {
+				type: String,
+				default: ''
 			},
 			
 			// 图标大小
@@ -46,12 +52,6 @@
 			color: {
 				type: String,
 				default: '#333'
-			},
-			
-			// 字体大小
-			fontSize: {
-				type: String,
-				default: 'base'
 			}
 		}
 	}
