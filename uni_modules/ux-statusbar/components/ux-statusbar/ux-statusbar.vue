@@ -1,0 +1,31 @@
+<template>
+	<view class="ux-status-bar" :style="{backgroundColor: bgColor, height: statusBarHeight + 'px'}"></view>
+</template>
+
+<script lang="ts">
+	export default {
+		name: "ux-status-bar",
+		data() {
+			return {
+
+			};
+		},
+		props: {
+			bgColor: {
+				type: String,
+				default: '#fff'
+			}
+		},
+		computed: {
+			statusBarHeight(): number {
+				return uni.getSystemInfoSync().statusBarHeight
+			}
+		}
+	}
+</script>
+
+<style lang="scss" scoped>
+	.ux-status-bar {
+		
+	}
+</style>

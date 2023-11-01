@@ -71,21 +71,9 @@
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		height: 120rpx;
-
-		&__icon {
-			width: 60rpx;
-			height: 60rpx;
-			border-radius: 60rpx;
-			text-align: center;
-			line-height: 60rpx;
-			font-size: 12px;
-			background-color: #f99;
-			color: #fff;
-		}
 
 		&__name {
-			font-size: 12px;
+			font-size: $ux-font-size-sm;
 			line-height: 40rpx;
 		}
 	}

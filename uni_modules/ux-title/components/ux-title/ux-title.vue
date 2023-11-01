@@ -1,0 +1,89 @@
+<template>
+	<view class="ux-title" :class="{ 'border-bottom': border }">
+		<slot>
+			<view class="ux-title-icon" v-if="icon != ''">
+				<ux-icons :name="icon" :color="color" :size="size"></ux-icons>
+			</view>
+			<text class="ux-title-text" :class="[fontSize]" v-if="title.length">{{ title }}</text>
+		</slot>
+	</view>
+</template>
+
+<script lang="ts">
+	export default {
+		name: "ux-title",
+		data() {
+			return {
+
+			};
+		},
+		props: {
+			// 标题
+			title: {
+				type: String,
+				default: '标题'
+			},
+			
+			// 是否下边线
+			border: {
+				type: Boolean,
+				default: false
+			},
+			
+			// 字体大小
+			fontSize: {
+				type: String,
+				default: 'base'
+			},
+			
+			// 图标名称
+			icon: {
+				type: String,
+				default: ''
+			},
+			
+			// 图标大小
+			size: {
+				type: Number,
+				default: 16
+			},
+			
+			// 图标颜色
+			color: {
+				type: String,
+				default: '#333'
+			}
+		}
+	}
+</script>
+
+<style lang="scss" scoped>
+	.ux-title {
+		padding: 20rpx 0;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		
+		&.border-bottom {
+			border-bottom: 1px solid $ux-border-color;
+		}
+
+		&-text {
+			&.sm {
+				font-size: 12px;
+			}
+			
+			&.base {
+				font-size: 16px;
+			}
+			
+			&.large {
+				font-size: 20px;
+			}
+		}
+
+		&-icon {
+			margin-right: 16rpx;
+		}
+	}
+</style>

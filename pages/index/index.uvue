@@ -1,6 +1,6 @@
 <template>
 	<!-- 导航栏 -->
-	<ux-nav-bar title="首页"></ux-nav-bar>
+	<ux-navbar title="首页"></ux-navbar>
 
 
 	<!-- #ifdef APP -->
@@ -15,17 +15,27 @@
 					<text class="slot">slot内容</text>
 				</template>
 			</ux-tab>
-				
+
 			<view class="item" v-if="idx == 0">
 				<ux-title title="基本组件" font-size="sm" icon="trademark" :size="12"></ux-title>
-				<ux-grid :col="3" :border="true" @on-change="changeSimple">
+				<ux-grid :col="4" @on-change="changeSimple">
 					<ux-grid-item :text="item.name" :icon="item.icon" :index="index"
 						v-for="(item,index) in simpleComponents" :key="index"></ux-grid-item>
 				</ux-grid>
-				<ux-title title="复杂组件" font-size="sm" icon="trademark" :size="12"></ux-title>
-				<ux-grid :col="4" :border="true" @on-change="changeComplex">
+				<ux-title title="导航组件" font-size="sm" icon="trademark" :size="12"></ux-title>
+				<ux-grid :col="4" @on-change="changeComplex">
 					<ux-grid-item :text="item.name" :icon="item.icon" :index="index"
-						v-for="(item,index) in complexComponents" :key="index"></ux-grid-item>
+						v-for="(item,index) in navigateComponents" :key="index"></ux-grid-item>
+				</ux-grid>
+				<ux-title title="弹窗组件" font-size="sm" icon="trademark" :size="12"></ux-title>
+				<ux-grid :col="4" @on-change="changeComplex">
+					<ux-grid-item :text="item.name" :icon="item.icon" :index="index"
+						v-for="(item,index) in popupComponents" :key="index"></ux-grid-item>
+				</ux-grid>
+				<ux-title title="表单组件" font-size="sm" icon="trademark" :size="12"></ux-title>
+				<ux-grid :col="4" @on-change="changeComplex">
+					<ux-grid-item :text="item.name" :icon="item.icon" :index="index"
+						v-for="(item,index) in formComponents" :key="index"></ux-grid-item>
 				</ux-grid>
 			</view>
 			<view class="item" v-else-if="idx == 1">
@@ -58,17 +68,22 @@
 		data() {
 			return {
 				title: 'Hello',
-				uxPopup: null as UxPopupComponentPublicInstance | null,
+				uxPopup: null as ComponentPublicInstance | null,
 				idx: 0 as number,
 				tabs: ['基础组件', '原生组件', 'API调用', 'ce shi'] as string[],
 				simpleComponents: [
-					{ name: '标题', icon: 'trademark' }, ,
-					{ name: '宫格', icon: 'th' }] as Array<Item>,
-				complexComponents: [
-					{ name: '弹窗', icon: 'object-group' },
+					{ name: '标题', icon: 'trademark' },
+					{ name: '图标', icon: 'plus' }
+				] as Array<Item>,
+				navigateComponents: [
 					{ name: '导航栏', icon: 'plus' },
 					{ name: '选项卡', icon: 'plus' },
-					{ name: 'icon图标', icon: 'plus' }] as Array<Item>
+					{ name: '宫格', icon: 'th' },
+				] as Array<Item>,
+				popupComponents: [
+					{ name: '弹窗', icon: 'object-group' },
+				] as Array<Item>,
+				formComponents: [] as Array<Item>,
 			}
 		},
 
@@ -77,14 +92,14 @@
 		},
 
 		onReady() {
-			this.uxPopup = this.$refs['uxPopup'] as UxPopupComponentPublicInstance
+			this.uxPopup = this.$refs['uxPopup'] as ComponentPublicInstance
 		},
 
 		methods: {
-			onTabClick(index: number) {
+			onTabClick(index : number) {
 				this.idx = index
 			},
-			
+
 			changeSimple(index : number) {
 				const names = ['ux-title', 'ux-grid']
 				uni.navigateTo({
@@ -98,7 +113,7 @@
 				})
 			},
 			openPopup() {
-				this.uxPopup?.open?.()
+				this.uxPopup?.$callMethod('open')
 			}
 
 		}
@@ -118,12 +133,12 @@
 		height: 400rpx;
 		background-color: #fff;
 	}
-	
+
 	.slot {
 		text-align: center;
 		line-height: 88rpx;
 	}
-	
+
 	.item {
 		padding: 20rpx 0;
 	}

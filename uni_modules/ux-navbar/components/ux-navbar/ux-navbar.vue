@@ -1,37 +1,37 @@
 <template>
 	<view :class="{ position }">
 		<!-- 状态栏 -->
-		<ux-status-bar :bg-color="bgColor"></ux-status-bar>
+		<ux-statusbar :bg-color="bgColor"></ux-statusbar>
 
 		<!-- 导航栏 -->
 		<view class="ux-nav-bar" :style="{ backgroundColor: bgColor }">
 			<!-- 左侧 -->
-			<view class="ux-nav-bar__leftmenus">
+			<view class="ux-nav-bar_leftmenus">
 				<slot name="left-menus">
 					<view class="left-menus-item" v-for="(item, index) in leftMenus" :key="index"
 						@tap="tapLeftMenus(index)">
-						<ux-icons class="left-menus-item__icon" :name="item.icon" :color="item.color" :size="item.size"
+						<ux-icons class="left-menus-item_icon" :name="item.icon" :color="item.color" :size="item.size"
 							v-if="item.icon"></ux-icons>
-						<text class="left-menus-item__text" v-if="item.text">{{item.text}}</text>
+						<text class="left-menus-item_text" v-if="item.text">{{item.text}}</text>
 					</view>
 				</slot>
 			</view>
 
 			<!-- 标题 -->
-			<view class="ux-nav-bar__title">
+			<view class="ux-nav-bar_title">
 				<slot name="title">
 					<text class="title-text" :style="{ color }">{{title}}</text>
 				</slot>
 			</view>
 
 			<!-- 右侧 -->
-			<view class="ux-nav-bar__rightmenus">
+			<view class="ux-nav-bar_rightmenus">
 				<slot name="right-menus">
 					<view class="right-menus-item" v-for="(item, index) in rightMenus" :key="index"
 						@tap="tapRightMenus(index)">
-						<ux-icons class="right-menus-item__icon" :name="item.icon" :color="item.color" :size="item.size"
+						<ux-icons class="right-menus-item_icon" :name="item.icon" :color="item.color" :size="item.size"
 							v-if="item.icon"></ux-icons>
-						<text class="right-menus-item__text" v-if="item.text">{{item.text}}</text>
+						<text class="right-menus-item_text" v-if="item.text">{{item.text}}</text>
 					</view>
 				</slot>
 			</view>
@@ -39,7 +39,7 @@
 	</view>
 </template>
 
-<script>
+<script lang="ts">
 	import { Menu } from './types/types.uts'
 	import type { PropType } from 'vue'
 
@@ -142,7 +142,7 @@
 		background-color: green;
 		position: relative;
 
-		&__leftmenus {
+		&_leftmenus {
 			position: absolute;
 			left: 0;
 			top: 0;
@@ -161,16 +161,16 @@
 				justify-content: center;
 				margin-right: 28rpx;
 
-				&__icon {}
+				&_icon {}
 
-				&__text {
+				&_text {
 					font-size: 24rpx;
 					color: #fff;
 				}
 			}
 		}
 
-		&__rightmenus {
+		&_rightmenus {
 			position: absolute;
 			right: 0;
 			top: 0;
@@ -187,9 +187,9 @@
 				justify-content: center;
 				margin-right: 28rpx;
 
-				&__icon {}
+				&_icon {}
 
-				&__text {
+				&_text {
 					font-size: 24rpx;
 					color: #fff;
 				}

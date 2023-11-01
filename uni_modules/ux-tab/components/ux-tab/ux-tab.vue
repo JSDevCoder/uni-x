@@ -20,7 +20,7 @@
 	</view>
 </template>
 
-<script>
+<script lang="ts">
 	import type { PropType } from 'vue'
 	export default {
 		name: "ux-tab",
@@ -93,6 +93,7 @@
 			&_text {
 				text-align: center;
 				line-height: 88rpx;
+				font-size: $ux-font-size-base;
 			}
 		}
 

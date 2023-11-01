@@ -1,0 +1,109 @@
+<template>
+	<view class="ux-tab">
+		<!-- tab -->
+		<view class="ux-tab-head">
+			<view class="ux-tab-item" :style="{width: width + 'rpx'}" v-for="(item, index) in tabs" :key="index"
+				@tap="onTabClick(index)">
+				<slot :name="`ux-tab-slot_${index}`">
+					<text class="ux-tab-item_text" :style="{color: idx == index ? color : '#333'}">{{item}}</text>
+				</slot>
+			</view>
+		</view>
+		
+		<!-- 滑块 -->
+		<view class="ux-tab-slider" :style="{
+				width: sliderWidth + 'rpx', 
+				left: width * idx + (width - sliderWidth) / 2 + 'rpx', 
+				backgroundColor: sliderColor
+			}">
+		</view>
+	</view>
+</template>
+
+<script>
+	import type { PropType } from 'vue'
+	export default {
+		name: "ux-tab",
+
+		data() {
+			return {
+				idx: 0
+			}
+		},
+
+		props: {
+			// 默认tabs数据
+			tabs: {
+				type: Array as PropType<string[]>,
+				default() : string[] {
+					return [] as string[]
+				}
+			},
+
+			// 选项宽度
+			width: {
+				type: Number,
+				default: 250
+			},
+
+			// 滑块宽度
+			sliderWidth: {
+				type: Number,
+				default: 80
+			},
+			
+			// 选项颜色
+			color: {
+				type: String,
+				default: '#007aff'
+			},
+			
+			// 滑块
+			sliderColor: {
+				type: String,
+				default: '#007aff'
+			}
+		},
+
+		methods: {
+			/**
+			 * 点击tab每一项
+			 * @param index {Number} 每一项的下标
+			 */
+			onTabClick(index : number) {
+				this.idx = index
+				this.$emit('on-tab-click', index)
+			}
+		}
+	}
+</script>
+
+<style lang="scss" scoped>
+	.ux-tab {
+		background-color: #fff;
+
+		&-head {
+			position: relative;
+			display: flex;
+			flex-direction: row;
+		}
+		
+		&-item {
+		
+			&_text {
+				text-align: center;
+				line-height: 88rpx;
+				font-size: $ux-font-size-base;
+			}
+		}
+
+		&-slider {
+			position: absolute;
+			bottom: 0;
+			z-index: 99;
+			height: 2px;
+			background-color: green;
+			transition: left .3s;
+		}
+	}
+</style>

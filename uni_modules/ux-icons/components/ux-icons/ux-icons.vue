@@ -2,7 +2,7 @@
 	<text ref="ux-text" class="ux">{{icons}}</text>
 </template>
 
-<script>
+<script lang="ts">
 	import { useIcons } from './logic/icons.uts'
 	export default {
 		name: "ux-icons",
@@ -53,6 +53,6 @@
 
 	.ux {
 		font-family: 'ux';
-		font-size: 16px;
+		font-size: $ux-font-size-lg;
 	}
 </style>

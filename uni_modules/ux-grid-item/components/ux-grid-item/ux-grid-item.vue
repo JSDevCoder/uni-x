@@ -1,0 +1,80 @@
+<template>
+	<view class="ux-grid-item" ref="ux-grid-item" :data-index="index" :style="{width: GridItenWidth + '%'}">
+		<slot>
+			<ux-icons class="ux-grid-item__icon" :name="icon" :color="color" :size="size" v-if="icon != ''"></ux-icons>
+			<text class="ux-grid-item__name" v-if="text != ''">{{text}}</text>
+		</slot>
+	</view>
+</template>
+
+<script lang="ts">
+	export default {
+		name: "ux-grid-item",
+		data() {
+			return {
+				gridItemDom: null as UniViewElement | null
+			};
+		},
+		props: {
+			// 当前列下标
+			index: {
+				type: Number,
+				default: 0
+			},
+
+			// 图标
+			icon: {
+				type: String,
+				default: ''
+			},
+
+			// 图标大小
+			size: {
+				type: Number,
+				default: 16
+			},
+
+			// 图标颜色
+			color: {
+				type: String,
+				default: '#333'
+			},
+
+			// 文本
+			text: {
+				type: String,
+				default: ''
+			}
+		},
+		mounted() {
+			this.gridItemDom = this.$refs['ux-grid-item'] as UniViewElement
+		},
+		computed: {
+			GridItenWidth() : number {
+				const parent = this.gridItemDom?.parentElement
+				if (parent != null) {
+					const col = parent.dataset.get('col') as number
+					return (100 / col)
+				}
+				return 100 / 4
+			}
+		},
+		mounted() {
+
+		}
+	}
+</script>
+
+<style lang="scss" scoped>
+	.ux-grid-item {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+
+		&__name {
+			font-size: $ux-font-size-sm;
+			line-height: 40rpx;
+		}
+	}
+</style>
