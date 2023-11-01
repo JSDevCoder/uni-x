@@ -1,8 +1,8 @@
 <template>
 	<view class="ux-grid-item" ref="ux-grid-item" :data-index="index" :style="{width: GridItenWidth + '%'}">
 		<slot>
-			<ux-icons class="ux-grid-item__icon" :name="icon" :color="color" :size="size" v-if="icon != ''"></ux-icons>
-			<text class="ux-grid-item__name" v-if="text != ''">{{text}}</text>
+			<ux-icons class="ux-grid-item_icon" :name="icon" :color="color" :size="size" v-if="icon != ''"></ux-icons>
+			<text class="ux-grid-item_name" v-if="text != ''">{{text}}</text>
 		</slot>
 	</view>
 </template>
@@ -71,8 +71,9 @@
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
+		padding: 20rpx 0;
 
-		&__name {
+		&_name {
 			font-size: $ux-font-size-sm;
 			line-height: 40rpx;
 		}

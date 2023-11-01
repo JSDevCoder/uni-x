@@ -1,0 +1,18 @@
+import Intent from 'android.content.Intent';
+import Uri from 'android.net.Uri';
+import { UTSAndroid } from 'io.dcloud.uts'
+
+/**
+ * 调起手机拨号界面
+ * @param phoneNumber {String} 手机号
+ */
+export function makePhoneCall(phoneNumber : string) {
+	try{
+		let uniActivity = UTSAndroid.getUniActivity();
+		let phoneUri = Uri.parse('tel:' + phoneNumber);
+		let intent = new Intent(Intent.ACTION_DIAL, phoneUri);
+		uniActivity!.startActivity(intent)
+	}catch(e) {
+		throw new UniError('调用手机拨号错误', 10001, '请检查手机拨号是否存在')
+	}
+}

@@ -1,0 +1,83 @@
+<template>
+	<text class="ux-text" :class="[theme]" :style="{fontSize: size + 'px'}" @tap="onClick">
+		{{text}}
+	</text>
+</template>
+
+<script>
+	export default {
+		props: {
+			// 主题
+			type: {
+				type: String,
+				default: ''
+			},
+
+			// 文本
+			text: {
+				type: String,
+				default: '默认文本'
+			},
+
+			// 文本字体大小
+			size: {
+				type: Number,
+				default: 14
+			},
+
+			// 模式，phone|date|name|link|price|prefixIcon|suffixIcon|lines
+			mode: {
+				type: String,
+				default: ''
+			}
+		},
+
+		computed: {
+			// 主题色
+			theme() : string {
+				return `ux-text-${this.type}`
+			}
+		},
+		
+		methods: {
+			/**
+			 * 点击文本内容
+			 */
+			onClick() {
+				if(this.mode == 'phone') {
+					this.$emit('on-makephone')
+					return
+				}
+				if(this.mode == 'date') {
+					
+					return
+				}
+				this.$emit('on-click')
+			}
+		}
+	}
+</script>
+
+<style lang="scss" scoped>
+	.ux-text {
+		&.ux-text-primary {
+			color: $ux-color-primary;
+		}
+
+		&.ux-text-success {
+			color: $ux-color-success;
+		}
+
+		&.ux-text-info {
+			color: $ux-color-info;
+		}
+
+		&.ux-text-warning {
+			color: $ux-color-warning;
+		}
+
+		&.ux-text-error {
+			color: $ux-color-error;
+		}
+	}
+</style>

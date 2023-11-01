@@ -42,12 +42,17 @@
 				原生组件
 			</view>
 			<view class="item" v-else-if="idx == 2">
-				API调用
+				<ux-title title="设备相关" font-size="sm" icon="trademark" :size="12"></ux-title>
+				<ux-grid :col="4" @on-change="changeUtsApi">
+					<ux-grid-item :text="item.name" :icon="item.icon" :index="index" v-for="(item,index) in utsApi"
+						:key="index"></ux-grid-item>
+				</ux-grid>
 			</view>
 			<view class="item" v-else-if="idx == 3">
 				使用slot更新tab-item内容
 			</view>
 		</view>
+		<ux-text type="primary" text="15291985843" mode="phone"></ux-text>
 	<!-- #ifdef APP -->
 	</scroll-view>
 	<!-- #endif -->
@@ -64,16 +69,18 @@
 <script>
 	import { state } from '../../stores/index.uts'
 	import { Item, Fn } from './types/types.uts'
+	import { makePhoneCall } from '@/uni_modules/ux-makephone'
 	export default {
 		data() {
 			return {
 				title: 'Hello',
 				uxPopup: null as ComponentPublicInstance | null,
 				idx: 0 as number,
-				tabs: ['基础组件', '原生组件', 'API调用', 'ce shi'] as string[],
+				tabs: ['基础组件', 'UTS 组件', 'UTS Api', 'ce shi'] as string[],
 				simpleComponents: [
 					{ name: '标题', icon: 'trademark' },
-					{ name: '图标', icon: 'plus' }
+					{ name: '图标', icon: 'plus' },
+					{ name: '文本', icon: 'plus' },
 				] as Array<Item>,
 				navigateComponents: [
 					{ name: '导航栏', icon: 'plus' },
@@ -84,6 +91,7 @@
 					{ name: '弹窗', icon: 'object-group' },
 				] as Array<Item>,
 				formComponents: [] as Array<Item>,
+				utsApi: [{ name: '拨打电话', icon: 'object-group' }] as Array<Item>
 			}
 		},
 
@@ -96,6 +104,9 @@
 		},
 
 		methods: {
+			changeUtsApi() {
+				makePhoneCall('15291985843')
+			},
 			onTabClick(index : number) {
 				this.idx = index
 			},
