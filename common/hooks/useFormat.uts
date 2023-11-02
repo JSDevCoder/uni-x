@@ -2,37 +2,9 @@
  * Format 类型
  */
 type Format = {
-	/**
-	 * 格式化处理手机号
-	 * @param phone {String} 手机号
-	 * @param pattem {String} 处理模式， encrypt-脱敏
-	 * @returns {String} 处理后的手机号
-	 */
 	phoneFormat : (phone : string, pattem : string) => string
-
-	/**
-	 * 格式化处理日期
-	 * @param date {String} 日期字符串
-	 * @param pattem {String} 处理模式， yyyy-mm-dd|hh-mm-ss|yyyy-mm-dd hh-mm-ss
-	 * @param sep {String} 日期时间分隔符
-	 * @returns {String} 处理后的日期字符串
-	 */
 	dateFormat : (date : string, pattem : string, separator : string) => string
-
-	/**
-	 * 姓名脱敏格式化
-	 * @param name {String} 姓名
-	 * @param pattem {String} 处理模式 encrypt-脱敏
-	 * @returns {String} 处理后的日期字符串
-	 */
 	nameFormat : (name : string, pattem : string) => string
-	
-	/**
-	 * 格式化金额
-	 * @param price {String} 金额
-	 * @param pattem {String} 处理模式 dot-保留小数|format-格式化金额
-	 * @returns {String} 处理后金额字符串
-	 */
 	priceFormat : (price : string, pattem : string) => string
 }
 
