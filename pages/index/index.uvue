@@ -52,7 +52,7 @@
 				使用slot更新tab-item内容
 			</view>
 		</view>
-		<ux-text type="primary" text="15291985843" mode="phone"></ux-text>
+		<ux-text type="primary" text="123456.9665" mode="price" pattem="dot" :encrypt="true"></ux-text>
 	<!-- #ifdef APP -->
 	</scroll-view>
 	<!-- #endif -->
