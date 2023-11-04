@@ -51,8 +51,14 @@
 			<view class="item" v-else-if="idx == 3">
 				使用slot更新tab-item内容
 			</view>
+			
+			<ux-text type="primary" text="123456.9665" mode="price" pattem="dot" :encrypt="true"></ux-text>
+			<ux-tag size="sm"></ux-tag>
+			<ux-tag type="error" size="sm"></ux-tag>
+			<ux-tag type="success" size="base" :closable="true"></ux-tag>
+			<ux-tag shape="circle" type="warning" size="large"></ux-tag>
 		</view>
-		<ux-text type="primary" text="123456.9665" mode="price" pattem="dot" :encrypt="true"></ux-text>
+		
 	<!-- #ifdef APP -->
 	</scroll-view>
 	<!-- #endif -->

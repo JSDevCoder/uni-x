@@ -13,6 +13,7 @@ export function useIcons(name: string): string|null {
 	icons.set('share-square', '\ue9fe')
 	icons.set('th', '\ue961')
 	icons.set('object-group', '\ue85f')
+	icons.set('times', '\ue96f')
 	// 其他图标
 	return icons.get(name)
 }

@@ -74,7 +74,7 @@
 					return format.nameFormat(this.text, 'encrypt')
 				}
 				
-				if(mode == 'price' && this.encrypt == true) {
+				if(this.mode == 'price' && this.encrypt == true) {
 					return format.priceFormat(this.text, this.pattem)
 				}
 				return this.text
