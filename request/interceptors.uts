@@ -1,0 +1,41 @@
+import { Result, RunFn } from './types.uts'
+
+export class Midderware {
+	response : RequestSuccess<UTSJSONObject>
+	constructor() {
+		this.response = {
+			statusCode: 200,
+			data: null,
+			header: {},
+			cookies: []
+		} as RequestSuccess<UTSJSONObject>
+	}
+
+	/**
+	 * 请求完成之后，执行一个方法
+	 */
+	run(fn : RunFn) {
+		fn(this.response)
+	}
+
+
+	use(fn : (res : UTSJSONObject) => UTSJSONObject) {
+		if (this.response.data != null) {
+			const data = this.response.data as UTSJSONObject
+			console.log(data)
+			fn(data)
+		}
+	}
+}
+
+export class RequestInterceptor extends Midderware {
+	constructor() {
+		super()
+	}
+}
+
+export class ResponseInterceptor extends Midderware {
+	constructor() {
+		super()
+	}
+}

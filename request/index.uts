@@ -1,17 +1,18 @@
-import UtxRequest from './request.uts'
+import { UxRequest } from './request.uts'
+import { Result } from './types.uts'
+const reqParams = new Map<string, any>()
+reqParams.set('baseURL', 'https://www.fastmock.site/mock/f3db82b0eeba8d6ec09d1947627bb194/uni-x')
+reqParams.set('header', {
+	'Content-Type': 'application/json'
+} as UTSJSONObject)
 
-const reqIns = new UtxRequest({
-	baseURL: 'https://www.fastmock.site/mock/f3db82b0eeba8d6ec09d1947627bb194/uni-x',
-	header: {
-		'Content-Type': 'application/json'
-	}
+
+const reqIns = new UxRequest(reqParams)
+
+reqIns.responseInterceptor.use((res: UTSJSONObject) : UTSJSONObject => {
+	console.log('response interceptor', res)
+	return res
 })
 
-reqIns.beforeInterceptors((config : UTSJSONObject) : UTSJSONObject => {
-	const data = config.get('data') as UTSJSONObject | null
-	data?.set('param', 'ttt')
-	config.set('data', data)
-	return config
-})
-
+console.log(reqIns)
 export default reqIns

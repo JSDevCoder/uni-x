@@ -1,10 +1,10 @@
 import ins from '../index.uts'
-
+import { Result } from '../types.uts'
 /**
  * 用户登录
  * @param username 用户名
  * @param password 用户密码
  */
-export function userLogin(username : string, password : string): Promise<UTSJSONObject> {
-	return ins.post('/api/user/login', { username, password } as UTSJSONObject)
+export function userLogin(username : string, password : string) : Promise<UTSJSONObject> {
+	return ins.request('/api/user/login', 'POST', { username, password } as UTSJSONObject, null)
 }
