@@ -1,29 +1,81 @@
-import { Result, RunFn } from './types.uts'
+type Options = {
+	status : number, // 1-请求成功 2-请求失败
+	config : Map<string, any>,
+	response : RequestSuccess<UTSJSONObject>,
+	error : any
+}
 
 export class Midderware {
-	response : RequestSuccess<UTSJSONObject>
+	options : Options
+
+	useFn : () => UTSJSONObject
+
+	/**
+	 * 拦截类型
+	 * request|response
+	 */
+	private _type : string = 'response'
+
 	constructor() {
-		this.response = {
-			statusCode: 200,
-			data: null,
-			header: {},
-			cookies: []
-		} as RequestSuccess<UTSJSONObject>
+		this.options = {
+			status: 0,
+			config: new Map<string, any>(),
+			response: {
+				statusCode: 200,
+				data: null,
+				header: {} as UTSJSONObject,
+				cookies: []
+			} as RequestSuccess<UTSJSONObject>,
+			error: {
+				errCode: 5,
+				errSubject: '',
+				data: {} as any,
+				cause: new Error('系统出错'),
+				errMsg: ''
+			}
+		} as Options
+
+		this.useFn = () : UTSJSONObject => {
+			return {} as UTSJSONObject
+		}
+	}
+
+	get type() : string {
+		return this._type
+	}
+
+	set type(type : string) {
+		this._type = type
 	}
 
 	/**
 	 * 请求完成之后，执行一个方法
 	 */
-	run(fn : RunFn) {
-		fn(this.response)
+	responseRun(fn : (response : RequestSuccess<UTSJSONObject>) => void) {
+		this.useFn()
+		console.log('_______type', this._type)
+		fn(this.options.response)
 	}
-
-
-	use(fn : (res : UTSJSONObject) => UTSJSONObject) {
-		if (this.response.data != null) {
-			const data = this.response.data as UTSJSONObject
-			console.log(data)
-			fn(data)
+	
+	requestRun(fn : (response : Map<string, any>) => void) {
+		this.useFn()
+		console.log('_______type', this._type)
+		fn(this.options.config)
+	}
+	
+	/**
+	 * 目前只支持response，request在new UxRequest中配置就行
+	 */
+	use(fn : (res : RequestSuccess<UTSJSONObject>) => UTSJSONObject) {
+		this.useFn = () : UTSJSONObject => {
+			if (this._type == 'request') {
+				return {} as UTSJSONObject
+			}
+			if (this._type == 'response') {
+				// 这里应该分开response和error
+				return fn(this.options.response)
+			}
+			return {} as UTSJSONObject
 		}
 	}
 }
@@ -31,11 +83,13 @@ export class Midderware {
 export class RequestInterceptor extends Midderware {
 	constructor() {
 		super()
+		super.type = 'request'
 	}
 }
 
 export class ResponseInterceptor extends Midderware {
 	constructor() {
 		super()
+		super.type = 'response'
 	}
 }

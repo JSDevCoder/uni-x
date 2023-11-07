@@ -1,5 +1,4 @@
 import ins from '../index.uts'
-import { Result } from '../types.uts'
 /**
  * 用户登录
  * @param username 用户名

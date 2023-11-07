@@ -60,6 +60,7 @@
 					title: 'loading'
 				})
 				userLogin(this.username, this.userpwd).then((res : UTSJSONObject) => {
+					console.log('业务返回', res)
 					if (res.getString('code') == '1000') {
 						setHasLogin(true)
 						uni.switchTab({

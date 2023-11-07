@@ -1,17 +1,20 @@
 import { UxRequest } from './request.uts'
-import { Result } from './types.uts'
+
 const reqParams = new Map<string, any>()
 reqParams.set('baseURL', 'https://www.fastmock.site/mock/f3db82b0eeba8d6ec09d1947627bb194/uni-x')
 reqParams.set('header', {
 	'Content-Type': 'application/json'
 } as UTSJSONObject)
 
-
 const reqIns = new UxRequest(reqParams)
 
-reqIns.responseInterceptor.use((res: UTSJSONObject) : UTSJSONObject => {
-	console.log('response interceptor', res)
-	return res
+// 响应拦截
+reqIns.responseInterceptor.use((res: RequestSuccess<UTSJSONObject>): UTSJSONObject => {
+	console.log('Interceptors', res)
+	if(res.statusCode == 200) {
+		return res.data as UTSJSONObject
+	}
+	return {}
 })
 
 console.log(reqIns)
