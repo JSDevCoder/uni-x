@@ -1,4 +1,5 @@
 import ins from '../index.uts'
+
 /**
  * 用户登录
  * @param username 用户名
@@ -6,4 +7,22 @@ import ins from '../index.uts'
  */
 export function userLogin(username : string, password : string) : Promise<UTSJSONObject> {
 	return ins.post('/api/user/login', { username, password } as UTSJSONObject, null)
+}
+
+/**
+ * 用户注册
+ * @param username 用户名
+ * @param password 用户密码
+ */
+export function userRegister({username, password}) : Promise<UTSJSONObject> {
+	return ins.post('/api/user/register', { username, password } as UTSJSONObject, null)
+}
+
+/**
+ * 用户注册
+ * @param username 用户名
+ * @param password 用户密码
+ */
+export function userEditPwd({username, password}) : Promise<UTSJSONObject> {
+	return ins.post('/api/user/edit_pwd', { username, password } as UTSJSONObject, null)
 }
