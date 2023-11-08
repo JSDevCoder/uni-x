@@ -70,6 +70,7 @@ export class UxRequest {
 			this.requestInterceptor.options.config = this.defaultOptions
 			this.requestInterceptor.requestRun((config) => {
 				this.defaultOptions = this.merge(this.defaultOptions, config)
+				console.log(this.defaultOptions)
 				this.task = uni.request<UTSJSONObject>({
 					url: `${this.defaultOptions.get('baseURL')}${this.defaultOptions.get('api')}`,
 					method: this.defaultOptions.get('method') as RequestMethod,
@@ -78,15 +79,18 @@ export class UxRequest {
 					success: (res) => {
 						// 分 200 和 非200
 						this.responseInterceptor.options.response = res
+						this.responseInterceptor.options.status = 1
 						this.responseInterceptor.responseRun((response) => {
 							resolve(response.data as UTSJSONObject)
 						})
 					},
-					fail(err) {
+					fail() {
 						// 这里直接网络出错误
+						const err = '网络错误，请联系管理员'
 						this.responseInterceptor.options.error = err
-						this.responseInterceptor.responseRun((response) => {
-							reject(response)
+						this.responseInterceptor.options.status = 2
+						this.responseInterceptor.responseRun((error) => {
+							reject(error)
 						})
 					}
 				})

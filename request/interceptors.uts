@@ -2,13 +2,13 @@ type Options = {
 	status : number, // 1-请求成功 2-请求失败
 	config : Map<string, any>,
 	response : RequestSuccess<UTSJSONObject>,
-	error : any
+	error : string
 }
 
 export class Midderware {
 	options : Options
-	useReqFn : () => Map<string, any>
-	useResFn : () => UTSJSONObject
+	useReqFn : () => void
+	useResFn : () => void
 	constructor() {
 		this.options = {
 			status: 0,
@@ -19,43 +19,38 @@ export class Midderware {
 				header: {} as UTSJSONObject,
 				cookies: []
 			} as RequestSuccess<UTSJSONObject>,
-			error: {
-				errCode: 5,
-				errSubject: '',
-				data: {} as any,
-				cause: new Error('系统出错'),
-				errMsg: ''
-			}
+			error: '请求出错，请稍后重试'
 		} as Options
-		
-		this.useReqFn = () : Map<string, any> => {
-			return new Map<string, any>()
-		}
 
-		this.useResFn = () : UTSJSONObject => {
-			return {} as UTSJSONObject
-		}
+		this.useReqFn = () => {}
+
+		this.useResFn = () => {}
 	}
 
 	requestRun(fn : (config : Map<string, any>) => void) {
 		this.useReqFn()
 		fn(this.options.config)
 	}
-	
+
 	responseRun(fn : (response : RequestSuccess<UTSJSONObject>) => void) {
 		this.useResFn()
 		fn(this.options.response)
 	}
 
-	requestUse(fn : (config : Map<string, any>) => Map<string, any>) {
-		this.useReqFn = () : Map<string, any> => {
-			return fn(this.options.config)
+	requestUse(fn : (config : Map<string, any>) => void) {
+		this.useReqFn = () => {
+			fn(this.options.config)
 		}
 	}
-	
-	responseUse(fn : (res : RequestSuccess<UTSJSONObject>) => UTSJSONObject) {
-		this.useResFn = () : UTSJSONObject => {
-			return fn(this.options.response)
+
+	responseUse(fn : (res : RequestSuccess<UTSJSONObject>) => void, eFn: (err: string) => void) {
+		this.useResFn = () => {
+			if(this.options.status == 1) {
+				fn(this.options.response)
+			}
+			if(this.options.status == 2) {
+				eFn(this.options.error)
+			}
 		}
 	}
 }
