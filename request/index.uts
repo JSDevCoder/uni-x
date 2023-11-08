@@ -1,15 +1,27 @@
 import { UxRequest } from './request.uts'
 
+/**
+ * 初始化时，参数配置
+ */
 const reqParams = new Map<string, any>()
 reqParams.set('baseURL', 'https://www.fastmock.site/mock/f3db82b0eeba8d6ec09d1947627bb194/uni-x')
 reqParams.set('header', {
 	'Content-Type': 'application/json'
 } as UTSJSONObject)
 
+// 请求实例
 const reqIns = new UxRequest(reqParams)
 
+// 请求前拦截
+reqIns.requestInterceptor.requestUse((config: Map<string, any>): Map<string, any> => {
+	const data = config.get('data') as UTSJSONObject
+	data.set('test', '测试拦截器添加参数')
+	config.set('data', data)
+	return config
+})
+
 // 响应拦截
-reqIns.responseInterceptor.use((res: RequestSuccess<UTSJSONObject>): UTSJSONObject => {
+reqIns.responseInterceptor.responseUse((res: RequestSuccess<UTSJSONObject>): UTSJSONObject => {
 	console.log('Interceptors', res)
 	if(res.statusCode == 200) {
 		return res.data as UTSJSONObject
@@ -17,5 +29,4 @@ reqIns.responseInterceptor.use((res: RequestSuccess<UTSJSONObject>): UTSJSONObje
 	return {}
 })
 
-console.log(reqIns)
 export default reqIns

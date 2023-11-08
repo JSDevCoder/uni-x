@@ -7,15 +7,8 @@ type Options = {
 
 export class Midderware {
 	options : Options
-
-	useFn : () => UTSJSONObject
-
-	/**
-	 * 拦截类型
-	 * request|response
-	 */
-	private _type : string = 'response'
-
+	useReqFn : () => Map<string, any>
+	useResFn : () => UTSJSONObject
 	constructor() {
 		this.options = {
 			status: 0,
@@ -34,48 +27,35 @@ export class Midderware {
 				errMsg: ''
 			}
 		} as Options
+		
+		this.useReqFn = () : Map<string, any> => {
+			return new Map<string, any>()
+		}
 
-		this.useFn = () : UTSJSONObject => {
+		this.useResFn = () : UTSJSONObject => {
 			return {} as UTSJSONObject
 		}
 	}
 
-	get type() : string {
-		return this._type
-	}
-
-	set type(type : string) {
-		this._type = type
-	}
-
-	/**
-	 * 请求完成之后，执行一个方法
-	 */
-	responseRun(fn : (response : RequestSuccess<UTSJSONObject>) => void) {
-		this.useFn()
-		console.log('_______type', this._type)
-		fn(this.options.response)
-	}
-	
-	requestRun(fn : (response : Map<string, any>) => void) {
-		this.useFn()
-		console.log('_______type', this._type)
+	requestRun(fn : (config : Map<string, any>) => void) {
+		this.useReqFn()
 		fn(this.options.config)
 	}
 	
-	/**
-	 * 目前只支持response，request在new UxRequest中配置就行
-	 */
-	use(fn : (res : RequestSuccess<UTSJSONObject>) => UTSJSONObject) {
-		this.useFn = () : UTSJSONObject => {
-			if (this._type == 'request') {
-				return {} as UTSJSONObject
-			}
-			if (this._type == 'response') {
-				// 这里应该分开response和error
-				return fn(this.options.response)
-			}
-			return {} as UTSJSONObject
+	responseRun(fn : (response : RequestSuccess<UTSJSONObject>) => void) {
+		this.useResFn()
+		fn(this.options.response)
+	}
+
+	requestUse(fn : (config : Map<string, any>) => Map<string, any>) {
+		this.useReqFn = () : Map<string, any> => {
+			return fn(this.options.config)
+		}
+	}
+	
+	responseUse(fn : (res : RequestSuccess<UTSJSONObject>) => UTSJSONObject) {
+		this.useResFn = () : UTSJSONObject => {
+			return fn(this.options.response)
 		}
 	}
 }
@@ -83,13 +63,11 @@ export class Midderware {
 export class RequestInterceptor extends Midderware {
 	constructor() {
 		super()
-		super.type = 'request'
 	}
 }
 
 export class ResponseInterceptor extends Midderware {
 	constructor() {
 		super()
-		super.type = 'response'
 	}
 }
