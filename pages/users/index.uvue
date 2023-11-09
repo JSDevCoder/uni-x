@@ -2,20 +2,50 @@
 	<view class="container">
 		<view class="header">
 			<image class="pro-logo" src="../../static/logo.png"></image>
-			<view class="pro-name">uniapp x 体验版</view>
+			<text class="pro-name">uniapp x 体验版</text>
 		</view>
 		<view class="form">
 			<view class="form-item">
-				<view class="form-item-label">用户名</view>
+				<view class="form-item-label">
+					<ux-icons name="user" :size="12" color="#007aff"></ux-icons>
+					<text class="form-item-label_text">用户名</text>
+				</view>
 				<view class="form-item-block">
-					<input class="form-input" type="text" placeholder="请输入用户名" v-model="username" />
+					<input class="form-input" type="text" placeholder-class="placeholder" placeholder="请输入用户名"
+						v-model="username" />
+					<view class="form-item-block_btns" v-if="username.length > 0">
+						<ux-icons class="icon" name="times" :size="14" color="#808080" @tap="username = ''"></ux-icons>
+					</view>
 				</view>
 			</view>
-			<view class="form-item">
-				<view class="form-item-label">密码</view>
-				<view class="form-item-block">
-					<input class="form-input" type="text" placeholder="请输入密码" password v-model="userpwd" />
+			
+			<view class="form-item last-child">
+				<view class="form-item-label">
+					<ux-icons name="user-lock" :size="12" color="#007aff"></ux-icons>
+					<text class="form-item-label_text">密码</text>
 				</view>
+				<view class="form-item-block">
+					<input class="form-input" type="text" placeholder-class="placeholder" placeholder="请输入密码"
+						:password="hasPwd" v-model="userpwd" />
+					<view class="form-item-block_btns" v-if="userpwd.length > 0">
+						<ux-icons class="icon" name="times" :size="14" color="#808080" @tap="userpwd = ''"></ux-icons>
+						<ux-icons class="icon" :name="hidden" :size="14" color="#808080" @tap="hiddenPwd"></ux-icons>
+					</view>
+				</view>
+			</view>
+			<view class="form-user-doing">
+				<view class="local-user">
+					<ux-icons class="icon" :name="localIcon" :size="12" color="#007aff" @tap="localUser"></ux-icons>
+					<text class="local-user-text">记住账号</text>
+				</view>
+				<view class="forgot-pwd" @tap="forgotPwd">
+					<ux-icons class="icon" name="question-circle" :size="12" color="#007aff"></ux-icons>
+					<text class="forgot-pwd-text">忘记密码</text>
+				</view>
+			</view>
+			<view class="form-robot">
+				<ux-icons class="icon" :name="robotIcon" :size="12" color="#007aff" @tap="agreeRobot"></ux-icons>
+				<text class="form-robot-text">登录即同意用户协议</text>
 			</view>
 			<view class="form-btns">
 				<view class="form-submit" @tap="formSubmit">
@@ -38,13 +68,32 @@
 		data() {
 			return {
 				username: '',
-				userpwd: ''
+				userpwd: '',
+				hidden: 'eye',
+				hasPwd: true,
+				localIcon: 'square',
+				robotIcon: 'circle'
 			};
 		},
 		onLoad() {
 
 		},
 		methods: {
+			localUser() {
+				this.localIcon = this.localIcon == 'square' ? 'check-square' : 'square'
+			},
+			
+			forgotPwd() {},
+			
+			agreeRobot() {
+				this.robotIcon = this.robotIcon == 'circle' ? 'check-circle' : 'circle'
+			},
+
+			hiddenPwd() {
+				this.hidden = this.hidden == 'eye-slash' ? 'eye' : 'eye-slash'
+				this.hasPwd = this.hasPwd == true ? false : true
+			},
+
 			formSubmit() {
 				const result = useLoginFormValid(this.username, this.userpwd)
 				console.log(result)
@@ -73,7 +122,8 @@
 
 			},
 			formCancel() {
-				console.log('cancel')
+				this.username = ''
+				this.userpwd = ''
 			}
 		}
 	}
@@ -83,7 +133,8 @@
 	@import url(../../common/css/form.css);
 
 	.container {
-		
+		padding-top: 240rpx;
+
 		.header {
 			flex-direction: column;
 			justify-content: center;
@@ -97,6 +148,7 @@
 
 			.pro-name {
 				margin-top: 20rpx;
+				color: #007aff;
 			}
 		}
 	}

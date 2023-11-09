@@ -14,6 +14,15 @@ export function useIcons(name: string): string|null {
 	icons.set('th', '\ue961')
 	icons.set('object-group', '\ue85f')
 	icons.set('times', '\ue96f')
+	icons.set('user', '\ue9ed')
+	icons.set('user-lock', '\ue9ab')
+	icons.set('eye-slash', '\uea54')
+	icons.set('eye', '\uea55')
+	icons.set('circle', '\uea67')
+	icons.set('check-circle', '\uea69')
+	icons.set('check-square', '\uea68')
+	icons.set('square', '\ue9f9')
+	icons.set('question-circle', '\uea03')
 	// 其他图标
 	return icons.get(name)
 }

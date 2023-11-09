@@ -33,6 +33,12 @@
 			}
 		},
 		
+		watch: {
+			name(val): void {
+				this.icons = useIcons(val)
+			}
+		},
+		
 		created() {
 			this.icons = useIcons(this.name)
 		},
