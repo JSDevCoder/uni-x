@@ -29,6 +29,22 @@
 				"navigationBarTitleText" : "ux-title 组件",
 				"enablePullDownRefresh" : false
 			}
+		},
+		{
+			"path" : "pages/users/user-edit-pwd",
+			"style" : 
+			{
+				"navigationBarTitleText" : "修改密码",
+				"enablePullDownRefresh" : false
+			}
+		},
+		{
+			"path" : "pages/users/user-register",
+			"style" : 
+			{
+				"navigationBarTitleText" : "用户注册",
+				"enablePullDownRefresh" : false
+			}
 		}
 	],
 	"tabBar": {

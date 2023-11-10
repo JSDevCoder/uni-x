@@ -18,7 +18,7 @@
 					</view>
 				</view>
 			</view>
-			
+
 			<view class="form-item last-child">
 				<view class="form-item-label">
 					<ux-icons name="user-lock" :size="12" color="#007aff"></ux-icons>
@@ -33,20 +33,23 @@
 					</view>
 				</view>
 			</view>
+
 			<view class="form-user-doing">
 				<view class="local-user">
 					<ux-icons class="icon" :name="localIcon" :size="12" color="#007aff" @tap="localUser"></ux-icons>
 					<text class="local-user-text">记住账号</text>
 				</view>
-				<view class="forgot-pwd" @tap="forgotPwd">
+				<view class="forgot-pwd" @tap="editPwd">
 					<ux-icons class="icon" name="question-circle" :size="12" color="#007aff"></ux-icons>
-					<text class="forgot-pwd-text">忘记密码</text>
+					<text class="forgot-pwd-text">修改密码</text>
 				</view>
 			</view>
+
 			<view class="form-robot">
 				<ux-icons class="icon" :name="robotIcon" :size="12" color="#007aff" @tap="agreeRobot"></ux-icons>
-				<text class="form-robot-text">登录即同意用户协议</text>
+				<text class="form-robot-text">请同意《用户隐私协议》</text>
 			</view>
+
 			<view class="form-btns">
 				<view class="form-submit" @tap="formSubmit">
 					<text class="form-submit-text">提交</text>
@@ -61,7 +64,7 @@
 
 <script>
 	import { userLogin } from '../../request/apis/users.uts'
-	import useLoginFormValid from './logic/useLoginFormValid.uts';
+	import { useLoginFormValid } from './logic/useLoginFormValid.uts';
 	import { setHasLogin } from '../../stores/index.uts'
 
 	export default {
@@ -75,16 +78,26 @@
 				robotIcon: 'circle'
 			};
 		},
-		onLoad() {
 
+		onLoad() {
+			const username = uni.getStorageSync('username')
+			this.username = username as string
+			if (this.username != '') {
+				this.localIcon = 'check-square'
+			}
 		},
+
 		methods: {
 			localUser() {
 				this.localIcon = this.localIcon == 'square' ? 'check-square' : 'square'
 			},
-			
-			forgotPwd() {},
-			
+
+			editPwd() {
+				uni.navigateTo({
+					url: '/pages/users/user-edit-pwd'
+				})
+			},
+
 			agreeRobot() {
 				this.robotIcon = this.robotIcon == 'circle' ? 'check-circle' : 'circle'
 			},
@@ -95,6 +108,14 @@
 			},
 
 			formSubmit() {
+				if (this.robotIcon == 'circle') {
+					uni.showToast({
+						title: '请同意用户协议',
+						icon: 'none',
+						position: 'top'
+					})
+					return
+				}
 				const result = useLoginFormValid(this.username, this.userpwd)
 				console.log(result)
 				if (result != null) {
@@ -111,6 +132,7 @@
 				userLogin(this.username, this.userpwd).then((res : UTSJSONObject) => {
 					console.log('业务返回', res)
 					if (res.getString('code') == '1000') {
+						uni.setStorageSync('username', this.username)
 						setHasLogin(true)
 						uni.switchTab({
 							url: '/pages/index/index'
@@ -121,6 +143,7 @@
 				})
 
 			},
+
 			formCancel() {
 				this.username = ''
 				this.userpwd = ''

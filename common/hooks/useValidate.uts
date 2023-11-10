@@ -1,7 +1,7 @@
 // 验证规则
 export type Valid = {
 	require ?: string, // y/n
-	desc : string
+	msg : string
 }
 
 // 返回值
@@ -28,7 +28,7 @@ export default function useFormValid() : ReturnVal {
 				rules.get(k)?.forEach(_v => {
 					if (_v.require == 'y' && v == '') {
 						statusArr.push('n')
-						errorMsg.push(_v.desc)
+						errorMsg.push(_v.msg)
 						return
 					}
 					statusArr.push('y')

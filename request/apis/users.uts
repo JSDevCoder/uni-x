@@ -14,15 +14,15 @@ export function userLogin(username : string, password : string) : Promise<UTSJSO
  * @param username 用户名
  * @param password 用户密码
  */
-export function userRegister({username, password}) : Promise<UTSJSONObject> {
+export function userRegister(username : string, password : string) : Promise<UTSJSONObject> {
 	return ins.post('/api/user/register', { username, password } as UTSJSONObject, null)
 }
 
 /**
- * 用户注册
+ * 用户修改密码
  * @param username 用户名
  * @param password 用户密码
  */
-export function userEditPwd({username, password}) : Promise<UTSJSONObject> {
-	return ins.post('/api/user/edit_pwd', { username, password } as UTSJSONObject, null)
+export function userEditPwd(username : string, password : string, newPassword : string) : Promise<UTSJSONObject> {
+	return ins.post('/api/user/edit_pwd', { username, password, newPassword } as UTSJSONObject, null)
 }
