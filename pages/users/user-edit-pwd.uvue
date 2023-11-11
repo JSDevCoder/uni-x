@@ -55,7 +55,7 @@
 
 <script>
 	import { userEditPwd } from '../../request/apis/users.uts'
-	import { useEditFormValid } from './logic/userEditFormValid.uts';
+	import { useEditValid } from './logic/userEditValid.uts';
 	export default {
 		data() {
 			return {
@@ -67,7 +67,7 @@
 
 		methods: {
 			formSubmit() {
-				const result = useEditFormValid(this.username, this.userpwd, this.newuserpwd)
+				const result = useEditValid(this.username, this.userpwd, this.newuserpwd)
 				console.log(result)
 				if (result != null) {
 					uni.showToast({

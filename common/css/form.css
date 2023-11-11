@@ -55,6 +55,11 @@
 	font-size: 14px;
 }
 
+.form-item-send {
+	font-size: 14px;
+	color: #007aff;
+}
+
 .form-user-doing {
 	display: flex;
 	flex-direction: row;

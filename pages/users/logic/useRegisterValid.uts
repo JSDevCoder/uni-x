@@ -1,0 +1,50 @@
+import useValidate, { Valid } from '../../../common/hooks/useValidate.uts'
+
+/**
+ * 验证用户注册表单
+ * @param username {String} 用户名
+ * @param mobile {String} 用户手机号
+ * @param verify {String} 手机验证码
+ * @param password {String} 密码
+ * @param repassword {String} 重复密码
+ * @returns { Array<string> | null} 成功返回null, 失败返回错误信息数组
+ */
+export function useRegisterValid(username : string, mobile : string, verify : string, password : string, repassword : string) : Array<string> | null {
+	// 表单数据
+	const formData = new Map<string, string>()
+	formData.set('username', username)
+	formData.set('mobile', mobile)
+	formData.set('verify', verify)
+	formData.set('password', password)
+	formData.set('repassword', repassword)
+
+	// 验证规则
+	const rules = new Map<string, Array<Valid>>()
+	rules.set('username', [{
+		require: 'y',
+		msg: '用户名必填'
+	}] as Array<Valid>)
+	rules.set('mobile', [{
+		require: 'y',
+		msg: '手机号必填'
+	}] as Array<Valid>)
+	rules.set('verify', [{
+		require: 'y',
+		msg: '验证码必填'
+	}] as Array<Valid>)
+	rules.set('password', [{
+		require: 'y',
+		msg: '密码必填'
+	}] as Array<Valid>)
+	rules.set('repassword', [{
+		require: 'y',
+		msg: '重复密码必填'
+	}] as Array<Valid>)
+
+	const validate = useValidate()
+	const valid = validate.checkValid(formData, rules);
+	if (!valid) {
+		return validate.getError()
+	}
+	return null
+}

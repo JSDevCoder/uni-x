@@ -1,0 +1,38 @@
+import useValidate, { Valid } from '../../../common/hooks/useValidate.uts'
+
+/**
+ * 验证用户修改密码表单
+ * @param username {String} 用户名
+ * @param userpwd {String} 用户密码
+ * @param reuserpwd {String} 用户重复密码
+ * @returns { Array<string> | null} 成功返回null, 失败返回错误信息数组
+ */
+export function useEditValid(username : string, userpwd : string, reuserpwd : string) : Array<string> | null {
+	// 表单数据
+	const formData = new Map<string, string>()
+	formData.set('username', username)
+	formData.set('userpwd', userpwd)
+	formData.set('reuserpwd', reuserpwd)
+
+	// 验证规则
+	const rules = new Map<string, Array<Valid>>()
+	rules.set('username', [{
+		require: 'y',
+		msg: '用户名必填'
+	}] as Array<Valid>)
+	rules.set('userpwd', [{
+		require: 'y',
+		msg: '原密码必填'
+	}] as Array<Valid>)
+	rules.set('newuserpwd', [{
+		require: 'y',
+		msg: '新密码必填'
+	}] as Array<Valid>)
+
+	const validate = useValidate()
+	const valid = validate.checkValid(formData, rules);
+	if (!valid) {
+		return validate.getError()
+	}
+	return null
+}

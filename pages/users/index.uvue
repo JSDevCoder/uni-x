@@ -39,9 +39,9 @@
 					<ux-icons class="icon" :name="localIcon" :size="12" color="#007aff" @tap="localUser"></ux-icons>
 					<text class="local-user-text">记住账号</text>
 				</view>
-				<view class="forgot-pwd" @tap="editPwd">
+				<view class="forgot-pwd" @tap="forgotPwd">
 					<ux-icons class="icon" name="question-circle" :size="12" color="#007aff"></ux-icons>
-					<text class="forgot-pwd-text">修改密码</text>
+					<text class="forgot-pwd-text">忘记密码</text>
 				</view>
 			</view>
 
@@ -52,10 +52,10 @@
 
 			<view class="form-btns">
 				<view class="form-submit" @tap="formSubmit">
-					<text class="form-submit-text">提交</text>
+					<text class="form-submit-text">登录</text>
 				</view>
-				<view class="form-cancel" @tap="formCancel">
-					<text class="form-cancel-text">重置</text>
+				<view class="form-cancel" @tap="toRegister">
+					<text class="form-cancel-text">注册</text>
 				</view>
 			</view>
 		</view>
@@ -64,7 +64,7 @@
 
 <script>
 	import { userLogin } from '../../request/apis/users.uts'
-	import { useLoginFormValid } from './logic/useLoginFormValid.uts';
+	import { useLoginValid } from './logic/useLoginValid.uts';
 	import { setHasLogin } from '../../stores/index.uts'
 
 	export default {
@@ -92,9 +92,9 @@
 				this.localIcon = this.localIcon == 'square' ? 'check-square' : 'square'
 			},
 
-			editPwd() {
+			forgotPwd() {
 				uni.navigateTo({
-					url: '/pages/users/user-edit-pwd'
+					url: '/pages/users/user-forgot-pwd'
 				})
 			},
 
@@ -116,8 +116,7 @@
 					})
 					return
 				}
-				const result = useLoginFormValid(this.username, this.userpwd)
-				console.log(result)
+				const result = useLoginValid(this.username, this.userpwd)
 				if (result != null) {
 					uni.showToast({
 						title: result[0],
@@ -130,7 +129,6 @@
 					title: 'loading'
 				})
 				userLogin(this.username, this.userpwd).then((res : UTSJSONObject) => {
-					console.log('业务返回', res)
 					if (res.getString('code') == '1000') {
 						uni.setStorageSync('username', this.username)
 						setHasLogin(true)
@@ -144,9 +142,10 @@
 
 			},
 
-			formCancel() {
-				this.username = ''
-				this.userpwd = ''
+			toRegister() {
+				uni.navigateTo({
+					url: '/pages/users/user-register'
+				})
 			}
 		}
 	}

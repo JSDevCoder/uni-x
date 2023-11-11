@@ -1,8 +1,0 @@
-import ins from '../index.uts'
-
-/**
- * 获取系统配置
- */
-export function getSetting() : Promise<UTSJSONObject> {
-	return ins.getData('/api/user/setting', null, null)
-}

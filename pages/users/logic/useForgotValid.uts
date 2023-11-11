@@ -1,18 +1,18 @@
 import useValidate, { Valid } from '../../../common/hooks/useValidate.uts'
 
 /**
- * 验证用户修改密码表单
+ * 验证用户找回密码表单
  * @param username {String} 用户名
- * @param userpwd {String} 用户密码
- * @param reuserpwd {String} 用户重复密码
+ * @param mobile {String} 用户手机号
+ * @param verify {String} 手机验证码
  * @returns { Array<string> | null} 成功返回null, 失败返回错误信息数组
  */
-export function useEditFormValid(username : string, userpwd : string, reuserpwd : string) : Array<string> | null {
+export function useForgotValid(username : string, mobile : string, verify : string) : Array<string> | null {
 	// 表单数据
 	const formData = new Map<string, string>()
 	formData.set('username', username)
-	formData.set('userpwd', userpwd)
-	formData.set('reuserpwd', reuserpwd)
+	formData.set('mobile', mobile)
+	formData.set('verify', verify)
 
 	// 验证规则
 	const rules = new Map<string, Array<Valid>>()
@@ -20,13 +20,13 @@ export function useEditFormValid(username : string, userpwd : string, reuserpwd 
 		require: 'y',
 		msg: '用户名必填'
 	}] as Array<Valid>)
-	rules.set('userpwd', [{
+	rules.set('mobile', [{
 		require: 'y',
-		msg: '原密码必填'
+		msg: '手机号必填'
 	}] as Array<Valid>)
-	rules.set('newuserpwd', [{
+	rules.set('verify', [{
 		require: 'y',
-		msg: '新密码必填'
+		msg: '验证码必填'
 	}] as Array<Valid>)
 
 	const validate = useValidate()

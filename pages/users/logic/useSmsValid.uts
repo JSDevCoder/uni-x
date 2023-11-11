@@ -1,26 +1,20 @@
 import useValidate, { Valid } from '../../../common/hooks/useValidate.uts'
 
 /**
- * 验证用户登录表单
- * @param username {String} 用户名
- * @param userpwd {String} 用户密码
+ * 验证用户发送验证码表单
+ * @param mobile {String} 用户手机号
  * @returns { Array<string> | null} 成功返回null, 失败返回错误信息数组
  */
-export function useLoginFormValid(username : string, userpwd : string) : Array<string> | null {
+export function useSmsValid(mobile : string) : Array<string> | null {
 	// 表单数据
 	const formData = new Map<string, string>()
-	formData.set('username', username)
-	formData.set('userpwd', userpwd)
+	formData.set('username', mobile)
 
 	// 验证规则
 	const rules = new Map<string, Array<Valid>>()
 	rules.set('username', [{
 		require: 'y',
-		msg: '用户名必填'
-	}] as Array<Valid>)
-	rules.set('userpwd', [{
-		require: 'y',
-		msg: '密码必填'
+		msg: '手机号必填'
 	}] as Array<Valid>)
 
 	const validate = useValidate()

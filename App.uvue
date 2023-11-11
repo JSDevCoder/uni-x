@@ -6,10 +6,9 @@
 			console.log('App Launch')
 			// 判断登录状态
 			const localHasLogin = uni.getStorageSync('hasLogin')
-			console.log(typeof localHasLogin)
-			if(typeof localHasLogin == 'boolean') {
+			if (typeof localHasLogin == 'boolean' && localHasLogin != false) {
 				setHasLogin(localHasLogin as boolean)
-			}else{
+			} else {
 				uni.redirectTo({
 					url: '/pages/users/index'
 				})
@@ -44,5 +43,5 @@
 </script>
 
 <style lang="scss">
-	
+
 </style>

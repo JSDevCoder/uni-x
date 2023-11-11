@@ -45,6 +45,14 @@
 				"navigationBarTitleText" : "用户注册",
 				"enablePullDownRefresh" : false
 			}
+		},
+		{
+			"path" : "pages/users/user-forgot-pwd",
+			"style" : 
+			{
+				"navigationBarTitleText" : "找回密码",
+				"enablePullDownRefresh" : false
+			}
 		}
 	],
 	"tabBar": {

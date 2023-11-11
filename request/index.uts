@@ -15,14 +15,12 @@ const reqIns = new UxRequest(reqParams)
 // 请求前拦截
 reqIns.requestInterceptor.requestUse((config: Map<string, any>): void => {
 	const data = config.get('data') as UTSJSONObject
-	data.set('test', '测试拦截器添加参数')
-	data.set('password', '123456')
+	// 修改data参数
 	config.set('data', data)
 })
 
 // 响应拦截
 reqIns.responseInterceptor.responseUse((res: RequestSuccess<UTSJSONObject>): void => {
-	console.log('Interceptors', res)
 	// 走到这里的都是200 500 404 403之类的
 	// 在这里只需要判断逻辑出错即可，并给于提示
 	if(res.statusCode == 200) {

@@ -43,35 +43,9 @@
 				</view>
 			</view>
 		</view>
-		<view class="form-item">
-			<view class="form-item-label">
-				<ux-icons name="user" :size="12" color="#007aff"></ux-icons>
-				<text class="form-item-label_text">密码</text>
-			</view>
-			<view class="form-item-block">
-				<input class="form-input" type="text" placeholder-class="placeholder" placeholder="请输入验证码"
-					v-model="password" password />
-				<view class="form-item-block_btns" v-if="password.length > 0">
-					<ux-icons class="icon" name="times" :size="14" color="#808080" @tap="password = ''"></ux-icons>
-				</view>
-			</view>
-		</view>
-		<view class="form-item">
-			<view class="form-item-label">
-				<ux-icons name="user" :size="12" color="#007aff"></ux-icons>
-				<text class="form-item-label_text">重复密码</text>
-			</view>
-			<view class="form-item-block">
-				<input class="form-input" type="text" placeholder-class="placeholder" placeholder="请输入验证码"
-					v-model="repassword" password />
-				<view class="form-item-block_btns" v-if="repassword.length > 0">
-					<ux-icons class="icon" name="times" :size="14" color="#808080" @tap="repassword = ''"></ux-icons>
-				</view>
-			</view>
-		</view>
 		<view class="form-btns">
 			<view class="form-submit" @tap="formSubmit">
-				<text class="form-submit-text">立即注册</text>
+				<text class="form-submit-text">确认</text>
 			</view>
 			<view class="form-cancel" @tap="toBack">
 				<text class="form-cancel-text">返回登录</text>
@@ -82,17 +56,15 @@
 
 <script>
 	import { sendSms } from '../../request/apis/app.uts';
-	import { userRegister } from '../../request/apis/users.uts';
+	import { userForgotPwd } from '../../request/apis/users.uts';
 	import { useSmsValid } from './logic/useSmsValid.uts'
-	import { useRegisterValid } from './logic/useRegisterValid.uts'
+	import { useForgotValid } from './logic/useForgotValid.uts'
 	export default {
 		data() {
 			return {
 				username: '',
 				mobile: '',
 				verify: '',
-				password: '',
-				repassword: '',
 				sendText: '发送验证码',
 				timer: null as number | null,
 				time: 60
@@ -106,14 +78,6 @@
 				if (result != null) {
 					uni.showToast({
 						title: result[0],
-						icon: 'none',
-						position: 'top'
-					})
-					return
-				}
-				if(this.password != this.repassword) {
-					uni.showToast({
-						title: '密码和重复密码不一致',
 						icon: 'none',
 						position: 'top'
 					})
@@ -146,7 +110,7 @@
 			},
 
 			formSubmit() {
-				const result = useRegisterValid(this.username, this.mobile, this.verify, this.password, this.repassword)
+				const result = useForgotValid(this.username, this.mobile, this.verify)
 				if (result != null) {
 					uni.showToast({
 						title: result[0],
@@ -158,18 +122,16 @@
 				uni.showLoading({
 					title: 'loading'
 				})
-				userRegister(this.username, this.mobile, this.verify, this.password).then(res => {
+				userForgotPwd(this.username, this.mobile, this.verify).then(res => {
 					if (res.getString('code') == '1000') {
 						uni.showModal({
 							title: '温馨提示',
-							content: '注册成功，请登录',
-							confirmText: '立即登录',
+							content: `您的密码是${res.getString('data')}`,
+							confirmText: '立即复制',
 							confirmColor: '#007aff',
 							success: res => {
 								if (res.confirm) {
-									uni.navigateBack({
-										delta: 1
-									})
+									// 复制密码
 								}
 							}
 						})
@@ -180,9 +142,7 @@
 			},
 
 			toBack() {
-				uni.navigateBack({
-					delta: 1
-				})
+				uni.navigateBack()
 			}
 		}
 	}

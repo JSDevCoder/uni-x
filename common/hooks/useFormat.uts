@@ -95,7 +95,6 @@ export function useFormat() : Format {
 		let toPrice = parseFloat(price)
 		if (pattem == 'dot') {
 			const arr = price.split('.')
-			console.log(typeof arr[1])
 			if (arr[1].length == 1) {
 				return `${price}0`
 			}

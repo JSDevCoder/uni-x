@@ -1,0 +1,16 @@
+import ins from '../index.uts'
+
+/**
+ * 获取系统配置
+ */
+export function getSetting() : Promise<UTSJSONObject> {
+	return ins.getData('/api/app/setting', null, null)
+}
+
+/**
+ * 发送验证码
+ * @param mobile {String} 手机号
+ */
+export function sendSms(mobile : string) : Promise<UTSJSONObject> {
+	return ins.post('/api/app/send_sms', { mobile } as UTSJSONObject, null)
+}
