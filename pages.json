@@ -10,7 +10,9 @@
 			"path": "pages/mine/index",
 			"style": {
 				"navigationBarTitleText": "个人中心",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#007aff",
+				"navigationBarTextStyle": "white"
 			}
 
 		}, {
@@ -51,6 +53,22 @@
 			"style" : 
 			{
 				"navigationBarTitleText" : "找回密码",
+				"enablePullDownRefresh" : false
+			}
+		},
+		{
+			"path" : "pages/mine/mine-system",
+			"style" : 
+			{
+				"navigationBarTitleText" : "系统管理",
+				"enablePullDownRefresh" : false
+			}
+		},
+		{
+			"path" : "pages/mine/mine-user",
+			"style" : 
+			{
+				"navigationBarTitleText" : "用户管理",
 				"enablePullDownRefresh" : false
 			}
 		}

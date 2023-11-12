@@ -1,0 +1,29 @@
+<template>
+	<view class="container">
+		<ux-grid :col="5">
+			<ux-grid-item :text="item.name" :icon="item.icon" v-for="(item, index) in menus" :key="index"></ux-grid-item>
+		</ux-grid>
+	</view>
+</template>
+
+<script>
+	type Menu = {
+		name: string,
+		icon: string
+	}
+	export default {
+		data() {
+			return {
+				menus: [
+					{ name: '修改密码', icon: 'trademark' },
+					{ name: '修改头像', icon: 'plus' },
+					{ name: '修改昵称', icon: 'plus' },
+				] as Array<Menu>,
+			};
+		}
+	}
+</script>
+
+<style lang="scss">
+
+</style>

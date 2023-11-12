@@ -23,6 +23,7 @@ export function useIcons(name: string): string|null {
 	icons.set('check-square', '\uea68')
 	icons.set('square', '\ue9f9')
 	icons.set('question-circle', '\uea03')
+	icons.set('angle-right', '\ue614')
 	// 其他图标
 	return icons.get(name)
 }

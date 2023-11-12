@@ -155,7 +155,7 @@
 	@import url(../../common/css/form.css);
 
 	.container {
-		padding-top: 240rpx;
+		padding-top: 120rpx;
 
 		.header {
 			flex-direction: column;
