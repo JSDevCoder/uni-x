@@ -1,0 +1,84 @@
+<template>
+	<view class="ux-bottom-bar">
+		<view class="ux-bottom-bar_item" :style="{width: (100 / tabs!.length) + '%'}" v-for="(item, index) in tabs" :key="item.pagePath" @tap="onTabActive(index)">
+			<image class="icon" :class="item.middle ? 'middle-btn' : ''" :src="idx == index ? item.selectedIconPath : item.iconPath"></image>
+			<text class="text" :style="{color: idx == index ? '#007aff' : '#333'}" v-if="!item.middle">{{item.text}}</text>
+		</view>
+	</view>
+</template>
+<script>
+	import type { PropType } from "vue"
+	import { BottomBarItem } from '../types/index.uts'
+
+	export default {
+		data() {
+			return {
+				idx: 0
+			}
+		},
+
+		props: {
+			tabs: {
+				type: Array as PropType<BottomBarItem[]>,
+				default() : BottomBarItem[] {
+					return [] as BottomBarItem[]
+				}
+			}
+		},
+
+		methods: {
+			onTabActive(index : number) {
+				this.idx = index
+				this.$emit('on-tab-active', index)
+			}
+		}
+	}
+</script>
+<style lang="scss">
+	.ux-bottom-bar {
+		background-color: #fff;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		height: 50px;
+		position: fixed;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		z-index: 99;
+
+		.middle-btn {
+			width: 44px;
+			height: 44px;
+			border-radius: 44px;
+			margin-left: -22px;
+			position: fixed;
+			left: 50%;
+			bottom: 10px;
+			z-index: 99;
+			border: 2px solid #fff;
+			box-shadow: 0 0 10px #333;
+		}
+
+		&_item {
+			height: 44px;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: space-between;
+			flex-grow: 1;
+
+			.icon {
+				width: 24px;
+				height: 24px;
+			}
+
+			.text {
+				font-size: 14px;
+			}
+		}
+
+
+	}
+</style>

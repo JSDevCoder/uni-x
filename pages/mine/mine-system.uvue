@@ -1,16 +1,21 @@
 <template>
-	<view class="container">
+	<ux-navbar title="系统管理" bg-color="#007aff" color="#fff" :left-menus="leftMenus"></ux-navbar>
+	<view class="container" :class="`ux-${theme}-color`">
 		<ux-grid :col="5">
-			<ux-grid-item :text="item.name" :icon="item.icon" v-for="(item, index) in menus" :key="index"></ux-grid-item>
+			<ux-grid-item :text="item.name" :icon="item.icon" v-for="(item, index) in menus"
+				:key="index"></ux-grid-item>
 		</ux-grid>
 	</view>
 </template>
 
 <script>
-	type Menu = {
-		name: string,
-		icon: string
+	import { Menu } from '@/uni_modules/ux-navbar/components/ux-navbar/types/types.uts'
+	import { state } from '@/stores/index.uts'
+	type Item = {
+		name : string,
+		icon : string
 	}
+
 	export default {
 		data() {
 			return {
@@ -18,12 +23,16 @@
 					{ name: '设置主题', icon: 'trademark' },
 					{ name: '设置语言', icon: 'plus' },
 					{ name: '文本', icon: 'plus' },
-				] as Array<Menu>,
+				] as Array<Item>,
+				leftMenus: [{ type: 'back', icon: 'chevron-left', color: '#fff' }] as Array<Menu>
 			};
+		},
+		computed: {
+			theme: () : string => state.theme
 		}
 	}
 </script>
 
 <style lang="scss">
-
+	.container {}
 </style>

@@ -1,132 +1,82 @@
 <template>
 	<!-- 导航栏 -->
-	<ux-navbar title="首页"></ux-navbar>
+	<ux-navbar :title="pageTitle" color="#fff" bg-color="#007aff" :position="true"></ux-navbar>
 
 
 	<!-- #ifdef APP -->
 	<scroll-view class="scroll-view">
 	<!-- #endif -->
 
-		<view class="container">
-
-			<!-- tab切换 -->
-			<ux-tab :tabs="tabs" :width="710 / tabs.length" @on-tab-click="onTabClick">
-				<template v-slot:ux-tab-slot_3>
-					<text class="slot">slot内容</text>
-				</template>
-			</ux-tab>
-
-			<view class="item" v-if="idx == 0">
-				<ux-title title="基本组件" font-size="sm" icon="trademark" :size="12"></ux-title>
-				<ux-grid :col="4" @on-change="changeSimple">
-					<ux-grid-item :text="item.name" :icon="item.icon" :index="index"
-						v-for="(item,index) in simpleComponents" :key="index"></ux-grid-item>
-				</ux-grid>
-				<ux-title title="导航组件" font-size="sm" icon="trademark" :size="12"></ux-title>
-				<ux-grid :col="4" @on-change="changeComplex">
-					<ux-grid-item :text="item.name" :icon="item.icon" :index="index"
-						v-for="(item,index) in navigateComponents" :key="index"></ux-grid-item>
-				</ux-grid>
-				<ux-title title="弹窗组件" font-size="sm" icon="trademark" :size="12"></ux-title>
-				<ux-grid :col="4" @on-change="changeComplex">
-					<ux-grid-item :text="item.name" :icon="item.icon" :index="index"
-						v-for="(item,index) in popupComponents" :key="index"></ux-grid-item>
-				</ux-grid>
-				<ux-title title="表单组件" font-size="sm" icon="trademark" :size="12"></ux-title>
-				<ux-grid :col="4" @on-change="changeComplex">
-					<ux-grid-item :text="item.name" :icon="item.icon" :index="index"
-						v-for="(item,index) in formComponents" :key="index"></ux-grid-item>
-				</ux-grid>
-			</view>
-			<view class="item" v-else-if="idx == 1">
-				原生组件
-			</view>
-			<view class="item" v-else-if="idx == 2">
-				<ux-title title="设备相关" font-size="sm" icon="trademark" :size="12"></ux-title>
-				<ux-grid :col="4" @on-change="changeUtsApi">
-					<ux-grid-item :text="item.name" :icon="item.icon" :index="index" v-for="(item,index) in utsApi"
-						:key="index"></ux-grid-item>
-				</ux-grid>
-			</view>
-			<view class="item" v-else-if="idx == 3">
-				使用slot更新tab-item内容
-			</view>
+		<view class="container" :style="{padding: `${topBarHeight}px 0 50px`}">
+			<Home v-if="idx == 0"></Home>
+			<Middle v-if="idx == 1"></Middle>
+			<Mine v-if="idx == 2"></Mine>
 		</view>
-		
+
 	<!-- #ifdef APP -->
 	</scroll-view>
 	<!-- #endif -->
 
-
-	<!-- ux-popup -->
-	<ux-popup ref="uxPopup" type="bottom">
-		<view class="wrap">
-			neirong
-		</view>
-	</ux-popup>
+	<ux-bottom-bar :tabs="customTabs" @on-tab-active="onTabActive"></ux-bottom-bar>
 </template>
 
 <script>
-	import { state } from '../../stores/index.uts'
-	import { Item, Fn } from './types/types.uts'
-	import { makePhoneCall } from '@/uni_modules/ux-makephone'
+	import { BottomBarItem } from '@/uni_modules/ux-bottom-bar/components/types/index.uts'
+	import Home from './components/home.uvue'
+	import Middle from './components/middle.uvue'
+	import Mine from './components/Mine.uvue'
 	export default {
+		components: {
+			Home,
+			Middle,
+			Mine
+		},
 		data() {
 			return {
-				title: 'Hello',
-				uxPopup: null as ComponentPublicInstance | null,
-				idx: 0 as number,
-				tabs: ['基础组件', 'UTS 组件', 'UTS Api', 'ce shi'] as string[],
-				simpleComponents: [
-					{ name: '标题', icon: 'trademark' },
-					{ name: '图标', icon: 'plus' },
-					{ name: '文本', icon: 'plus' },
-				] as Array<Item>,
-				navigateComponents: [
-					{ name: '导航栏', icon: 'plus' },
-					{ name: '选项卡', icon: 'plus' },
-					{ name: '宫格', icon: 'th' },
-				] as Array<Item>,
-				popupComponents: [
-					{ name: '弹窗', icon: 'object-group' },
-				] as Array<Item>,
-				formComponents: [] as Array<Item>,
-				utsApi: [{ name: '拨打电话', icon: 'object-group' }] as Array<Item>
+				idx: 0,
+				customTabs: [
+					{
+						iconPath: "/static/images/tabbar/index.png",
+						selectedIconPath: "/static/images/tabbar/index-active.png",
+						pagePath: "components/home",
+						text: "首页",
+						middle: false
+					},
+					{
+						iconPath: "/static/images/tabbar/middle.png",
+						selectedIconPath: "/static/images/tabbar/middle.png",
+						pagePath: "/pages/index/index",
+						text: "按钮",
+						middle: true
+					},
+					{
+						iconPath: "/static/images/tabbar/mine.png",
+						selectedIconPath: "/static/images/tabbar/mine-active.png",
+						pagePath: "components/mine",
+						text: "我的",
+						middle: false
+					},
+				] as BottomBarItem[],
+				pageTitle: '首页'
+			}
+		},
+		
+		computed: {
+			topBarHeight(): number {
+				return uni.getSystemInfoSync().statusBarHeight + 44
 			}
 		},
 
 		onLoad() {
-			if (!state.hasLogin) return
+			
 		},
-
-		onReady() {
-			this.uxPopup = this.$refs['uxPopup'] as ComponentPublicInstance
-		},
-
+		
 		methods: {
-			changeUtsApi() {
-				makePhoneCall('15291985843')
-			},
-			onTabClick(index : number) {
+			onTabActive(index: number) {
 				this.idx = index
-			},
-
-			changeSimple(index : number) {
-				const names = ['ux-title', 'ux-grid']
-				uni.navigateTo({
-					url: `/pages/index/${names[index]}-detail`
-				})
-			},
-			changeComplex(index : number) {
-				const names = ['ux-popup', 'ux-nav-bar', 'ux-tab', 'ux-icons']
-				uni.navigateTo({
-					url: `/pages/index/${names[index]}`
-				})
-			},
-			openPopup() {
-				this.uxPopup?.$callMethod('open')
+				const title = ['首页', '自定义', '我的']
+				this.pageTitle = title[index]
 			}
-
 		}
 	}
 </script>
@@ -134,23 +84,5 @@
 <style lang="scss" scoped>
 	.scroll-view {
 		flex: 1;
-	}
-
-	.container {
-		padding: 160rpx 20rpx 20rpx 20rpx;
-	}
-
-	.wrap {
-		height: 400rpx;
-		background-color: #fff;
-	}
-
-	.slot {
-		text-align: center;
-		line-height: 88rpx;
-	}
-
-	.item {
-		padding: 20rpx 0;
 	}
 </style>

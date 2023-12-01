@@ -1,7 +1,7 @@
 export type Menu = {
-	icon ?: string,
-	text ?: string,
-	type ?: string, // home|back,
-	color ?: string,
-	size ?: number
+	icon : string | null,
+	text : string | null,
+	type : string | null, // home|back,
+	color : string | null,
+	size : number | null
 }

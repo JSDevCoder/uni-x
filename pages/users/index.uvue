@@ -132,7 +132,7 @@
 					if (res.getString('code') == '1000') {
 						uni.setStorageSync('username', this.username)
 						setHasLogin(true)
-						uni.switchTab({
+						uni.redirectTo({
 							url: '/pages/index/index'
 						})
 					}

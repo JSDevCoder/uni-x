@@ -1,0 +1,137 @@
+<template>
+	<view class="header">
+		<view class="info">
+			<view class="face">
+				<text class="face-text">酷</text>
+			</view>
+			<view class="nick">
+				<text class="id">ID: 00000001</text>
+				<text class="name">北风吹过的夏天</text>
+			</view>
+		</view>
+	</view>
+
+	<view class="list">
+		<view class="list-item" v-for="(item, index) in menus" :key="index" @tap="linkTo(item.link)">
+			<ux-icons :name="item.icon" :size="14" color="#007aff"></ux-icons>
+			<text class="list-item-text">{{item.text}}</text>
+			<ux-icons :name="item.right" :size="12" color="#d8d8d8"></ux-icons>
+		</view>
+	</view>
+	<view class="logout" @tap="logout">
+		<text class="logout-txt">退出登录</text>
+	</view>
+</template>
+
+<script>
+	import { setHasLogin } from '@/stores/index.uts';
+
+	type Menu = {
+		icon : string
+		text : string
+		right : string
+		link : string
+	}
+	export default {
+		data() {
+			return {
+				menus: [
+					{ icon: 'plus', text: '系统管理', right: 'angle-right', link: 'mine-system' },
+					{ icon: 'plus', text: '用户管理', right: 'angle-right', link: 'mine-user' },
+				] as Array<Menu>
+			}
+		},
+		methods: {
+			linkTo(link : string) {
+				uni.navigateTo({
+					url: `/pages/mine/${link}`
+				})
+			},
+
+			logout() {
+				setHasLogin(false)
+				uni.reLaunch({
+					url: '/pages/users/index'
+				})
+			}
+		}
+	}
+</script>
+
+<style lang="scss">
+	.header {
+		background-color: #007aff;
+
+		.info {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			padding: 20px 10px;
+
+			.face {
+				width: 80px;
+				height: 80px;
+				background-color: #fff;
+				border-radius: 80px;
+				box-shadow: 0 0 10px #fff;
+				border: 1px solid #007aff;
+				margin-right: 20px;
+
+				&-text {
+					font-size: 16px;
+					color: #007aff;
+					text-align: center;
+					line-height: 80px;
+				}
+			}
+
+			.nick {
+				height: 50px;
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
+
+				.id,
+				.name {
+					color: #fff;
+					font-size: 16px;
+				}
+			}
+		}
+	}
+
+	.list {
+		padding: 10px;
+
+		&-item {
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+			align-items: center;
+			padding: 10px 0;
+			border-bottom: 1px solid #f2f2f2;
+
+			&-text {
+				flex-grow: 1;
+				margin: 0 10px;
+			}
+		}
+	}
+
+	.logout {
+		height: 80rpx;
+		background-color: $ux-color-primary;
+		border-radius: 80rpx;
+		position: fixed;
+		bottom: 70px;
+		left: 40px;
+		right: 40px;
+	}
+
+	.logout-txt {
+		font-size: 32rpx;
+		text-align: center;
+		line-height: 80rpx;
+		color: #fff;
+	}
+</style>

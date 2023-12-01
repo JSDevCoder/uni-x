@@ -9,7 +9,7 @@
 			<view class="ux-nav-bar_leftmenus">
 				<slot name="left-menus">
 					<view class="left-menus-item" v-for="(item, index) in leftMenus" :key="index"
-						@tap="tapLeftMenus(index)">
+						@tap="tapLeftMenus(index, item.type)">
 						<ux-icons class="left-menus-item_icon" :name="item.icon" :color="item.color" :size="item.size"
 							v-if="item.icon"></ux-icons>
 						<text class="left-menus-item_text" v-if="item.text">{{item.text}}</text>
@@ -54,19 +54,19 @@
 			// 标题颜色
 			color: {
 				type: String,
-				default: '#fff'
+				default: '#333'
 			},
 
 			// 导航栏背景颜色
 			bgColor: {
 				type: String,
-				default: '#007aff'
+				default: '#fff'
 			},
 
 			// 是否开启定位
 			position: {
 				type: Boolean,
-				default: true
+				default: false
 			},
 
 			// 导航栏标题
@@ -114,7 +114,12 @@
 			 * 点击左侧按钮
 			 * @param index {Number} 按钮下标
 			 */
-			tapLeftMenus(index : number) {
+			tapLeftMenus(index : number, type : string | null) {
+				if (type == 'back') {
+					this.$emit('on-back')
+					uni.navigateBack()
+					return
+				}
 				this.$emit('on-left-menus', index)
 			},
 
@@ -141,6 +146,7 @@
 	.ux-nav-bar {
 		background-color: green;
 		position: relative;
+		height: 44px;
 
 		&_leftmenus {
 			position: absolute;

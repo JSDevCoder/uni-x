@@ -2,20 +2,12 @@
 	<view class="ux-tab">
 		<!-- tab -->
 		<view class="ux-tab-head">
-			<view class="ux-tab-item" :style="{width: width + 'rpx'}" v-for="(item, index) in tabs" :key="index"
+			<view class="ux-tab-item" :style="{width: itemW + '%', backgroundColor: idx == index ? sliderColor : '#fff'}" v-for="(item, index) in tabs" :key="index"
 				@tap="onTabClick(index)">
 				<slot :name="`ux-tab-slot_${index}`">
-					<text class="ux-tab-item_text" :style="{color: idx == index ? color : '#333'}">{{item}}</text>
+					<text class="ux-tab-item_text" :style="{color: idx == index ? '#fff' : '#333'}">{{item}}</text>
 				</slot>
 			</view>
-		</view>
-		
-		<!-- 滑块 -->
-		<view class="ux-tab-slider" :style="{
-				width: sliderWidth + 'rpx', 
-				left: width * idx + (width - sliderWidth) / 2 + 'rpx', 
-				backgroundColor: sliderColor
-			}">
 		</view>
 	</view>
 </template>
@@ -40,12 +32,6 @@
 				}
 			},
 
-			// 选项宽度
-			width: {
-				type: Number,
-				default: 250
-			},
-
 			// 滑块宽度
 			sliderWidth: {
 				type: Number,
@@ -62,6 +48,12 @@
 			sliderColor: {
 				type: String,
 				default: '#007aff'
+			}
+		},
+		
+		computed: {
+			itemW(): number {
+				return 100 / this.tabs!.length
 			}
 		},
 
@@ -93,7 +85,8 @@
 			&_text {
 				text-align: center;
 				line-height: 88rpx;
-				font-size: $ux-font-size-base;
+				font-size: 14px;
+				transition: background-color .3s;
 			}
 		}
 

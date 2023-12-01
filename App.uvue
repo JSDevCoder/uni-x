@@ -43,5 +43,16 @@
 </script>
 
 <style lang="scss">
+	/**
+	 * 默认主题色
+	 */
+	$ux-default-color: #007aff;
+	
+	.ux-default-color {
+		background-color: $ux-default-color;
+	}
 
+	.ux-default-text-color {
+		color: $ux-default-color;
+	}
 </style>
