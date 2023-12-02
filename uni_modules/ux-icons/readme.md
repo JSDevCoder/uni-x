@@ -1,5 +1,8 @@
 # ux-icons
 
+### 图标预览
+[ux-icons图标预览](https://hexinkuo.gitee.io/uni-x/iconfont/demo_index.html)
+
 ### 使用方式
 
 将ux-icons组件拉下来到uni_modules，符合easycom规范，可以直接使用该组件  
