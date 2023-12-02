@@ -3,23 +3,13 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "uni-app",
-				"navigationStyle": "custom"
+				"navigationBarTitleText": "uni-app"
 			}
-		}, {
-			"path": "pages/mine/index",
-			"style": {
-				"navigationBarTitleText": "个人中心",
-				"enablePullDownRefresh": false,
-				"navigationStyle": "custom"
-			}
-
-		}, {
+		},  {
 			"path": "pages/users/index",
 			"style": {
 				"navigationBarTitleText": "用户登录",
-				"enablePullDownRefresh": false,
-				"navigationStyle": "custom"
+				"enablePullDownRefresh": false
 			}
 
 		},
@@ -60,8 +50,7 @@
 			"style" : 
 			{
 				"navigationBarTitleText" : "系统管理",
-				"enablePullDownRefresh" : false,
-				"navigationStyle": "custom"
+				"enablePullDownRefresh" : false
 			}
 		},
 		{
@@ -78,7 +67,8 @@
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
 		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8"
+		"backgroundColor": "#F8F8F8",
+		"navigationStyle": "custom"
 	},
 	"uniIdRouter": {}
 }

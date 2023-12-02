@@ -1,10 +1,10 @@
 {
-  "id": "ux-title",
-  "displayName": "ux-title",
+  "id": "ux-top-bar",
+  "displayName": "ux-top-bar",
   "version": "1.0.0",
-  "description": "ux-title",
+  "description": "ux-top-bar",
   "keywords": [
-    "ux-title"
+    "ux-top-bar"
 ],
   "repository": "",
   "engines": {
@@ -46,7 +46,7 @@
         "App": {
           "app-vue": "u",
           "app-nvue": "u",
-          "app-uvue": "u",
+          "app-uvue": "u"
         },
         "H5-mobile": {
           "Safari": "u",

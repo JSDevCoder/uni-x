@@ -4,10 +4,15 @@
 		<ux-statusbar :bg-color="bgColor"></ux-statusbar>
 
 		<!-- 导航栏 -->
-		<view class="ux-nav-bar" :style="{ backgroundColor: bgColor }">
+		<view class="ux-top-bar" :style="{ backgroundColor: bgColor }">
+
 			<!-- 左侧 -->
-			<view class="ux-nav-bar_leftmenus">
+			<view class="ux-top-bar_leftmenus">
+
 				<slot name="left-menus">
+					<view class="left-menus-item" v-if="back" @tap="toBack">
+						<ux-icons class="left-menus-item_icon" name="back" :color="color" :size="24"></ux-icons>
+					</view>
 					<view class="left-menus-item" v-for="(item, index) in leftMenus" :key="index"
 						@tap="tapLeftMenus(index, item.type)">
 						<ux-icons class="left-menus-item_icon" :name="item.icon" :color="item.color" :size="item.size"
@@ -15,17 +20,18 @@
 						<text class="left-menus-item_text" v-if="item.text">{{item.text}}</text>
 					</view>
 				</slot>
+
 			</view>
 
 			<!-- 标题 -->
-			<view class="ux-nav-bar_title">
+			<view class="ux-top-bar_title">
 				<slot name="title">
 					<text class="title-text" :style="{ color }">{{title}}</text>
 				</slot>
 			</view>
 
 			<!-- 右侧 -->
-			<view class="ux-nav-bar_rightmenus">
+			<view class="ux-top-bar_rightmenus">
 				<slot name="right-menus">
 					<view class="right-menus-item" v-for="(item, index) in rightMenus" :key="index"
 						@tap="tapRightMenus(index)">
@@ -44,13 +50,18 @@
 	import type { PropType } from 'vue'
 
 	export default {
-		name: "ux-nav-bar",
 		data() {
 			return {
 
 			};
 		},
 		props: {
+			// 是否有返回按钮
+			back: {
+				type: Boolean,
+				default: false
+			},
+
 			// 标题颜色
 			color: {
 				type: String,
@@ -143,7 +154,7 @@
 		z-index: 999;
 	}
 
-	.ux-nav-bar {
+	.ux-top-bar {
 		background-color: green;
 		position: relative;
 		height: 44px;
@@ -155,7 +166,7 @@
 			bottom: 0;
 			z-index: 99;
 			max-width: 160rpx;
-			padding-left: 20rpx;
+			padding-left: 10px;
 			display: flex;
 			flex-direction: row;
 
@@ -165,12 +176,12 @@
 				flex-direction: column;
 				align-items: center;
 				justify-content: center;
-				margin-right: 28rpx;
+				margin-right: 14px;
 
 				&_icon {}
 
 				&_text {
-					font-size: 24rpx;
+					font-size: 14px;
 					color: #fff;
 				}
 			}
@@ -191,12 +202,12 @@
 				flex-direction: column;
 				align-items: center;
 				justify-content: center;
-				margin-right: 28rpx;
+				margin-right: 14px;
 
 				&_icon {}
 
 				&_text {
-					font-size: 24rpx;
+					font-size: 14px;
 					color: #fff;
 				}
 			}

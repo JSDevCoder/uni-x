@@ -1,6 +1,7 @@
 <template>
 	<!-- 导航栏 -->
-	<ux-navbar :title="pageTitle" color="#fff" bg-color="#007aff" :position="true"></ux-navbar>
+	<ux-top-bar :title="pageTitle" color="#fff" bg-color="#007aff" :position="true"
+		:right-menus="rightMenus"></ux-top-bar>
 
 
 	<!-- #ifdef APP -->
@@ -25,6 +26,7 @@
 	import Home from './components/home.uvue'
 	import Middle from './components/middle.uvue'
 	import Mine from './components/Mine.uvue'
+	import { Menu } from '@/uni_modules/ux-top-bar/components/ux-top-bar/types/types.uts'
 	export default {
 		components: {
 			Home,
@@ -57,22 +59,28 @@
 						middle: false
 					},
 				] as BottomBarItem[],
-				pageTitle: '首页'
+				pageTitle: '首页',
+				// 右侧按钮
+				rightMenus: [{
+					icon: 'remind',
+					color: '#fff',
+					size: 12
+				}] as Menu[]
 			}
 		},
-		
+
 		computed: {
-			topBarHeight(): number {
+			topBarHeight() : number {
 				return uni.getSystemInfoSync().statusBarHeight + 44
 			}
 		},
 
 		onLoad() {
-			
+
 		},
-		
+
 		methods: {
-			onTabActive(index: number) {
+			onTabActive(index : number) {
 				this.idx = index
 				const title = ['首页', '自定义', '我的']
 				this.pageTitle = title[index]

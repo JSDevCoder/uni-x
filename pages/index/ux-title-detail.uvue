@@ -1,4 +1,5 @@
 <template>
+	<ux-top-bar title="详情" color="#fff" bg-color="#007aff" :back="true"></ux-top-bar>
 	<view class="container">
 		<ux-title title="组件 ux-title"></ux-title>
 		<ux-title title="组件参数"></ux-title>

@@ -25,7 +25,7 @@
 		<ux-tab class="mt10" :tabs="['列表一', '列表2', '列表3']"></ux-tab>
 
 		<list-view :scroll-y="true">
-			<list-item style="padding: 10px; background-color: #fff; margin-top: 10px;" v-for="item in 100" :key="item"
+			<list-item :style="{padding: textUnit, backgroundColor: '#fff', marginTop: textUnit}" v-for="item in 100" :key="item"
 				@tap="toDetail">
 				<image src="https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/uni-function-diagram.png" mode="widthFix">
 				</image>
@@ -60,7 +60,12 @@
 	export default {
 		data() {
 			return {
-
+				unit: '10px'
+			}
+		},
+		computed: {
+			textUnit(): string {
+				return this.unit
 			}
 		},
 		methods: {

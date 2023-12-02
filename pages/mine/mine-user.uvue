@@ -1,4 +1,5 @@
 <template>
+	<ux-top-bar title="用户管理" bg-color="#007aff" color="#fff" :back="true"></ux-top-bar>
 	<view class="container">
 		<ux-grid :col="5">
 			<ux-grid-item :text="item.name" :icon="item.icon" v-for="(item, index) in menus" :key="index"></ux-grid-item>
