@@ -1,7 +1,7 @@
 {
   "id": "ux-bottom-bar",
   "displayName": "ux-bottom-bar",
-  "version": "1.0.0",
+  "version": "1.0.4",
   "description": "基于uvue的带凸起按钮的底部导航栏，具体示例代码请参考https://gitee.com/hexinkuo/uni-x",
   "keywords": [
     "ux-bottom-bar",
@@ -9,7 +9,7 @@
 ],
   "repository": "https://gitee.com/hexinkuo/uni-x",
   "engines": {
-    "HBuilderX": "^3.91"
+    "HBuilderX": "^3.94"
   },
   "dcloudext": {
     "type": "component-vue",

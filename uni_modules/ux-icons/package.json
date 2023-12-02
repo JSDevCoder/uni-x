@@ -2,13 +2,16 @@
   "id": "ux-icons",
   "displayName": "ux-icons",
   "version": "1.0.0",
-  "description": "ux-icons",
+  "description": "基于iconfont的字体图标组件ux-icons",
   "keywords": [
-    "ux-icons"
+    "ux-icons",
+    "uniapp-x",
+    "uvue",
+    "字体图标"
 ],
-  "repository": "",
+  "repository": "https://gitee.com/hexinkuo/uni-x/tree/master/uni_modules/ux-icons",
   "engines": {
-    "HBuilderX": "^3.1.0"
+    "HBuilderX": "^3.94"
   },
   "dcloudext": {
     "type": "component-vue",
@@ -24,9 +27,9 @@
       "qq": ""
     },
     "declaration": {
-      "ads": "",
-      "data": "",
-      "permissions": ""
+      "ads": "无",
+      "data": "无",
+      "permissions": "无"
     },
     "npmurl": ""
   },
@@ -35,18 +38,18 @@
     "encrypt": [],
     "platforms": {
       "cloud": {
-        "tcb": "u",
-        "aliyun": "u"
+        "tcb": "y",
+        "aliyun": "y"
       },
       "client": {
         "Vue": {
-          "vue2": "u",
+          "vue2": "y",
           "vue3": "u"
         },
         "App": {
           "app-vue": "u",
           "app-nvue": "u",
-          "app-uvue": "u",
+          "app-uvue": "y",
         },
         "H5-mobile": {
           "Safari": "u",
