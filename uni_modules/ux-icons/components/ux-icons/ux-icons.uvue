@@ -51,7 +51,7 @@
 	}
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 	@font-face {
 		font-family: 'ux';
 		src: url('/static/ttf/ux.ttf');
@@ -59,6 +59,6 @@
 
 	.ux {
 		font-family: 'ux';
-		font-size: $ux-font-size-lg;
+		font-size: 16px;
 	}
 </style>
