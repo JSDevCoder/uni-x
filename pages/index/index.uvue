@@ -18,7 +18,7 @@
 	</scroll-view>
 	<!-- #endif -->
 
-	<ux-bottom-bar :tabs="customTabs" @on-tab-active="onTabActive"></ux-bottom-bar>
+	<ux-bottom-bar :scale="2.8" :tabs="customTabs" @on-tab-active="onTabActive"></ux-bottom-bar>
 </template>
 
 <script>
@@ -46,9 +46,9 @@
 					},
 					{
 						iconPath: "/static/images/tabbar/middle.png",
-						selectedIconPath: "/static/images/tabbar/middle.png",
+						selectedIconPath: "/static/images/tabbar/middle-active.png",
 						pagePath: "/pages/index/index",
-						text: "按钮",
+						text: "",
 						middle: true
 					},
 					{

@@ -1,4 +1,4 @@
-export type Icon = {
+type Icon = {
 	icon_id : string
 	name : string
 	font_class : string

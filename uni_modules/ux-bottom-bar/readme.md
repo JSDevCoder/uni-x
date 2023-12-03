@@ -1,12 +1,45 @@
-# ux-bottom-bar
+# ux-bottom-bar 底部切换导航栏
 
 ### 使用方式
 以uni_modules方式导入该组件  
 
-1. 在需要的地方使用该组件  
+> 1. 在需要的地方使用该组件  
 ```vue
 <ux-bottom-bar :tabs="customTabs" @on-tab-active="onTabActive"></ux-bottom-bar>
-// customTabs示例 ==>
+```
+
+> 2. 参数解析  
+
+| 参数名    | 类型    | 默认值    | 是否必传    | 备注 |
+| :---:    | :---:   | :---:     | :---:      |:---:      |
+| color | String | #333 | 否 | 默认颜色 |
+| selectedColor | String | ##007aff | 否 | 选中颜色 |
+| bgColor | String | #fff | 否 | 背景颜色 |
+| iconSize | Number | 14 | 否 | 图标默认大小 |
+| fontSize | Number | 14 | 否 | 文本默认字体大小 |
+| scale | Number | 1 | 否 | 凸起按钮大小调控参数 |
+| tabs | Icon[] | [] | 必传 | 详细参数如下表格所示 |
+
+> 3. Icon类型参数解析  
+
+| 参数名    | 类型    | 默认值    | 是否必传    | 备注 |
+| :---:    | :---:   | :---:     | :---:      |:---:      |
+| iconPath | String |  | 是 | 默认图标路径 |
+| selectedIconPath | String |  | 是 | 选中图标路径 |
+| pagePath | String |  | 是 | 切换时组件路径 |
+| text | String |  | 是 | 默认文本 |
+| middle | Boolean | false | 是 | 是否凸起按钮 |
+
+> 4. 事件
+
+| 事件名    | 类型    | 参数    | 参数类型    | 备注 |
+| :---:    | :---:   | :---:     | :---:      |:---:      |
+| @on-tab-active | tap | index | Number | 点击选项时触发 |
+
+> 5. tabs参数示例
+
+```
+//type Icon[]的使用示例
 customTabs: [
 	{
 		iconPath: "/static/images/tabbar/index.png",
@@ -17,9 +50,9 @@ customTabs: [
 	},
 	{
 		iconPath: "/static/images/tabbar/middle.png",
-		selectedIconPath: "/static/images/tabbar/middle.png",
+		selectedIconPath: "/static/images/tabbar/middle-active.png",
 		pagePath: "/pages/index/index",
-		text: "按钮",
+		text: "",
 		middle: true
 	},
 	{
@@ -30,49 +63,4 @@ customTabs: [
 		middle: false
 	},
 ] as BottomBarItem[]
-```
-
-2. 传递参数  
-```uts
-import type { PropType } from "vue"
-import { BottomBarItem } from '../types/index.uts'
-props: {
-	tabs: {
-		type: Array as PropType<BottomBarItem[]>,
-		default() : BottomBarItem[] {
-			return [] as BottomBarItem[]
-		}
-	}
-},
-```
-
-3. BottomBarItem类型解释
-```uts
-export type BottomBarItem = {
-	// 图片路径
-	iconPath : string
-	
-	// 文本
-	text : string
-	
-	// 选中项图片路径
-	selectedIconPath : string
-	
-	// 对应的组件地址，以components开头，比如components/home
-	pagePath : string
-	
-	// 是否中间凸起按钮，true-是|false-否
-	middle : boolean
-}
-```
-
-4. 点击选项事件
-```uts
-// 该组件对外暴露@on-tab-active事件
-// @on-tab-active="onTabActive"
-onTabActive(index: number) {
-	this.idx = index
-	const title = ['首页', '自定义', '我的']
-	this.pageTitle = title[index]
-}
 ```

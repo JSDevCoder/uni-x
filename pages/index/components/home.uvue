@@ -21,38 +21,6 @@
 				</view>
 			</swiper-item>
 		</swiper>
-
-		<ux-tab class="mt10" :tabs="['列表一', '列表2', '列表3']"></ux-tab>
-
-		<list-view :scroll-y="true">
-			<list-item :style="{padding: textUnit, backgroundColor: '#fff', marginTop: textUnit}" v-for="item in 100" :key="item"
-				@tap="toDetail">
-				<image src="https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/uni-function-diagram.png" mode="widthFix">
-				</image>
-				<swiper style="height: 180px" :indicator-dots="true" :autoplay="true" :interval="2000" :duration="1000"
-					:circular="true">
-					<swiper-item>
-						<view class="swiper-item">
-							<image src="https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/uni-function-diagram.png"
-								mode="widthFix"></image>
-						</view>
-					</swiper-item>
-					<swiper-item>
-						<view class="swiper-item">
-							<image src="https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/uni-function-diagram.png"
-								mode="widthFix"></image>
-						</view>
-					</swiper-item>
-					<swiper-item>
-						<view class="swiper-item">
-							<image src="https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/uni-function-diagram.png"
-								mode="widthFix"></image>
-						</view>
-					</swiper-item>
-				</swiper>
-				当前基数：{{item + 1}}
-			</list-item>
-		</list-view>
 	</view>
 </template>
 
