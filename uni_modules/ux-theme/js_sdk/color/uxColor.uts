@@ -1,0 +1,13 @@
+import { ColorSchema } from './type.uts'
+import colors from './colors.uts'
+
+/**
+ * 自定义主题颜色
+ */
+export default class UxColor {
+	/**
+	 * 颜色集合
+	 */
+	static colors : ColorSchema = colors
+
+}

@@ -1,0 +1,7 @@
+import UxTheme from '@/uni_modules/ux-theme/js_sdk/ux-theme.uts'
+import {TextStyle} from '@/uni_modules/ux-theme/js_sdk/text_style/type.uts'
+const uxThemeIns = new UxTheme()
+// uxThemeIns.extends()
+
+console.log(uxThemeIns.colors)
+export { UxTheme, uxThemeIns, TextStyle }

@@ -1,0 +1,37 @@
+import { ColorSchema } from './color/type.uts'
+import UxColor from './color/uxColor.uts'
+import { TextStyle, TextStyleSchema } from './text_style/type.uts'
+import UxTextStyle from './text_style/uxTextStyle.uts'
+
+/**
+ * 主题
+ */
+export default class UxTheme {
+	theme : string = 'ux'
+	colors : ColorSchema = UxColor.colors
+	textStyles: TextStyleSchema = UxTextStyle.textStyles
+	
+	/**
+	 * 切换拓展主题
+	 */
+	switchTheme(colors: ColorSchema, textStyles: TextStyleSchema) {
+		this.colors = colors
+		this.textStyles = textStyles
+	}
+	
+	/**
+	 * 获取颜色
+	 * @param color ColorSchema中定义的颜色
+	 */
+	$c(color: string): string {
+		return this.colors[color] as string
+	}
+	
+	/**
+	 * 文本样式
+	 * @param style T3extStyleSchema中定义的样式
+	 */
+	$ts(style: string): TextStyle {
+		return this.textStyles[style] as TextStyle
+	}
+}

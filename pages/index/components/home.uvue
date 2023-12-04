@@ -21,10 +21,18 @@
 				</view>
 			</swiper-item>
 		</swiper>
+		
+		<view :style="{
+			backgroundColor: theme.$c('darkPrimary')
+		}">
+			测试theme的使用
+			<text :style="{largeStyle}">这是一个标题</text>
+		</view>
 	</view>
 </template>
 
 <script>
+	import { UxTheme, uxThemeIns, TextStyle } from '../../../common/theme/index.uts'
 	export default {
 		data() {
 			return {
@@ -32,9 +40,11 @@
 			}
 		},
 		computed: {
-			textUnit(): string {
+			textUnit() : string {
 				return this.unit
-			}
+			},
+			theme: () : UxTheme => uxThemeIns,
+			largeStyle: (): TextStyle => this.theme.$ts('smallStyle')
 		},
 		methods: {
 			toDetail() {

@@ -1,0 +1,22 @@
+import { TextStyle, TextStyleSchema } from "./type.uts";
+
+const largeStyle = {
+	fontSize: '16px',
+	fontWeight: '600'
+} as TextStyle
+
+const baseStyle = {
+	fontSize: '14px',
+	fontWeight: '500'
+} as TextStyle
+
+const smallStyle = {
+	fontSize: '12px',
+	fontWeight: '400'
+} as TextStyle
+
+export default {
+	largeStyle,
+	baseStyle,
+	smallStyle
+} as TextStyleSchema

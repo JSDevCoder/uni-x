@@ -1,0 +1,6 @@
+import { TextStyleSchema } from "./type.uts";
+import textStyles from './textStyles.uts'
+
+export default class UxTextStyle {
+	static textStyles : TextStyleSchema = textStyles
+}

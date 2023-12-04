@@ -4,15 +4,13 @@ import { reactive } from 'vue'
  */
 export type State = {
 	hasLogin: boolean
-	theme: string
 }
 
 /**
  * 定义state
  */
 export const state = reactive({
-	hasLogin: false,
-	theme: 'default'
+	hasLogin: false
 } as State)
 
 /**
@@ -21,9 +19,4 @@ export const state = reactive({
 export const setHasLogin = (key: boolean) => {
 	state.hasLogin = key
 	uni.setStorageSync('hasLogin', key)
-}
-
-export const setTheme = (key: string) => {
-	state.theme = key
-	uni.setStorageSync('theme', key)
 }

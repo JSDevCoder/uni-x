@@ -1,0 +1,10 @@
+export type TextStyle = {
+	fontSize: string
+	fontWeight: string
+}
+
+export type TextStyleSchema = {
+	largeStyle: TextStyle
+	baseStyle: TextStyle
+	smallStyle: TextStyle
+}
