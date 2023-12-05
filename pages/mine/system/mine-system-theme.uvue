@@ -1,0 +1,68 @@
+<template>
+	<ux-top-bar title="主题管理" :bg-color="c('primary')" color="#fff" :back="true"></ux-top-bar>
+	<view class="container">
+		<view class="title">切换主题</view>
+		<view class="themes">
+			<view class="theme" :style="{backgroundColor: idx == index ? '#fcbd71' : '#fff'}"
+				v-for="(item, index) in themes" :key="item.theme" @tap="st(item.theme, index)">
+				<view class="color" :style="{backgroundColor: item.colors.primary}"></view>
+				<view class="color" :style="{backgroundColor: item.colors.darkPrimary}"></view>
+				<view class="color" :style="{backgroundColor: item.colors.lightPrimary}"></view>
+				<view class="color" :style="{backgroundColor: item.colors.disabledPrimary}"></view>
+				<text class="text">{{item.theme}}</text>
+			</view>
+		</view>
+	</view>
+</template>
+
+<script>
+	import { $c, switchTheme, uxTheme } from '@/common/theme/index.uts'
+	import { Theme } from '@/uni_modules/ux-theme/js_sdk/ux-theme.uts';
+	export default {
+		data() {
+			return {
+				idx: 0,
+				themes: uxTheme.themes as Theme[]
+			};
+		},
+
+		methods: {
+			c(color : string) : string {
+				return $c(color)
+			},
+
+			st(theme : string, index : number) {
+				this.idx = index
+				switchTheme(theme)
+			}
+		}
+	}
+</script>
+
+<style lang="scss">
+	.container {
+		padding: 10px;
+
+		.themes {
+			.theme {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				padding: 10px;
+				background-color: #fff;
+				margin-top: 10px;
+
+				.color {
+					width: 40px;
+					height: 20px;
+					margin-right: 20px;
+					border-radius: 10px;
+				}
+
+				.text {
+					font-size: 14px;
+				}
+			}
+		}
+	}
+</style>

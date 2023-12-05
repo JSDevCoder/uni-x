@@ -60,6 +60,14 @@
 				"navigationBarTitleText" : "用户管理",
 				"enablePullDownRefresh" : false
 			}
+		},
+		{
+			"path" : "pages/mine/system/mine-system-theme",
+			"style" : 
+			{
+				"navigationBarTitleText" : "主题管理",
+				"enablePullDownRefresh" : false
+			}
 		}
 	],
 	

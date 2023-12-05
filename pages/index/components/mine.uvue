@@ -1,8 +1,8 @@
 <template>
-	<view class="header">
+	<view class="header" :style="{backgroundColor: c('primary')}">
 		<view class="info">
-			<view class="face">
-				<text class="face-text">酷</text>
+			<view class="face" :style="{border: '1px solid ' + c('primary')}">
+				<text class="face-text" :style="{color: c('primary')}">酷</text>
 			</view>
 			<view class="nick">
 				<text class="id">ID: 00000001</text>
@@ -13,18 +13,19 @@
 
 	<view class="list">
 		<view class="list-item" v-for="(item, index) in menus" :key="index" @tap="linkTo(item.link)">
-			<ux-icons :name="item.icon" :size="14" color="#007aff"></ux-icons>
+			<ux-icons :name="item.icon" :size="14" :color="c('primary')"></ux-icons>
 			<text class="list-item-text">{{item.text}}</text>
-			<ux-icons :name="item.right" :size="12" color="#d8d8d8"></ux-icons>
+			<ux-icons :name="item.right" :size="12" :color="c('borderColor')"></ux-icons>
 		</view>
 	</view>
-	<view class="logout" @tap="logout">
+	<view class="logout" :style="{backgroundColor: c('primary')}" @tap="logout">
 		<text class="logout-txt">退出登录</text>
 	</view>
 </template>
 
 <script>
 	import { setHasLogin } from '@/stores/index.uts';
+	import { $c } from '@/common/theme/index.uts'
 
 	type Menu = {
 		icon : string
@@ -42,6 +43,9 @@
 			}
 		},
 		methods: {
+			c(color : string) : string {
+				return $c(color)
+			},
 			linkTo(link : string) {
 				uni.navigateTo({
 					url: `/pages/mine/${link}`
@@ -60,7 +64,7 @@
 
 <style lang="scss">
 	.header {
-		background-color: #007aff;
+		
 
 		.info {
 			display: flex;
@@ -74,12 +78,10 @@
 				background-color: #fff;
 				border-radius: 80px;
 				box-shadow: 0 0 10px #fff;
-				border: 1px solid #007aff;
 				margin-right: 20px;
 
 				&-text {
 					font-size: 16px;
-					color: #007aff;
 					text-align: center;
 					line-height: 80px;
 				}
@@ -120,7 +122,6 @@
 
 	.logout {
 		height: 80rpx;
-		background-color: $ux-color-primary;
 		border-radius: 80rpx;
 		position: fixed;
 		bottom: 70px;

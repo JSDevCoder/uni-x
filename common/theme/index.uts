@@ -2,7 +2,7 @@ import useUxTheme from '@/uni_modules/ux-theme/js_sdk/ux-theme.uts'
 import { customColors } from './customColors.uts'
 import { customTextStyles } from './customTextStyles.uts'
 
-const { init, makeTheme, switchTheme, $c, $t } = useUxTheme()
+const { uxTheme, init, makeTheme, switchTheme, $c, $t } = useUxTheme()
 
 // 初始化主题
 init()
@@ -10,4 +10,4 @@ init()
 // 新增主题
 makeTheme('customTheme', customColors, customTextStyles)
 
-export {init, makeTheme, switchTheme, $c, $t}
+export {uxTheme, init, makeTheme, switchTheme, $c, $t}

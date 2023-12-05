@@ -1,12 +1,13 @@
-import { ColorSchema } from "@/uni_modules/ux-theme/js_sdk/color/type.uts";
-
-// 自定义主题色
-export const customColors = {
+import { ColorSchema } from './type.uts'
+/**
+ * Green Colors
+ */
+export default {
 	//主色
-	primary: '#f45c64',
-	darkPrimary: '#f12c37',
-	lightPrimary: '#fbc9cb',
-	disabledPrimary: '#f89298',
+	primary: '#4f8865',
+	darkPrimary: '#365c45',
+	lightPrimary: '#c1dbcb',
+	disabledPrimary: '#accfba',
 
 	//辅色 error
 	error: '#fa3534',

@@ -1,38 +1,72 @@
 <template>
-	<ux-top-bar title="系统管理" bg-color="#007aff" color="#fff" :back="true"></ux-top-bar>
-	<view class="container" :class="`ux-primary-color`">
-		<ux-grid :col="5">
-			<ux-grid-item :text="item.name" :icon="item.icon" v-for="(item, index) in menus"
-				:key="index"></ux-grid-item>
-		</ux-grid>
+	<ux-top-bar title="系统管理" :bg-color="c('primary')" color="#fff" :back="true"></ux-top-bar>
+	<view class="container">
+		<view class="list">
+			<view class="list-item" v-for="(item, index) in menus" :key="index" @tap="linkTo(item.route)">
+				<ux-icons :name="item.icon"></ux-icons>
+				<text class="list-item-text">{{item.name}}</text>
+			</view>
+		</view>
 	</view>
 </template>
 
 <script>
-	import { Menu } from '@/uni_modules/ux-top-bar/components/ux-top-bar/types/types.uts'
-	import { state } from '@/stores/index.uts'
+	import { $c } from '@/common/theme/index.uts'
+
 	type Item = {
-		name : string,
+		name : string
 		icon : string
+		route: string
 	}
 
 	export default {
 		data() {
 			return {
 				menus: [
-					{ name: '设置主题', icon: 'trademark' },
-					{ name: '设置语言', icon: 'plus' },
-					{ name: '文本', icon: 'plus' },
-				] as Array<Item>,
-				leftMenus: [{ type: 'back', icon: 'chevron-left', color: '#fff' }] as Array<Menu>
+					{ name: '主题管理', icon: 'discount', route: '/pages/mine/system/mine-system-theme' },
+					{ name: '多语言管理', icon: 'template-default', route: '' },
+				] as Array<Item>
 			};
 		},
 		computed: {
 			// theme: () : string => state.theme
+		},
+		methods: {
+			c(color : string) : string {
+				return $c(color)
+			},
+			
+			linkTo(route: string) {
+				uni.navigateTo({
+					url: route
+				})
+			}
 		}
 	}
 </script>
 
 <style lang="scss">
-	.container {}
+	.container {
+		.list {
+			padding: 10px;
+			
+			&-item {
+				padding: 10px;
+				margin-bottom: 10px;
+				background-color: #fff;
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				
+				&:last-child {
+					margin-bottom: 0;
+				}
+				
+				&-text {
+					font-size: 14px;
+					margin-left: 10px;
+				}
+			}
+		}
+	}
 </style>

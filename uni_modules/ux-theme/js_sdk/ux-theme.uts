@@ -1,6 +1,8 @@
 import { ColorSchema } from './color/type.uts'
 import { TitleStyle, TextStyleSchema } from './text_style/type.uts'
 import colors from './color/colors.uts'
+import greenColors from './color/greenColors.uts'
+import orangeColors from './color/orangeColors.uts'
 import textStyles from './text_style/textStyles.uts'
 import { reactive } from 'vue'
 
@@ -60,8 +62,18 @@ export default function useUxTheme() : UxTheme {
 	const init = () => {
 		uxTheme.themes.push({
 			theme: 'default',
-			colors: uxTheme.colors,
-			textStyles: uxTheme.textStyles
+			colors: colors,
+			textStyles: textStyles
+		} as Theme)
+		uxTheme.themes.push({
+			theme: 'green',
+			colors: greenColors,
+			textStyles: textStyles
+		} as Theme)
+		uxTheme.themes.push({
+			theme: 'orange',
+			colors: orangeColors,
+			textStyles: textStyles
 		} as Theme)
 	}
 
