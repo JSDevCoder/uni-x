@@ -1,37 +1,158 @@
 import { ColorSchema } from './color/type.uts'
-import UxColor from './color/uxColor.uts'
-import { TextStyle, TextStyleSchema } from './text_style/type.uts'
-import UxTextStyle from './text_style/uxTextStyle.uts'
+import { TitleStyle, TextStyleSchema } from './text_style/type.uts'
+import colors from './color/colors.uts'
+import textStyles from './text_style/textStyles.uts'
+import { reactive } from 'vue'
 
-/**
- * 主题
- */
-export default class UxTheme {
-	theme : string = 'ux'
-	colors : ColorSchema = UxColor.colors
-	textStyles: TextStyleSchema = UxTextStyle.textStyles
-	
+export type Theme = {
+	theme : string
+	colors : ColorSchema
+	textStyles : TextStyleSchema
+}
+
+export type UxThemeAttr = {
+	themes : Array<Theme>
+	colors : ColorSchema
+	textStyles : TextStyleSchema
+	currTheme : string
+}
+
+export type UxTheme = {
+	uxTheme : UxThemeAttr
+	init : () => void
+	hasTheme : (theme : string) => boolean
+	makeTheme : (theme : string, colors : ColorSchema, textStyles : TextStyleSchema) => void
+	switchTheme : (theme : string) => boolean
+	$c : (color : string) => string
+	$t : (style : string) => UTSJSONObject
+}
+
+export default function useUxTheme() : UxTheme {
+
 	/**
-	 * 切换拓展主题
+	 * 主题
 	 */
-	switchTheme(colors: ColorSchema, textStyles: TextStyleSchema) {
-		this.colors = colors
-		this.textStyles = textStyles
-	}
-	
+	const uxTheme = reactive<UxThemeAttr>({
+		/**
+		 * 所有主题
+		 */
+		themes: [] as Array<Theme>,
+
+		/**
+		 * 默认主题中的主题色
+		 */
+		colors: colors as ColorSchema,
+
+		/**
+		 * 默认主题中的文本样式
+		 */
+		textStyles: textStyles as TextStyleSchema,
+
+		/**
+		 * 默认主题名
+		 */
+		currTheme: 'default'
+	} as UxThemeAttr)
+
 	/**
-	 * 获取颜色
+	 * 初始化主题
+	 */
+	const init = () => {
+		uxTheme.themes.push({
+			theme: 'default',
+			colors: uxTheme.colors,
+			textStyles: uxTheme.textStyles
+		} as Theme)
+	}
+
+	/**
+	 * 判断是否已存在某个主题
+	 * @param name 主题名
+	 */
+	const hasTheme = (theme : string) : boolean => {
+		const len = uxTheme.themes.length
+		for (let i = 0; i < len; i++) {
+			if (uxTheme.themes[i]['theme'] == theme) {
+				return true
+			}
+		}
+		return false
+	}
+
+	/**
+	 * 拓展或者更新主题
+	 * @param theme 主题名，唯一
+	 * @param colors: 主题色
+	 * @param textStyles 主题文本样式
+	 */
+	const makeTheme = (theme : string, colors : ColorSchema, textStyles : TextStyleSchema) => {
+		if (hasTheme(theme)) {
+			const len = uxTheme.themes.length
+			for (let i = 0; i < len; i++) {
+				if (theme == uxTheme.themes[i]['theme']) {
+					uxTheme.themes[i].colors = colors
+					uxTheme.themes[i].textStyles = textStyles
+				}
+			}
+
+		} else {
+			uxTheme.themes.push({
+				theme,
+				colors,
+				textStyles
+			} as Theme)
+		}
+
+	}
+
+	/**
+	 * 切换主题
+	 * @param theme 要切换的主题名
+	 * @returns 是否切换成功
+	 */
+	const switchTheme = (theme : string): boolean => {
+		if (hasTheme(theme)) {
+			uxTheme.currTheme = theme
+			const len = uxTheme.themes.length
+			for (let i = 0; i < len; i++) {
+				if (theme == uxTheme.themes[i]['theme']) {
+					uxTheme.currTheme = uxTheme.themes[i].theme
+					uxTheme.colors = uxTheme.themes[i].colors
+					uxTheme.textStyles = uxTheme.themes[i].textStyles
+				}
+			}
+			return true
+		}
+		return false
+	}
+
+	/**
+	 * 获取主题颜色
 	 * @param color ColorSchema中定义的颜色
 	 */
-	$c(color: string): string {
-		return this.colors[color] as string
+	const $c = (color : string) : string => {
+		return uxTheme.colors[color] as string
 	}
-	
+
 	/**
-	 * 文本样式
-	 * @param style T3extStyleSchema中定义的样式
+	 * 获取主题文本样式
+	 * @param style TextStyleSchema中定义的样式
 	 */
-	$ts(style: string): TextStyle {
-		return this.textStyles[style] as TextStyle
+	const $t = (style : string) : UTSJSONObject => {
+		let currTitleStyle = uxTheme.textStyles[style] as TitleStyle
+		return {
+			fontSize: currTitleStyle['fontSize'] as string,
+			fontWeight: currTitleStyle['fontWeight'] as number
+		} as UTSJSONObject
 	}
+
+	return {
+		uxTheme,
+		init,
+		hasTheme,
+		makeTheme,
+		switchTheme,
+		$c,
+		$t
+	} as UxTheme
 }

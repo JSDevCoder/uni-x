@@ -1,22 +1,22 @@
-import { TextStyle, TextStyleSchema } from "./type.uts";
+import { TitleStyle, TextStyleSchema } from "./type.uts";
 
-const largeStyle = {
+const largeTitle = {
 	fontSize: '16px',
-	fontWeight: '600'
-} as TextStyle
+	fontWeight: 600
+} as TitleStyle
 
-const baseStyle = {
+const baseTitle = {
 	fontSize: '14px',
-	fontWeight: '500'
-} as TextStyle
+	fontWeight: 500
+} as TitleStyle
 
-const smallStyle = {
+const smallTitle = {
 	fontSize: '12px',
-	fontWeight: '400'
-} as TextStyle
+	fontWeight: 400
+} as TitleStyle
 
 export default {
-	largeStyle,
-	baseStyle,
-	smallStyle
+	largeTitle,
+	baseTitle,
+	smallTitle
 } as TextStyleSchema

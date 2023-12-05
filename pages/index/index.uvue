@@ -1,6 +1,6 @@
 <template>
 	<!-- 导航栏 -->
-	<ux-top-bar :title="pageTitle" color="#fff" bg-color="#007aff" :position="true"
+	<ux-top-bar :title="pageTitle" color="#fff" :bg-color="c('primary')" :position="true"
 		:right-menus="rightMenus"></ux-top-bar>
 
 
@@ -18,7 +18,8 @@
 	</scroll-view>
 	<!-- #endif -->
 
-	<ux-bottom-bar :scale="2.8" :tabs="customTabs" @on-tab-active="onTabActive"></ux-bottom-bar>
+	<ux-bottom-bar :scale="2.8" color="#333" :selected-color="c('primary')" :tabs="customTabs"
+		@on-tab-active="onTabActive"></ux-bottom-bar>
 </template>
 
 <script>
@@ -27,6 +28,8 @@
 	import Middle from './components/middle.uvue'
 	import Mine from './components/Mine.uvue'
 	import { Menu } from '@/uni_modules/ux-top-bar/components/ux-top-bar/types/types.uts'
+	import { $c } from '@/common/theme/index.uts'
+
 	export default {
 		components: {
 			Home,
@@ -65,14 +68,15 @@
 					icon: 'remind',
 					color: '#fff',
 					size: 12
-				}] as Menu[]
+				}] as Menu[],
 			}
 		},
 
 		computed: {
 			topBarHeight() : number {
 				return uni.getSystemInfoSync().statusBarHeight + 44
-			}
+			},
+
 		},
 
 		onLoad() {
@@ -80,6 +84,9 @@
 		},
 
 		methods: {
+			c(color: string): string {
+				return $c(color)
+			},
 			onTabActive(index : number) {
 				this.idx = index
 				const title = ['首页', '自定义', '我的']

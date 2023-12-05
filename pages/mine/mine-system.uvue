@@ -1,6 +1,6 @@
 <template>
 	<ux-top-bar title="系统管理" bg-color="#007aff" color="#fff" :back="true"></ux-top-bar>
-	<view class="container" :class="`ux-${theme}-color`">
+	<view class="container" :class="`ux-primary-color`">
 		<ux-grid :col="5">
 			<ux-grid-item :text="item.name" :icon="item.icon" v-for="(item, index) in menus"
 				:key="index"></ux-grid-item>
@@ -28,7 +28,7 @@
 			};
 		},
 		computed: {
-			theme: () : string => state.theme
+			// theme: () : string => state.theme
 		}
 	}
 </script>

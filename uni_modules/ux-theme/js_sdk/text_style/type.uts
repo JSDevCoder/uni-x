@@ -1,10 +1,11 @@
-export type TextStyle = {
+
+export type TitleStyle = {
 	fontSize: string
-	fontWeight: string
+	fontWeight: number
 }
 
 export type TextStyleSchema = {
-	largeStyle: TextStyle
-	baseStyle: TextStyle
-	smallStyle: TextStyle
+	largeTitle: TitleStyle
+	baseTitle: TitleStyle
+	smallTitle: TitleStyle
 }

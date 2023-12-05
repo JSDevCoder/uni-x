@@ -21,32 +21,48 @@
 				</view>
 			</swiper-item>
 		</swiper>
-		
+		{{c('primary')}}
 		<view :style="{
-			backgroundColor: theme.$c('darkPrimary')
+			backgroundColor: c('primary')
 		}">
 			测试theme的使用
-			<text :style="{largeStyle}">这是一个标题</text>
+			<text :style="t('smallTitle')">这是一个标题</text>
+
+		</view>
+		<view>
+			<text>点击切换主题</text>
+			<text @tap="st('default')">default</text>
+			<text @tap="st('customTheme')">customTheme</text>
 		</view>
 	</view>
 </template>
 
 <script>
-	import { UxTheme, uxThemeIns, TextStyle } from '../../../common/theme/index.uts'
+	import { $c, $t, switchTheme } from '@/common/theme/index.uts'
+	
 	export default {
 		data() {
 			return {
-				unit: '10px'
+				unit: '10px',
+				
 			}
 		},
 		computed: {
 			textUnit() : string {
 				return this.unit
 			},
-			theme: () : UxTheme => uxThemeIns,
-			largeStyle: (): TextStyle => this.theme.$ts('smallStyle')
 		},
 		methods: {
+			c(color: string): string {
+				return $c(color)
+			},
+			t(style: string): UTSJSONObject {
+				return $t(style)
+			},
+			st(theme : string) {
+				switchTheme(theme)
+			},
+
 			toDetail() {
 				uni.navigateTo({
 					url: '/pages/index/ux-title-detail'

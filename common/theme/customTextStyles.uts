@@ -1,0 +1,19 @@
+import { TextStyleSchema, TitleStyle } from "@/uni_modules/ux-theme/js_sdk/text_style/type.uts";
+
+// 自定义文本样式
+export const customTextStyles = {
+	largeTitle: {
+		fontSize: '16px',
+		fontWeight: 600
+	} as TitleStyle,
+
+	baseTitle: {
+		fontSize: '14px',
+		fontWeight: 500
+	} as TitleStyle,
+
+	smallTitle: {
+		fontSize: '12px',
+		fontWeight: 400
+	} as TitleStyle,
+} as TextStyleSchema

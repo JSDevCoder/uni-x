@@ -1,12 +1,12 @@
 {
-  "id": "ux-theme",
-  "displayName": "ux-theme",
-  "version": "1.0.2",
-  "description": "基于UTS与Scss的ux-theme主题设置、切换插件，提供默认主题，可扩展新主题，提供了Uts和scss两种模式",
+  "id": "ux-request",
+  "displayName": "ux-request",
+  "version": "1.0.1",
+  "description": "封装基于uni.request的带拦截器的请求，支持uni-app x",
   "keywords": [
-    "ux-theme",
+    "ux-request",
     "uts",
-    "scss"
+    "uniapp-x"
 ],
   "repository": "https://gitee.com/hexinkuo/uni-x",
   "engines": {

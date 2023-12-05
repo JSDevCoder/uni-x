@@ -1,4 +1,4 @@
-import { UxRequest } from './request.uts'
+import { UxRequest } from '@/uni_modules/ux-request/js_sdk/request.uts'
 
 /**
  * 初始化时，参数配置

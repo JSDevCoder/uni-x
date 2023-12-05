@@ -1,7 +1,13 @@
-import UxTheme from '@/uni_modules/ux-theme/js_sdk/ux-theme.uts'
-import {TextStyle} from '@/uni_modules/ux-theme/js_sdk/text_style/type.uts'
-const uxThemeIns = new UxTheme()
-// uxThemeIns.extends()
+import useUxTheme from '@/uni_modules/ux-theme/js_sdk/ux-theme.uts'
+import { customColors } from './customColors.uts'
+import { customTextStyles } from './customTextStyles.uts'
 
-console.log(uxThemeIns.colors)
-export { UxTheme, uxThemeIns, TextStyle }
+const { init, makeTheme, switchTheme, $c, $t } = useUxTheme()
+
+// 初始化主题
+init()
+
+// 新增主题
+makeTheme('customTheme', customColors, customTextStyles)
+
+export {init, makeTheme, switchTheme, $c, $t}

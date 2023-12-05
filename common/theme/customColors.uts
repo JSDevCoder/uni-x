@@ -1,0 +1,55 @@
+import { ColorSchema } from "@/uni_modules/ux-theme/js_sdk/color/type.uts";
+
+// 自定义主题色
+export const customColors = {
+	//主色
+	primary: '#ff0000',
+	darkPrimary: '#2b85e4',
+	lightPrimary: '#ecf5ff',
+	disabledPrimary: '#a0cfff',
+
+	//辅色 error
+	error: '#fa3534',
+	darkError: '#dd6161',
+	lightError: '#fef0f0',
+	disabledError: '#fab6b6',
+
+	//辅色 warning
+	warning: '#ff9900',
+	darkWarning: '#f29100',
+	lightWarning: '#fdf6ec',
+	disabledWarning: '#fcbd71',
+
+	//辅色 success
+	success: '#19be6b',
+	darkSuccess: '#18b566',
+	lightSuccess: '#dbf1e1',
+	disabledSuccess: '#71d5a1',
+
+	//辅色 info
+	info: '#909399',
+	darkInfo: '#82848a',
+	lightInfo: '#f4f4f5',
+	disabledInfo: '#c8c9cc',
+
+	// 文字颜色 主要文字
+	fontMainColor: '#303133',
+
+	// 文字颜色 常规文字
+	fontContentColor: '#606266',
+
+	// 文字颜色 次要文字
+	fontTipsColor: '#909399',
+
+	// 文字颜色 占位文字
+	fontLightColor: '#c0c4cc',
+
+	// 文字颜色 禁用文字
+	fontDisabledColor: '#c8c9cc',
+
+	//背景颜色
+	bgColor: '#f3f4f6',
+
+	//边框颜色
+	borderColor: '#e4e7ed',
+} as ColorSchema
