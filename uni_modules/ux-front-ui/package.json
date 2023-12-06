@@ -1,12 +1,12 @@
 {
-  "id": "ux-top-bar",
-  "displayName": "ux-top-bar",
-  "version": "1.0.4",
-  "description": "ux-top-bar顶部导航栏组件，支持uniapp x",
+  "id": "ux-front-ui",
+  "displayName": "ux-front-ui",
+  "version": "1.0.0",
+  "description": "基于uni-app x的ux-front-ui库，持续完善中，欢迎关注...",
   "keywords": [
-    "ux-top-bar",
+    "uniapp-x",
     "uvue",
-    "uniapp-x"
+    "ui组件库"
 ],
   "repository": "https://gitee.com/hexinkuo/uni-x",
   "engines": {
@@ -33,7 +33,12 @@
     "npmurl": ""
   },
   "uni_modules": {
-    "dependencies": ["ux-statusbar", "ux-icons"],
+    "dependencies": [
+		"ux-top-bar",
+		"ux-bottom-bar",
+		"ux-statusbar",
+		"ux-icons"
+	],
     "encrypt": [],
     "platforms": {
       "cloud": {

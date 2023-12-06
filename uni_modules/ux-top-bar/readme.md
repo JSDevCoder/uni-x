@@ -39,7 +39,7 @@
 ### Menu类型
 
 | type       |  备注 |
-| :---    | :---:       |:---:       |
+| :---    | :---:        |
 | icon: string |  按钮图标 |
 | text: string |  按钮文本 |
 | color: string |  按钮颜色 |

@@ -1,11 +1,11 @@
 {
-  "id": "ux-top-bar",
-  "displayName": "ux-top-bar",
-  "version": "1.0.4",
-  "description": "ux-top-bar顶部导航栏组件，支持uniapp x",
+  "id": "ux-front-sdk",
+  "displayName": "ux-front-sdk",
+  "version": "1.0.1",
+  "description": "一些常用的前端sdk集合，持续集成中，欢迎关注...",
   "keywords": [
-    "ux-top-bar",
-    "uvue",
+    "ux-front-sdk",
+    "uts",
     "uniapp-x"
 ],
   "repository": "https://gitee.com/hexinkuo/uni-x",
@@ -13,7 +13,7 @@
     "HBuilderX": "^3.94"
   },
   "dcloudext": {
-    "type": "component-vue",
+    "type": "sdk-js",
     "sale": {
       "regular": {
         "price": "0.00"
@@ -33,7 +33,10 @@
     "npmurl": ""
   },
   "uni_modules": {
-    "dependencies": ["ux-statusbar", "ux-icons"],
+    "dependencies": [
+		"ux-request",
+		"ux-theme"
+	],
     "encrypt": [],
     "platforms": {
       "cloud": {
@@ -48,7 +51,7 @@
         "App": {
           "app-vue": "u",
           "app-nvue": "u",
-          "app-uvue": "y"
+          "app-uvue": "u"
         },
         "H5-mobile": {
           "Safari": "u",
