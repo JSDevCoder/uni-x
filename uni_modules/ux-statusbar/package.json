@@ -2,13 +2,14 @@
   "id": "ux-statusbar",
   "displayName": "ux-statusbar",
   "version": "1.0.0",
-  "description": "ux-statusbar",
+  "description": "ux-statusbar状态栏组件，可自定义状态栏文本颜色",
   "keywords": [
-    "ux-statusbar"
+    "ux-statusbar",
+    "uvue"
 ],
-  "repository": "",
+  "repository": "https://gitee.com/hexinkuo/uni-x",
   "engines": {
-    "HBuilderX": "^3.1.0"
+    "HBuilderX": "^3.94"
   },
   "dcloudext": {
     "type": "component-vue",
@@ -24,9 +25,9 @@
       "qq": ""
     },
     "declaration": {
-      "ads": "",
-      "data": "",
-      "permissions": ""
+      "ads": "无",
+      "data": "无",
+      "permissions": "无"
     },
     "npmurl": ""
   },
@@ -35,18 +36,18 @@
     "encrypt": [],
     "platforms": {
       "cloud": {
-        "tcb": "u",
-        "aliyun": "u"
+        "tcb": "y",
+        "aliyun": "y"
       },
       "client": {
         "Vue": {
-          "vue2": "u",
-          "vue3": "u"
+          "vue2": "y",
+          "vue3": "y"
         },
         "App": {
           "app-vue": "u",
           "app-nvue": "u",
-          "app-uvue": "u",
+          "app-uvue": "y",
         },
         "H5-mobile": {
           "Safari": "u",

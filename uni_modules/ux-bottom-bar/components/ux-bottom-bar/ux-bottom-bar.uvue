@@ -3,20 +3,33 @@
 		<view class="ux-bottom-bar_item" :style="{width: (100 / tabs!.length) + '%', backgroundColor: bgColor}"
 			v-for="(item, index) in tabs" :key="item.pagePath" @tap="onTabActive(index)">
 			<template v-if="!item.middle">
-				<image class="icon" :style="{
+				<!-- 图片 -->
+				<image v-if="item.icon == ''" class="icon" :style="{
 					width: iconSize + 'px',
 					height: iconSize + 'px'
 				}" :src="idx == index ? item.selectedIconPath : item.iconPath"></image>
-				<text v-if="item.text != ''" class="text" :style="{color: idx == index ? selectedColor : color, fontSize}">{{item.text}}</text>
+				<!-- 图标 -->
+				<ux-icons :name="item.icon" :size="fontSize" :color="idx == index ? selectedColor : color"
+					v-else></ux-icons>
+				<!-- 文本 -->
+				<text v-if="item.text != ''" class="text"
+					:style="{color: idx == index ? selectedColor : color, fontSize}">{{item.text}}</text>
 			</template>
 			<template v-else>
-				<image class="middle-icon" :style="{
+				<!-- 图片 -->
+				<image v-if="item.icon == ''" class="middle-icon" :style="{
 					width: iconSize + 'px',
 					height: iconSize + 'px',
 					marginLeft: '-' + (iconSize / 2) + 'px',
 					transform: 'scale(' + scale + ',' + scale + ')',
 					bottom: (scale >= 1.8 ? (42 - iconSize) : ((42 - iconSize) / 2))  + 'px'
 				}" :src="idx == index ? item.selectedIconPath : item.iconPath"></image>
+				<!-- 图标 -->
+				<ux-icons class="middle-icon" :style="{
+					marginLeft: '-' + (fontSize / 2) + 'px',
+					transform: 'scale(' + scale + ',' + scale + ')',
+					bottom: (scale >= 1.8 ? (42 - fontSize) : ((42 - fontSize) / 2))  + 'px'
+				}" :name="item.icon" :size="fontSize" :color="idx == index ? selectedColor : color" v-else></ux-icons>
 			</template>
 		</view>
 	</view>
@@ -66,7 +79,7 @@
 			// 凸起按钮大小
 			scale: {
 				type: Number,
-				default: 1.4
+				default: 1
 			},
 
 			// tab数据

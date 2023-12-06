@@ -11,21 +11,34 @@
 			};
 		},
 		props: {
+			/**
+			 * 状态栏背景色
+			 */
 			bgColor: {
 				type: String,
-				default: '#fff'
+				default: '#ffffff'
+			},
+
+			/**
+			 * 状态栏文本前景色
+			 */
+			color: {
+				type: String,
+				default: '#000000' // 只支持#ffffff|#000000
 			}
 		},
 		computed: {
-			statusBarHeight(): number {
+			statusBarHeight() : number {
 				return uni.getSystemInfoSync().statusBarHeight
 			}
+		},
+		created() {
+			uni.setNavigationBarColor({
+				frontColor: this.color,
+				backgroundColor: this.bgColor
+			})
 		}
 	}
 </script>
 
-<style lang="scss" scoped>
-	.ux-status-bar {
-		
-	}
-</style>
+<style lang="scss"></style>

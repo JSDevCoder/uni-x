@@ -4,4 +4,5 @@ export type BottomBarItem = {
 	selectedIconPath : string
 	pagePath : string
 	middle : boolean
+	icon : string
 }

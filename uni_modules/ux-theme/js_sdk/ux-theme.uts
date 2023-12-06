@@ -60,21 +60,32 @@ export default function useUxTheme() : UxTheme {
 	 * 初始化主题
 	 */
 	const init = () => {
-		uxTheme.themes.push({
+		const themes = [{
 			theme: 'default',
 			colors: colors,
 			textStyles: textStyles
-		} as Theme)
-		uxTheme.themes.push({
+		}, {
 			theme: 'green',
 			colors: greenColors,
 			textStyles: textStyles
-		} as Theme)
-		uxTheme.themes.push({
+		}, {
 			theme: 'orange',
 			colors: orangeColors,
 			textStyles: textStyles
-		} as Theme)
+		}] as Theme[]
+		uxTheme.themes = themes
+		
+		// 本地持久化缓存theme
+		const localCurrTheme = uni.getStorageSync('currTheme') as string
+		if(typeof localCurrTheme == 'string' && localCurrTheme != '') {
+			for(let i = 0; i < uxTheme.themes.length; i ++ ) {
+				if(localCurrTheme == uxTheme.themes[i].theme) {
+					uxTheme.currTheme = localCurrTheme
+					uxTheme.colors = uxTheme.themes[i].colors
+					uxTheme.textStyles = uxTheme.themes[i].textStyles
+				}
+			}
+		}
 	}
 
 	/**
@@ -131,6 +142,7 @@ export default function useUxTheme() : UxTheme {
 					uxTheme.currTheme = uxTheme.themes[i].theme
 					uxTheme.colors = uxTheme.themes[i].colors
 					uxTheme.textStyles = uxTheme.themes[i].textStyles
+					uni.setStorageSync('currTheme', uxTheme.currTheme)
 				}
 			}
 			return true

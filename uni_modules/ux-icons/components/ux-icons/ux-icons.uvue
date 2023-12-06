@@ -1,5 +1,5 @@
 <template>
-	<text ref="ux-text" class="ux">{{icons}}</text>
+	<text ref="ux-text" class="ux" :style="{color, fontSize: size + 'px'}">{{icons}}</text>
 </template>
 
 <script>
@@ -41,12 +41,6 @@
 		
 		created() {
 			this.icons = useIcons(this.name)
-		},
-		
-		mounted() {
-			const uxText = this.$refs['ux-text'] as UniTextElement
-			uxText.style.setProperty('font-size', this.size + 'px')
-			uxText.style.setProperty('color', this.color)
 		}
 	}
 </script>

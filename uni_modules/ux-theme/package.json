@@ -1,7 +1,7 @@
 {
   "id": "ux-theme",
   "displayName": "ux-theme",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "基于UTS与Scss的ux-theme主题设置、切换插件，提供默认主题，可扩展新主题，提供了Uts和scss两种模式",
   "keywords": [
     "ux-theme",

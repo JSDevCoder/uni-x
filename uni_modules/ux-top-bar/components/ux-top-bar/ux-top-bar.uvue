@@ -1,7 +1,7 @@
 <template>
 	<view :class="{ position }">
 		<!-- 状态栏 -->
-		<ux-statusbar :bg-color="bgColor"></ux-statusbar>
+		<ux-statusbar :color="frontColor" :bg-color="bgColor"></ux-statusbar>
 
 		<!-- 导航栏 -->
 		<view class="ux-top-bar" :style="{ backgroundColor: bgColor }">
@@ -14,10 +14,10 @@
 						<ux-icons class="left-menus-item_icon" name="back" :color="color" :size="24"></ux-icons>
 					</view>
 					<view class="left-menus-item" v-for="(item, index) in leftMenus" :key="index"
-						@tap="tapLeftMenus(index, item.type)">
+						@tap="tapLeftMenus(index)">
 						<ux-icons class="left-menus-item_icon" :name="item.icon" :color="item.color" :size="item.size"
-							v-if="item.icon"></ux-icons>
-						<text class="left-menus-item_text" v-if="item.text">{{item.text}}</text>
+							v-if="item.icon != ''"></ux-icons>
+						<text class="left-menus-item_text" v-if="item.text != ''">{{item.text}}</text>
 					</view>
 				</slot>
 
@@ -36,8 +36,8 @@
 					<view class="right-menus-item" v-for="(item, index) in rightMenus" :key="index"
 						@tap="tapRightMenus(index)">
 						<ux-icons class="right-menus-item_icon" :name="item.icon" :color="item.color" :size="item.size"
-							v-if="item.icon"></ux-icons>
-						<text class="right-menus-item_text" v-if="item.text">{{item.text}}</text>
+							v-if="item.icon != ''"></ux-icons>
+						<text class="right-menus-item_text" v-if="item.text != ''">{{item.text}}</text>
 					</view>
 				</slot>
 			</view>
@@ -66,6 +66,12 @@
 			color: {
 				type: String,
 				default: '#333'
+			},
+			
+			// 状态栏颜色
+			frontColor: {
+				type: String,
+				default: '#000000', //仅支持#ffffff|#000000
 			},
 
 			// 导航栏背景颜色
@@ -125,12 +131,7 @@
 			 * 点击左侧按钮
 			 * @param index {Number} 按钮下标
 			 */
-			tapLeftMenus(index : number, type : string | null) {
-				if (type == 'back') {
-					this.$emit('on-back')
-					uni.navigateBack()
-					return
-				}
+			tapLeftMenus(index : number) {
 				this.$emit('on-left-menus', index)
 			},
 

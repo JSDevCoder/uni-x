@@ -1,8 +1,8 @@
 {
   "id": "ux-bottom-bar",
   "displayName": "ux-bottom-bar",
-  "version": "1.0.5",
-  "description": "基于uvue的带凸起按钮的底部切换导航栏",
+  "version": "1.0.7",
+  "description": "基于uvue的带凸起按钮的底部切换导航栏，支持uni-app x",
   "keywords": [
     "ux-bottom-bar",
     "uvue"
@@ -32,7 +32,7 @@
     "npmurl": ""
   },
   "uni_modules": {
-    "dependencies": [],
+    "dependencies": ["ux-icons"],
     "encrypt": [],
     "platforms": {
       "cloud": {
@@ -47,7 +47,7 @@
         "App": {
           "app-vue": "n",
           "app-nvue": "n",
-          "app-uvue": "y",
+          "app-uvue": "y"
         },
         "H5-mobile": {
           "Safari": "u",

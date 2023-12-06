@@ -29,6 +29,11 @@
 | pagePath | String |  | 是 | 切换时组件路径 |
 | text | String |  | 是 | 默认文本 |
 | middle | Boolean | false | 是 | 是否凸起按钮 |
+| icon | string |  | 是 | 是否使用icon图标 |
+
+> 备注：   
+> icon参数：使用的[ux-icons图标组件](https://ext.dcloud.net.cn/plugin?id=15699)，只需要将图标名传给icon参数，则默认启用图标，如果icon为空字符串，则默认使用iconPath和selectedIconPath  
+> middle参数：如果该参数为true，默认屏蔽text参数
 
 > 4. 事件
 
@@ -46,21 +51,24 @@ customTabs: [
 		selectedIconPath: "/static/images/tabbar/index-active.png",
 		pagePath: "components/home",
 		text: "首页",
-		middle: false
+		middle: false,
+		icon: 'all'
 	},
 	{
 		iconPath: "/static/images/tabbar/middle.png",
 		selectedIconPath: "/static/images/tabbar/middle-active.png",
 		pagePath: "/pages/index/index",
 		text: "",
-		middle: true
+		middle: true,
+		icon: 'atm'
 	},
 	{
 		iconPath: "/static/images/tabbar/mine.png",
 		selectedIconPath: "/static/images/tabbar/mine-active.png",
 		pagePath: "components/mine",
 		text: "我的",
-		middle: false
+		middle: false,
+		icon: 'account'
 	},
 ] as BottomBarItem[]
 ```
