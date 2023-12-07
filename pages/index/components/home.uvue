@@ -1,39 +1,6 @@
 <template>
 	<view class="home">
-		<swiper style="height: 180px" :indicator-dots="true" :autoplay="true" :interval="2000" :duration="1000"
-			:circular="true">
-			<swiper-item>
-				<view class="swiper-item">
-					<image src="https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/uni-function-diagram.png"
-						mode="widthFix"></image>
-				</view>
-			</swiper-item>
-			<swiper-item>
-				<view class="swiper-item">
-					<image src="https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/uni-function-diagram.png"
-						mode="widthFix"></image>
-				</view>
-			</swiper-item>
-			<swiper-item>
-				<view class="swiper-item">
-					<image src="https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/uni-function-diagram.png"
-						mode="widthFix"></image>
-				</view>
-			</swiper-item>
-		</swiper>
-		{{c('primary')}}
-		<view :style="{
-			backgroundColor: c('primary')
-		}">
-			测试theme的使用
-			<text :style="t('smallTitle')">这是一个标题</text>
-
-		</view>
-		<view>
-			<text>点击切换主题</text>
-			<text @tap="st('default')">default</text>
-			<text @tap="st('customTheme')">customTheme</text>
-		</view>
+		
 	</view>
 </template>
 

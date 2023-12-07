@@ -78,7 +78,7 @@ export class UxRequest {
 						this.interceptors.setResSuccess(result)
 						this.interceptors.setResStatus(1)
 						this.interceptors.response.sRun((response) => {
-							resolve(response.data as DataResult)
+							resolve(response.data)
 						})
 					},
 					fail(error) {
