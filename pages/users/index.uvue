@@ -63,9 +63,9 @@
 </template>
 
 <script>
-	import { userLogin } from '../../request/apis/users.uts'
+	import { userLogin } from '@/common/request/apis/users.uts'
 	import { useLoginValid } from './logic/useLoginValid.uts';
-	import { setHasLogin } from '../../stores/index.uts'
+	import { setHasLogin } from '@/stores/index.uts'
 
 	export default {
 		data() {
@@ -128,8 +128,9 @@
 				uni.showLoading({
 					title: 'loading'
 				})
-				userLogin(this.username, this.userpwd).then((res : UTSJSONObject) => {
-					if (res.getString('code') == '1000') {
+				userLogin(this.username, this.userpwd).then((res) => {
+					console.log(res)
+					if (res.code == 1000) {
 						uni.setStorageSync('username', this.username)
 						setHasLogin(true)
 						uni.redirectTo({

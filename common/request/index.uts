@@ -1,0 +1,34 @@
+import { UxRequest, DataResult, FailInfo, SuccessInfo } from '@/uni_modules/ux-request/js_sdk/request.uts'
+
+// 初始化时，参数配置
+const reqParams = new Map<string, any>()
+reqParams.set('baseURL', 'https://www.fastmock.site/mock/f3db82b0eeba8d6ec09d1947627bb194/uni-x')
+reqParams.set('header', {
+	'Content-Type': 'application/json'
+} as UTSJSONObject)
+
+// 请求实例
+const reqIns = new UxRequest(reqParams)
+
+// 请求前拦截
+reqIns.interceptors.request.use((config : Map<string, any>) : Map<string, any> => {
+	console.log('config ======> ', config)
+	return config
+})
+
+// 响应拦截
+reqIns.interceptors.response.use(
+	(res : SuccessInfo) : SuccessInfo => {
+		// 走到这里的都是200 500 404 403之类的
+		// 在这里只需要判断逻辑出错即可，并给于提示
+		console.log('res ======> ', res)
+		return res
+	},
+	(err : FailInfo) : FailInfo => {
+		// 走到这里的，说明服务端有问题
+		console.log('err ======> ', err)
+		return err
+	}
+)
+
+export { reqIns, DataResult }

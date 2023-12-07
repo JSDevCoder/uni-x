@@ -1,4 +1,4 @@
-import { RequestInterceptor, ResponseInterceptor } from "./interceptors.uts"
+import Interceptors, { DataResult, FailInfo, SuccessInfo } from "./interceptors.uts"
 
 /**
  * 创建 defaultOptions
@@ -14,6 +14,8 @@ function defaultOptions() : Map<string, any> {
 	return doMap
 }
 
+export { DataResult, FailInfo, SuccessInfo }
+
 /**
  * 基于uni.request封装
  */
@@ -24,21 +26,11 @@ export class UxRequest {
 	// 请求的对象
 	task = null as RequestTask | null
 
-	// 请求拦截器实例
-	requestInterceptor : RequestInterceptor
-
-	// 响应拦截器实例
-	responseInterceptor : ResponseInterceptor
+	interceptors: Interceptors = {} as Interceptors
 
 	constructor(opts : Map<string, any>) {
 		// 合并初始化传递的配置
 		this.defaultOptions = this.merge(this.defaultOptions, opts)
-
-		// 初始化请求拦截器
-		this.requestInterceptor = new RequestInterceptor()
-
-		// 初始化响应拦截器
-		this.responseInterceptor = new ResponseInterceptor()
 	}
 
 	/**
@@ -49,7 +41,7 @@ export class UxRequest {
 	 * @param header UTSJSONObject | null 请求的header
 	 * @returns {Promise}
 	 */
-	request(api : string, method : RequestMethod, data : UTSJSONObject | null, header : UTSJSONObject | null) : Promise<UTSJSONObject> {
+	request(api : string, method : RequestMethod, data : UTSJSONObject | null, header : UTSJSONObject | null) : Promise<DataResult> {
 		return new Promise((resolve, reject) => {
 			this.defaultOptions.set('api', api)
 			this.defaultOptions.set('method', method)
@@ -67,29 +59,38 @@ export class UxRequest {
 				})
 				this.defaultOptions.set('header', doHeader)
 			}
-			this.requestInterceptor.options.config = this.defaultOptions
-			this.requestInterceptor.requestRun((config) => {
+			this.interceptors.setReqConfig(this.defaultOptions)
+			this.interceptors.request.run((config) => {
 				this.defaultOptions = this.merge(this.defaultOptions, config)
-				this.task = uni.request<UTSJSONObject>({
+				this.task = uni.request<DataResult>({
 					url: `${this.defaultOptions.get('baseURL')}${this.defaultOptions.get('api')}`,
 					method: this.defaultOptions.get('method') as RequestMethod,
 					data: this.defaultOptions.get('data'),
 					header: this.defaultOptions.get('header') as UTSJSONObject,
 					success: (res) => {
-						// 分 200 和 非200
-						this.responseInterceptor.options.response = res
-						this.responseInterceptor.options.status = 1
-						this.responseInterceptor.responseRun((response) => {
-							resolve(response.data as UTSJSONObject)
+						const result = {
+							data: res.data as DataResult,
+							statusCode: res.statusCode,
+							header: res.header,
+							cookies: res.cookies
+						} as SuccessInfo
+						
+						this.interceptors.setResSuccess(result)
+						this.interceptors.setResStatus(1)
+						this.interceptors.response.sRun((response) => {
+							resolve(response.data as DataResult)
 						})
 					},
-					fail() {
-						// 这里直接网络出错误
-						const err = '网络错误，请联系管理员'
-						this.responseInterceptor.options.error = err
-						this.responseInterceptor.options.status = 2
-						this.responseInterceptor.responseRun((error) => {
-							reject(error)
+					fail(error) {
+						const result = {
+							errCode: error.errCode,
+							data: error.data,
+							errMsg: error.errMsg
+						} as FailInfo
+						this.interceptors.setResFail(result)
+						this.interceptors.setResStatus(2)
+						this.interceptors.response.fRun((response) => {
+							reject(response)
 						})
 					}
 				})
@@ -104,7 +105,7 @@ export class UxRequest {
 	 * @param header UTSJSONObject | null 请求的header
 	 * @returns {Promise}
 	 */
-	post(api : string, data : UTSJSONObject | null, header : UTSJSONObject | null) : Promise<UTSJSONObject> {
+	post(api : string, data : UTSJSONObject | null, header : UTSJSONObject | null) : Promise<DataResult> {
 		return this.request(api, 'POST', data, header)
 	}
 
@@ -115,7 +116,7 @@ export class UxRequest {
 	 * @param header UTSJSONObject | null 请求的header
 	 * @returns {Promise}
 	 */
-	getData(api : string, data : UTSJSONObject | null, header : UTSJSONObject | null) : Promise<UTSJSONObject> {
+	getData(api : string, data : UTSJSONObject | null, header : UTSJSONObject | null) : Promise<DataResult> {
 		return this.request(api, 'GET', data, header)
 	}
 
@@ -143,135 +144,3 @@ export class UxRequest {
 		return target
 	}
 }
-
-
-
-
-/**
- * 封装uni.request
- */
-// class UxRequest {
-// 	// 请求对象
-// 	requestTask : RequestTask | null = null
-
-// 	// 请求结果
-// 	reqResult : UTSJSONObject = {}
-
-// 	// 默认请求参数
-// 	defaultOpts : UxRequestOption = {
-// 		baseURL: '',
-// 		api: '',
-// 		method: 'GET',
-// 		data: {} as any,
-// 		header: {} as any
-// 	}
-
-// 	/**
-// 	 * 构造函数
-// 	 */
-// 	constructor(opts : UTSJSONObject) {
-// 		return new UxRequest
-// 	}
-
-// 	/**
-// 	 * 前置拦截
-// 	 */
-// 	beforeInterceptors(callback : Cb) {
-// 		callback(this.defaultOpts)
-// 	}
-
-// 	/**
-// 	 * 发送请求
-// 	 */
-// 	request(api : string, method : string, data : UTSJSONObject | null,) : Promise<UTSJSONObject> {
-// 		const dData = this.defaultOpts.get('data') as UTSJSONObject
-// 		data?.toMap()?.forEach((v, k) => {
-// 			dData.set(k, v)
-// 		})
-// 		this.defaultOpts.set('api', api)
-// 		this.defaultOpts.set('method', method)
-// 		this.defaultOpts.set('data', dData)
-// 		console.log(this.defaultOpts)
-// 		return new Promise((resolve, reject) => {
-// 			console.log('defaultOpts', this.defaultOpts)
-// 			this.requestTask = uni.request({
-// 				url: this.defaultOpts.getString('baseURL') + api,
-// 				data: this.defaultOpts.getAny('data'),
-// 				method: this.defaultOpts.getString('method'),
-// 				success: res => {
-// 					console.log('res', res)
-// 					if (res.statusCode == 200) {
-// 						let resData = res.data as UTSJSONObject
-// 						console.log('resData', resData)
-// 						let code = resData.getString('code') as string
-// 						let msg = resData.getString('desc') as string
-// 						if (code == '1000') {
-// 							resolve(resData)
-// 						} else {
-// 							reject(resData)
-// 							this.statusHandle(code, msg)
-// 						}
-// 					} else {
-// 						this.statusHandle('0002', '服务端出错或资源不存在')
-// 					}
-// 				},
-// 				fail: err => {
-// 					console.log('err', err)
-// 					reject(err)
-// 					this.statusHandle('1005', '无效的请求，请检查')
-// 				}
-// 			})
-// 		})
-// 	}
-
-// 	/**
-// 	 * POST请求
-// 	 */
-// 	post(api : string, data : UTSJSONObject | null) : Promise<UTSJSONObject> {
-// 		return this.request(api, 'POST', data)
-// 	}
-
-// 	/**
-// 	 * GET请求
-// 	 */
-// 	getJSON(api : string, data : UTSJSONObject | null) : Promise<UTSJSONObject> {
-// 		return this.request(api, 'GET', data)
-// 	}
-
-// 	/**
-// 	 * 请求状态处理
-// 	 */
-// 	statusHandle(code : string, msg : string) {
-// 		switch (code) {
-// 			case '1001':
-// 				uni.showToast({
-// 					title: msg,
-// 					icon: 'none',
-// 					position: 'top'
-// 				})
-// 				break;
-// 			case '1002':
-// 				setHasLogin(false)
-// 				uni.reLaunch({
-// 					url: '/pages/users/index'
-// 				})
-// 				break;
-// 			case '0002':
-// 				uni.showToast({
-// 					title: msg,
-// 					icon: 'none',
-// 					position: 'top'
-// 				})
-// 				break;
-// 			case '1005':
-// 				uni.showToast({
-// 					title: msg,
-// 					icon: 'none',
-// 					position: 'top'
-// 				})
-// 				break;
-// 		}
-// 	}
-// }
-
-// export default UtxRequest

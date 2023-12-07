@@ -81,8 +81,8 @@
 </template>
 
 <script>
-	import { sendSms } from '../../request/apis/app.uts';
-	import { userRegister } from '../../request/apis/users.uts';
+	import { sendSms } from '@/common/request/apis/app.uts';
+	import { userRegister } from '@/common/request/apis/users.uts';
 	import { useSmsValid } from './logic/useSmsValid.uts'
 	import { useRegisterValid } from './logic/useRegisterValid.uts'
 	export default {
@@ -123,7 +123,7 @@
 					title: 'loading'
 				})
 				sendSms(this.mobile).then(res => {
-					if (res.getString('code') == '1000') {
+					if (res.code == 1000) {
 						this.timer = setInterval(() => {
 							if (this.time <= 0) {
 								clearInterval(this.timer as number)
@@ -159,7 +159,7 @@
 					title: 'loading'
 				})
 				userRegister(this.username, this.mobile, this.verify, this.password).then(res => {
-					if (res.getString('code') == '1000') {
+					if (res.code == 1000) {
 						uni.showModal({
 							title: '温馨提示',
 							content: '注册成功，请登录',

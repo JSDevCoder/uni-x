@@ -1,7 +1,7 @@
 {
   "id": "ux-request",
   "displayName": "ux-request",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "封装基于uni.request的带拦截器的请求，支持uni-app x",
   "keywords": [
     "ux-request",

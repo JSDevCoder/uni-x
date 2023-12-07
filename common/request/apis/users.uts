@@ -1,0 +1,40 @@
+import {reqIns, DataResult} from '../index.uts'
+/**
+ * 用户登录
+ * @param username {String} 用户名
+ * @param password {String} 用户密码
+ */
+export function userLogin(username : string, password : string) : Promise<DataResult> {
+	return reqIns.request('/api/user/login', 'POST', { username, password } as UTSJSONObject, null)
+}
+
+/**
+ * 用户注册
+ * @param username {String} 用户名
+ * @param mobile {String} 手机号
+ * @param verify {String} 验证码
+ * @param password {String} 用户密码
+ */
+export function userRegister(username : string, mobile : string, verify : string, password : string) : Promise<DataResult> {
+	return reqIns.post('/api/user/register', { username, mobile, verify, password } as UTSJSONObject, null)
+}
+
+/**
+ * 用户修改密码
+ * @param username {String} 用户名
+ * @param password {String} 用户原密码
+ * @param newpassword {String} 用户新密码
+ */
+export function userEditPwd(username : string, password : string, newPassword : string) : Promise<DataResult> {
+	return reqIns.post('/api/user/edit_pwd', { username, password, newPassword } as UTSJSONObject, null)
+}
+
+/**
+ * 用户找回密码
+ * @param username {String} 用户名
+ * @param mobile {String} 手机号
+ * @param verify {String} 验证码
+ */
+export function userForgotPwd(username : string, mobile : string, verify : string) : Promise<DataResult> {
+	return reqIns.post('/api/user/forgot_pwd', { username, mobile, verify } as UTSJSONObject, null)
+}

@@ -1,0 +1,16 @@
+import {reqIns, DataResult} from '../index.uts'
+
+/**
+ * 获取系统配置
+ */
+export function getSetting() : Promise<DataResult> {
+	return reqIns.getData('/api/app/setting', null, null)
+}
+
+/**
+ * 发送验证码
+ * @param mobile {String} 手机号
+ */
+export function sendSms(mobile : string) : Promise<DataResult> {
+	return reqIns.post('/api/app/send_sms', { mobile } as UTSJSONObject, null)
+}

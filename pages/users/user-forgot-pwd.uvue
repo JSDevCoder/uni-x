@@ -55,8 +55,8 @@
 </template>
 
 <script>
-	import { sendSms } from '../../request/apis/app.uts';
-	import { userForgotPwd } from '../../request/apis/users.uts';
+	import { sendSms } from '@/common/request/apis/app.uts';
+	import { userForgotPwd } from '@/common/request/apis/users.uts';
 	import { useSmsValid } from './logic/useSmsValid.uts'
 	import { useForgotValid } from './logic/useForgotValid.uts'
 	export default {
@@ -87,7 +87,7 @@
 					title: 'loading'
 				})
 				sendSms(this.mobile).then(res => {
-					if (res.getString('code') == '1000') {
+					if (res.code == 1000) {
 						this.timer = setInterval(() => {
 							if (this.time <= 0) {
 								clearInterval(this.timer as number)
@@ -123,10 +123,10 @@
 					title: 'loading'
 				})
 				userForgotPwd(this.username, this.mobile, this.verify).then(res => {
-					if (res.getString('code') == '1000') {
+					if (res.code == 1000) {
 						uni.showModal({
 							title: '温馨提示',
-							content: `您的密码是${res.getString('data')}`,
+							content: `您的密码是${res.data}`,
 							confirmText: '立即复制',
 							confirmColor: '#007aff',
 							success: res => {

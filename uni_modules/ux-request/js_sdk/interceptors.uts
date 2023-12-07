@@ -1,68 +1,154 @@
-type Options = {
-	status : number, // 1-请求成功 2-请求失败
-	config : Map<string, any>,
-	response : RequestSuccess<UTSJSONObject>,
-	error : string
+// 成功时，返回的数据中的data的类型
+export type DataResult = {
+	code : number
+	data : any
+	msg : string
 }
 
-export class Midderware {
-	options : Options
-	useReqFn : () => void
-	useResFn : () => void
-	constructor() {
-		this.options = {
-			status: 0,
-			config: new Map<string, any>(),
-			response: {
-				statusCode: 200,
-				data: null,
-				header: {} as UTSJSONObject,
-				cookies: []
-			} as RequestSuccess<UTSJSONObject>,
-			error: '请求出错，请稍后重试'
-		} as Options
+// 成功时的返回类型
+export type SuccessInfo = {
+	data : DataResult
+	statusCode : number
+	header : any
+	cookies : string[]
+}
 
-		this.useReqFn = () => {}
+// 失败时的返回类型
+export type FailInfo = {
+	errCode : 5 | 1000 | 100001 | 100002 | 600003 | 600009 | 602001
+	data : any | null,
+	errMsg : string
+}
 
-		this.useResFn = () => {}
-	}
+/**
+ * 请求拦截器类型
+ */
+type RequestInterceptor = {
+	use : (fn : (config : Map<string, any>) => Map<string, any>) => void
+	run : (fn : (config : Map<string, any>) => void) => void
+}
 
-	requestRun(fn : (config : Map<string, any>) => void) {
-		this.useReqFn()
-		fn(this.options.config)
-	}
+/**
+ * 响应拦截器类型
+ */
+type ResponseInterceptor = {
+	use : (sFn : (response : SuccessInfo) => SuccessInfo, fFn : (response : FailInfo) => FailInfo) => void
+	sRun : (fn : (response : SuccessInfo) => void) => void
+	fRun : (fn : (response : FailInfo) => void) => void
+}
 
-	responseRun(fn : (response : RequestSuccess<UTSJSONObject>) => void) {
-		this.useResFn()
-		fn(this.options.response)
-	}
+// uts不支持yield,后续优化
+// 临时的运行方法， 用来作为run和use的桥接
+let reqRun = function () { }
 
-	requestUse(fn : (config : Map<string, any>) => void) {
-		this.useReqFn = () => {
-			fn(this.options.config)
-		}
-	}
+// 临时的运行方法， 用来作为run和use的桥接
+let resRun = function () { }
+/**
+ * 拦截器
+ * @desc 拦截请求/响应
+ */
+class Interceptors {
+	// 请求配置
+	requestConfig : Map<string, any> = new Map<string, any>()
 
-	responseUse(fn : (res : RequestSuccess<UTSJSONObject>) => void, eFn: (err: string) => void) {
-		this.useResFn = () => {
-			if(this.options.status == 1) {
-				fn(this.options.response)
+	// 请求成功
+	responseSuccess : SuccessInfo = {
+		data: {
+			data: {} as any,
+			code: 1,
+			msg: ''
+		} as DataResult,
+		statusCode: 200,
+		header: {},
+		cookies: [] as string[]
+	} as SuccessInfo
+
+	// 请求失败
+	responseFail : FailInfo = {
+		errCode: 5,
+		data: {} as any,
+		errMsg: ''
+	} as FailInfo
+
+	// 响应状态
+	responseStatus : number = 1
+
+
+
+	/**
+	 * 请求拦截器
+	 * @TYPE RequestInterceptor
+	 */
+	request : RequestInterceptor = {
+		use(fn : (config : Map<string, any>) => Map<string, any>) : void {
+			reqRun = function () {
+				this.requestConfig = fn(this.requestConfig)
 			}
-			if(this.options.status == 2) {
-				eFn(this.options.error)
-			}
+		},
+
+		run(fn : (config : Map<string, any>) => void) : void {
+			reqRun()
+			fn(this.requestConfig)
 		}
+	} as RequestInterceptor
+
+	/**
+	 * 响应拦截器
+	 * @TYPE RequestInterceptor
+	 */
+	response : ResponseInterceptor = {
+		use(sFn : (response : SuccessInfo) => SuccessInfo, fFn : (response : FailInfo) => FailInfo) : void {
+			resRun = function () {
+				if (this.responseStatus == 1) {
+					this.responseSuccess = sFn(this.responseSuccess)
+				} else if (this.responseStatus == 2) {
+					this.responseFail = fFn(this.responseFail)
+				}
+			}
+		},
+
+		sRun(fn : (response : SuccessInfo) => void) : void {
+			resRun()
+			fn(this.responseSuccess)
+		},
+
+		fRun(fn : (response : FailInfo) => void) : void {
+			resRun()
+			fn(this.responseFail)
+		}
+	} as ResponseInterceptor
+
+	/**
+	 * 拦截到请求配置
+	 * @param config 请求时的配置参数
+	 */
+	setReqConfig(config : Map<string, any>) : void {
+		this.requestConfig = config
+	}
+
+	/**
+	 * 拦截到响应数据
+	 * @param responseSuccess 请求成功的数据
+	 */
+	setResSuccess(responseSuccess : SuccessInfo) {
+		this.responseSuccess = responseSuccess
+	}
+
+	/**
+	 * 拦截到响应错误数据
+	 * @param responseFail 请求失败时的数据
+	 */
+	setResFail(responseFail : FailInfo) {
+		this.responseFail = responseFail
+	}
+
+	/**
+	 * 设置响应时的状态
+	 * @param status 1-请求成功 2-请求失败
+	 */
+	setResStatus(status : number) {
+		this.responseStatus = status
 	}
 }
 
-export class RequestInterceptor extends Midderware {
-	constructor() {
-		super()
-	}
-}
-
-export class ResponseInterceptor extends Midderware {
-	constructor() {
-		super()
-	}
-}
+export default Interceptors

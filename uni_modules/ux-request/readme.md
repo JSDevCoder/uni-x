@@ -1,19 +1,72 @@
 # ux-request 封装请求
 
-基于uni.request封装的带拦截器的请求
+基于uni.request封装的带拦截器的请求  
+
+### new UxRequest时可配置的一些参数
+
+| 参数名    | 类型    | 默认值    | 是否必传    | 备注 |
+| :---:    | :---:   | :---:     | :---:      |:---:      |
+| baseURL | string |  | 是 | 请求域名 |
+| api | string |  | 是 | 请求的api接口 |
+| method | RequestMethod | GET | 否 | 请求方法 |
+| data | UTSJSONObject | {} | 否 | 请求的数据 |
+| header | UTSJSONObject | {} | 否 | 请求的headers |
+
+### 需要说明的一些问题
+
+一、关于请求成功之后返回的业务逻辑数据：   
+
+```
+{
+    "cookies": [],
+    "data": {
+        "code": 1000,
+        "data": "123456",
+        "msg": "找回密码成功"
+    },
+    "header": {
+        "access-control-allow-credentials": "true",
+        "connection": "keep-alive",
+        "content-length": "58",
+        "content-type": "application/json; charset=utf-8",
+        "date": "Thu, 07 Dec 2023 03:47:35 GMT",
+        "etag": "W/\"3a-EuzQv5dmM0vEsEM+q0p1aaqnS6k\"",
+        "server": "nginx/1.17.8",
+        "set-cookie": "connect.sid=s%3Ae5n7Pr_MPPN-FsRPTRDnz9pzPwnK5gxi.wwne4O8XMwbh19LiMT4qqPJ4Zt5FN%2BNbdCZ7VUWlgfc; Path=/; Expires=Thu, 07 Dec 2023 15:47:35 GMT; HttpOnly",
+        "vary": "Accept, Origin, Accept-Encoding",
+        "x-powered-by": "Express"
+    },
+    "statusCode": 200
+}
+```
+
+这里需要注意的是，第一层返回的data的类型，官方提供的是T，需要使用者自行定义类型，本插件默认定义如下  
+
+| 参数名    | 类型    | 默认值    | 是否必传    | 备注 |
+| :---:    | :---:   | :---:     | :---:      |:---:      |
+| code | number |  | 是 | 请求的业务逻辑code |
+| data | any |  | 是 | 请求的业务逻辑数据  |
+| msg | string | 是 | 否 | 请求返回的提示信息 |
+
+如果有用户跟本插件定义的类型不一致，如果在不能更改的情况下，请打开插件目录下的interceptors.uts文件，修改DataResult类型代码即可  
+如非必要，请勿修改！  
+
+二、前置拦截器的拦截逻辑  
+
+拦截器config > request/post/get方法参数 > new Request()参数 > 默认参数  
 
 ### 使用方式  
 
-在项目根目录下创建request/index.uts，内容如下：  
+在项目根目录下common/request/index.uts，配置拦截器  
 
 ```
-// 当前request/index.uts
+// 当前common/request/index.uts
 
-import { UxRequest } from '@/uni_modules/js_sdk/request.uts'
+import { UxRequest, DataResult, FailInfo, SuccessInfo } from '@/uni_modules/ux-request/js_sdk/request.uts'
 
 // 初始化时，参数配置
 const reqParams = new Map<string, any>()
-reqParams.set('baseURL', 'https://www.fastmock.site/mock/f3db82b0eeba8d6ec09d1947627bb194/uni-x1')
+reqParams.set('baseURL', 'https://www.fastmock.site/mock/f3db82b0eeba8d6ec09d1947627bb194/uni-x')
 reqParams.set('header', {
 	'Content-Type': 'application/json'
 } as UTSJSONObject)
@@ -22,54 +75,42 @@ reqParams.set('header', {
 const reqIns = new UxRequest(reqParams)
 
 // 请求前拦截
-reqIns.requestInterceptor.requestUse((config: Map<string, any>): void => {
-	const data = config.get('data') as UTSJSONObject
-	// 修改data参数
-	config.set('data', data)
+reqIns.interceptors.request.use((config : Map<string, any>) : Map<string, any> => {
+	console.log('config ======> ', config)
+	return config
 })
 
 // 响应拦截
-reqIns.responseInterceptor.responseUse((res: RequestSuccess<UTSJSONObject>): void => {
-	// 走到这里的都是200 500 404 403之类的
-	// 在这里只需要判断逻辑出错即可，并给于提示
-	if(res.statusCode == 200) {
-		const data = res.data
-		if(data?.get('code') != '1000') {
-			let msg = data?.getString('msg')
-			uni.showToast({
-				title: msg != null ? msg : '请求出错',
-				icon: 'none'
-			})
-		}
-	} else {
-		uni.showToast({
-			title: '请求的接口出错或资源不存在，请重试',
-			icon: 'none'
-		})
+reqIns.interceptors.response.use(
+	(res : SuccessInfo) : SuccessInfo => {
+		// 走到这里的都是200 500 404 403之类的
+		// 在这里只需要判断逻辑出错即可，并给于提示
+		console.log('res ======> ', res)
+		return res
+	},
+	(err : FailInfo) : FailInfo => {
+		// 走到这里的，说明服务端有问题
+		console.log('err ======> ', err)
+		return err
 	}
-}, (error: string) => {
-	console.log('error', error)
-	// 走到这里的，说明访问的ip地址有问题，访问不了，请求未通
-	uni.showToast({
-		title: error,
-		icon: 'none'
-	})
-})
+)
 
-export default reqIns
+export { reqIns, DataResult }
 ```
 
 api中使用  
 
 ```
-// 当前request/apis/app.uts
+// 当前common/request/apis/app.uts
+
+import {reqIns, DataResult} from '../index.uts'
 
 /**
  * 发送验证码
  * @param mobile {String} 手机号
  */
-export function sendSms(mobile : string) : Promise<UTSJSONObject> {
-	return ins.post('/api/app/send_sms', { mobile } as UTSJSONObject, null)
+export function sendSms(mobile : string) : Promise<DataResult> {
+	return reqIns.post('/api/app/send_sms', { mobile } as UTSJSONObject, null)
 }
 ```
 
@@ -77,6 +118,7 @@ export function sendSms(mobile : string) : Promise<UTSJSONObject> {
 
 ```
 // 当前pages/users/user-register.uvue
+
 import { sendSms } from '@/request/apis/app.uts';
 
 methods: {
@@ -104,7 +146,7 @@ methods: {
 			title: 'loading'
 		})
 		sendSms(this.mobile).then(res => {
-			if (res.getString('code') == '1000') {
+			if (res.code == 1000) {
 				this.timer = setInterval(() => {
 					if (this.time <= 0) {
 						clearInterval(this.timer as number)
