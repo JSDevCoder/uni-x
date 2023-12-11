@@ -1,18 +1,18 @@
 {
-  "id": "ux-bottom-bar",
-  "displayName": "ux-bottom-bar",
-  "version": "1.0.9",
-  "description": "基于uvue的带凸起按钮的底部切换导航栏，支持uni-app x",
+  "id": "ux-date",
+  "displayName": "ux-date",
+  "version": "1.0.0",
+  "description": "ux-date时间日期格式、以及各种实用日期时间操作方法，持续集成中，欢迎关注，技术支持群: 484768861",
   "keywords": [
-    "ux-bottom-bar",
-    "uvue"
+    "ux-date",
+    "uts"
 ],
   "repository": "",
   "engines": {
     "HBuilderX": "^3.94"
   },
   "dcloudext": {
-    "type": "component-vue",
+    "type": "sdk-js",
     "sale": {
       "regular": {
         "price": "0.00"
@@ -32,7 +32,7 @@
     "npmurl": ""
   },
   "uni_modules": {
-    "dependencies": ["ux-icons"],
+    "dependencies": [],
     "encrypt": [],
     "platforms": {
       "cloud": {
@@ -42,12 +42,12 @@
       "client": {
         "Vue": {
           "vue2": "y",
-          "vue3": "n"
+          "vue3": "y"
         },
         "App": {
-          "app-vue": "n",
-          "app-nvue": "n",
-          "app-uvue": "y"
+          "app-vue": "u",
+          "app-nvue": "u",
+          "app-uvue": "u"
         },
         "H5-mobile": {
           "Safari": "u",

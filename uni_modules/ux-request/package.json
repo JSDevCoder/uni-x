@@ -1,14 +1,14 @@
 {
   "id": "ux-request",
   "displayName": "ux-request",
-  "version": "1.0.2",
-  "description": "封装基于uni.request的带拦截器的请求，支持uni-app x",
+  "version": "1.0.3",
+  "description": "封装基于uni.request的带拦截器的请求，支持uni-app x，技术支持QQ群：484768861",
   "keywords": [
     "ux-request",
     "uts",
     "uniapp-x"
 ],
-  "repository": "https://gitee.com/hexinkuo/uni-x",
+  "repository": "",
   "engines": {
     "HBuilderX": "^3.94"
   },

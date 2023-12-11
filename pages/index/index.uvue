@@ -18,7 +18,7 @@
 	</scroll-view>
 	<!-- #endif -->
 
-	<ux-bottom-bar :scale="1.4" color="#333" :selected-color="c('primary')" :tabs="customTabs"
+	<ux-bottom-bar :scale="1.4" :curr="idx" color="#333" :selected-color="c('primary')" :tabs="customTabs"
 		@on-tab-active="onTabActive"></ux-bottom-bar>
 </template>
 
@@ -84,7 +84,8 @@
 		},
 
 		onLoad() {
-			
+			const title = ['首页', '自定义', '我的']
+			this.pageTitle = title[this.idx]
 		},
 
 		methods: {

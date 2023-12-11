@@ -1,17 +1,31 @@
 <template>
 	<view class="home">
+		<button class="mt10" type="primary" @tap="open('center')">点击打开居中弹窗</button>
+		<button class="mt10" type="primary" @tap="open('left')">点击打开左侧弹窗</button>
+		<button class="mt10" type="primary" @tap="open('right')">点击打开右侧弹窗</button>
+		<button class="mt10" type="primary" @tap="open('top')">点击打开顶部弹窗</button>
+		<button class="mt10" type="primary" @tap="open('bottom')">点击打开底部弹窗</button>
 		
+		<ux-popup ref="uxPopup" :pos="pos">
+			<view :class="[`pos-${pos}`]">
+				测试弹窗
+				<view @tap="close">
+					点击关闭
+				</view>
+			</view>
+		</ux-popup>
 	</view>
 </template>
 
 <script>
 	import { $c, $t, switchTheme } from '@/common/theme/index.uts'
+	import useDate from '@/uni_modules/ux-date/js_sdk/use-date.uts'
 	
 	export default {
 		data() {
 			return {
 				unit: '10px',
-				
+				pos: 'center'
 			}
 		},
 		computed: {
@@ -19,6 +33,13 @@
 				return this.unit
 			},
 		},
+		
+		created() {
+			const {format, timeAgo} = useDate()
+			console.log(format(new Date().toString(), 'YYYY-MM-DD WW'))
+			console.log(timeAgo(new Date().getTime() - 2 * 60 * 60 * 1000))
+		},
+		
 		methods: {
 			c(color: string): string {
 				return $c(color)
@@ -28,6 +49,18 @@
 			},
 			st(theme : string) {
 				switchTheme(theme)
+			},
+			
+			open(pos: string) {
+				this.pos = pos
+				const popup = this.$refs['uxPopup'] as UxPopupComponentPublicInstance
+				popup.open()
+			},
+			
+			close() {
+				const popup = this.$refs['uxPopup'] as UxPopupComponentPublicInstance
+				
+				popup.close()
 			},
 
 			toDetail() {
@@ -45,6 +78,24 @@
 
 		.mt10 {
 			margin-top: 10px;
+		}
+		
+		.pos-center {
+			width: 320px;
+			height: 480px;
+			background-color: #fff;
+		}
+		
+		.pos-left, .pos-right {
+			width: 320px;
+			height: 100%;
+			background-color: #fff;
+		}
+		
+		.pos-top, .pos-bottom {
+			width: 100%;
+			height: 320px;
+			background-color: #fff;
 		}
 	}
 </style>

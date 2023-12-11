@@ -1,11 +1,12 @@
 {
-  "id": "ux-bottom-bar",
-  "displayName": "ux-bottom-bar",
-  "version": "1.0.9",
-  "description": "基于uvue的带凸起按钮的底部切换导航栏，支持uni-app x",
+  "id": "ux-popup",
+  "displayName": "ux-popup",
+  "version": "1.0.0",
+  "description": "ux-popup 基础弹窗组件，可在此组件基础上开发各类业务弹窗",
   "keywords": [
-    "ux-bottom-bar",
-    "uvue"
+    "ux-popup",
+    "uvue",
+    "uniapp-x"
 ],
   "repository": "",
   "engines": {
@@ -32,7 +33,7 @@
     "npmurl": ""
   },
   "uni_modules": {
-    "dependencies": ["ux-icons"],
+    "dependencies": [],
     "encrypt": [],
     "platforms": {
       "cloud": {
@@ -42,11 +43,11 @@
       "client": {
         "Vue": {
           "vue2": "y",
-          "vue3": "n"
+          "vue3": "y"
         },
         "App": {
-          "app-vue": "n",
-          "app-nvue": "n",
+          "app-vue": "u",
+          "app-nvue": "u",
           "app-uvue": "y"
         },
         "H5-mobile": {

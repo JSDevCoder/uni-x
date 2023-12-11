@@ -1,0 +1,205 @@
+<template>
+	<view class="ux-popup" :class="[pos]" v-if="isShow">
+		<view class="mask" :class="[maskAnim]" :style="{backgroundColor: maskBgColor}" v-if="isMask" @tap="maskClick"></view>
+		<view class="ux-popup-wrapper"  :class="[isEndAnim ? posEndAnim : posStartAnim]">
+			<slot></slot>
+		</view>
+	</view>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+				timer: -1,
+				anim: false,
+				isShow: false,
+				isEndAnim: false
+			}
+		},
+
+		props: {
+			// 弹窗打开的位置
+			pos: {
+				type: String,
+				default: 'center'
+			},
+			
+			// 是否需要遮罩
+			isMask: {
+				type: Boolean,
+				default: true
+			},
+			
+			// 是否点击遮罩关闭弹窗
+			isMaskClick: {
+				type: Boolean,
+				default: true
+			},
+			
+			// 遮罩背景颜色
+			maskBgColor: {
+				type: String,
+				default: 'rgba(0, 0, 0, .4)'
+			}
+		},
+
+		computed: {
+			// 打开时动画
+			posStartAnim(): string {
+				return this.anim ? `${this.pos}-leave` : `${this.pos}-active`
+			},
+			
+			// 关闭时动画
+			posEndAnim(): string {
+				return this.anim ? `${this.pos}-active` : `${this.pos}-leave`
+			},
+			
+			// 遮罩动画
+			maskAnim(): string {
+				return this.anim ? 'show' : 'hide'
+			}
+		},
+
+		methods: {
+			/**
+			 * 打开弹窗
+			 */
+			open() {
+				if (this.timer != -1) {
+					clearTimeout(this.timer)
+					this.timer = -1
+					this.anim = false
+				}
+				this.isShow = true
+				this.timer = setTimeout(() => {
+					this.anim = true
+				}, 30)
+			},
+			
+			/**
+			 * 关闭弹窗
+			 */
+			close() {
+				if (this.timer != -1) {
+					clearTimeout(this.timer)
+					this.timer = -1
+				}
+				this.isEndAnim = true
+				this.timer = setTimeout(() => {
+					this.anim = false
+					this.isEndAnim = false
+					this.isShow = false
+				}, 300)
+			},
+			
+			/**
+			 * 点击遮罩
+			 */
+			maskClick() {
+				if(!this.isMaskClick) return
+				this.$emit('mask-click')
+				this.close()
+			}
+		}
+	}
+</script>
+
+<style lang="scss">
+	.ux-popup {
+		position: fixed;
+		left: 0;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		z-index: 9999;
+		background-color: rgba(0, 0, 0, 0);
+		
+		&.center {
+			display: flex;
+			flex-direction: row;
+			justify-content: center;
+			align-items: center;
+		}
+		
+		&.bottom {
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-end;
+		}
+		
+		&.left {
+			display: flex;
+			flex-direction: row;
+		}
+		
+		&.right {
+			display: flex;
+			flex-direction: row;
+			justify-content: flex-end;
+		}
+		
+		.mask {
+			position: absolute;
+			left: 0;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			z-index: -1;
+			transition: opacity .3s;
+			
+			&.show {
+				opacity: 1;
+			}
+			
+			&.hide {
+				opacity: 0;
+			}
+		}
+
+		&-wrapper {
+			transition: transform .3s;
+
+			&.center-active {
+				transform: scale(0, 0);
+			}
+
+			&.center-leave {
+				transform: scale(1, 1);
+			}
+
+			&.top-active {
+				transform: translateY(-100%);
+			}
+
+			&.top-leave {
+				transform: translateY(0);
+			}
+
+			&.bottom-active {
+				transform: translateY(100%);
+			}
+
+			&.bottom-leave {
+				transform: translateY(0);
+			}
+
+			&.left-active {
+				transform: translateX(-100%);
+			}
+
+			&.left-leave {
+				transform: translateX(0);
+			}
+
+			&.right-active {
+				transform: translateX(100%);
+			}
+
+			&.right-leave {
+				transform: translateX(0);
+			}
+		}
+
+	}
+</style>

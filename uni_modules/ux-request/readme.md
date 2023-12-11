@@ -77,6 +77,16 @@ const reqIns = new UxRequest(reqParams)
 // 请求前拦截
 reqIns.interceptors.request.use((config : Map<string, any>) : Map<string, any> => {
 	console.log('config ======> ', config)
+	// 在拦截器中添加token
+	// token 可能会被添加到data或者header中
+	
+	//const token = uni.getStorageSync('token') as string
+	// 1. 在header中添加token
+	//config.header.set('token', token) // header的类型是UTSJSONOject
+	
+	// 2. 在data中添加token
+	// config.data.set('token', token) // data的类型是UTSJSONOject
+	
 	return config
 })
 
@@ -86,17 +96,42 @@ reqIns.interceptors.response.use(
 		// 走到这里的都是200 500 404 403之类的
 		// 在这里只需要判断逻辑出错即可，并给于提示
 		console.log('res ======> ', res)
+		// 此处的处理情况，请根据自己的项目自定义
+		if(res.statusCode != 200) {
+			// 300,400,500
+			uni.showToast({
+				title: '请求出错',
+				icon: 'none'
+			})
+		} else {
+			if(res.data.code != 1000) {
+				uni.showToast({
+					title: '业务逻辑出错：' + res.data.msg,
+					icon: 'none'
+				})
+			}
+		}
 		return res
 	},
 	(err : FailInfo) : FailInfo => {
 		// 走到这里的，说明服务端有问题
 		console.log('err ======> ', err)
+		uni.showToast({
+			title: '网络逻辑出错：' + err.errMsg,
+			icon: 'none'
+		})
 		return err
 	}
 )
 
 export { reqIns, DataResult }
 ```
+
+关于响应拦截器中的res的一些说明：  
+
+`(res: SuccessInfo) => SuccessInfo` 中的res实际上是拦截器拦截到的响应数据，他的本质就是数据  
+用户在使用过程中，只需要对数据做一些处理，比如判断请求状态、修改res中的某个属性值。。。  
+最后记得一定要return res，res是修改后的数据，不要return其他数据  
 
 api中使用  
 

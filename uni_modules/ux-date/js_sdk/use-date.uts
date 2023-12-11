@@ -1,0 +1,76 @@
+// useDate的返回类型
+type UxDate = {
+	format : (time : string, format : string) => string
+	timeAgo : (time : number) => string
+}
+
+/**
+ * 处理日期时间的SDK
+ * @returns UxDate
+ */
+export default function useDate() : UxDate {
+	/**
+	 * 日期格式化
+	 * @param datetime 时间日期字符串、时间戳
+	 * @param format 格式化的类型，YYYY-MM-DD hh:mm:ss WW任意组合
+	 * @returns 返回处理好的事件日期字符串，比如 2023-12-10 12:30:22 星期日
+	 */
+	const format = (datetime : string, format : string) : string => {
+		const oDate = new Date(datetime)
+		const check = (val : number) : string => val < 10 ? `0${val}` : `${val}`
+		const year = check(oDate.getFullYear())
+		const month = check(oDate.getMonth() + 1)
+		const day = check(oDate.getDate())
+		const hour = check(oDate.getHours())
+		const minute = check(oDate.getMinutes())
+		const second = check(oDate.getSeconds())
+		const weekday = '星期' + ['日', '一', '二', '三', '四', '五', '六'][oDate.getDay()]
+		const options = new Map<string, string>()
+		options.set('YYYY', year)
+		options.set('MM', month)
+		options.set('DD', day)
+		options.set('hh', hour)
+		options.set('mm', minute)
+		options.set('ss', second)
+		options.set('WW', weekday)
+		
+		// v-当前匹配到的字符串
+		// i 当前匹配到的字符串的下标
+		// str 当前进行匹配的字符串
+		return format.replace(/YYYY|MM|DD|hh|mm|ss|WW/gi, (v : string, _i : number, _str : string) : string => {
+			return options.get(v) as string
+		})
+	}
+
+	/**
+	 * 某个时间点距离当前时间点的时间差
+	 * @param time 某个时间点的时间戳
+	 * @returns 时间点
+	 */
+	const timeAgo = (time : number) : string => {
+		const now = new Date()
+		const nowTime = now.getTime()
+		const diff = nowTime - time
+		const second = 1000
+		const minute = 60 * second
+		const hour = 60 * minute
+		const day = 24 * hour
+		// 判断时间差
+		if (diff < minute) {
+			return `${Math.floor(diff / second)}秒前`
+		} else if (diff < hour) {
+			return `${Math.floor(diff / minute)}分钟前`
+		} else if (diff < day) {
+			return `${Math.floor(diff / hour)}小时前`
+		} else if (diff < 2 * day) {
+			return `昨天`
+		} else {
+			return `${Math.floor(diff / day)}天前`
+		}
+	}
+
+	return {
+		format,
+		timeAgo
+	} as UxDate
+}

@@ -1,14 +1,14 @@
 {
   "id": "ux-front-sdk",
   "displayName": "ux-front-sdk",
-  "version": "1.0.1",
-  "description": "一些常用的前端sdk集合，持续集成中，欢迎关注...",
+  "version": "1.0.3",
+  "description": "基于uniapp-x的前端sdk集合，持续集成中，欢迎关注，技术支持QQ群：484768861",
   "keywords": [
     "ux-front-sdk",
     "uts",
     "uniapp-x"
 ],
-  "repository": "https://gitee.com/hexinkuo/uni-x",
+  "repository": "",
   "engines": {
     "HBuilderX": "^3.94"
   },

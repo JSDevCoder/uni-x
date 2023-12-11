@@ -1,14 +1,14 @@
 {
   "id": "ux-front-ui",
   "displayName": "ux-front-ui",
-  "version": "1.0.0",
+  "version": "1.0.4",
   "description": "基于uni-app x的ux-front-ui库，持续完善中，欢迎关注...",
   "keywords": [
     "uniapp-x",
     "uvue",
     "ui组件库"
 ],
-  "repository": "https://gitee.com/hexinkuo/uni-x",
+  "repository": "",
   "engines": {
     "HBuilderX": "^3.94"
   },
@@ -37,7 +37,8 @@
 		"ux-top-bar",
 		"ux-bottom-bar",
 		"ux-statusbar",
-		"ux-icons"
+		"ux-icons",
+		"ux-popup"
 	],
     "encrypt": [],
     "platforms": {

@@ -22,11 +22,30 @@ reqIns.interceptors.response.use(
 		// 走到这里的都是200 500 404 403之类的
 		// 在这里只需要判断逻辑出错即可，并给于提示
 		console.log('res ======> ', res)
+		// 此处的处理情况，请根据自己的项目自定义
+		if(res.statusCode != 200) {
+			// 300,400,500
+			uni.showToast({
+				title: '请求出错',
+				icon: 'none'
+			})
+		} else {
+			if(res.data.code != 1000) {
+				uni.showToast({
+					title: '业务逻辑出错：' + res.data.msg,
+					icon: 'none'
+				})
+			}
+		}
 		return res
 	},
 	(err : FailInfo) : FailInfo => {
 		// 走到这里的，说明服务端有问题
 		console.log('err ======> ', err)
+		uni.showToast({
+			title: '网络逻辑出错：' + err.errMsg,
+			icon: 'none'
+		})
 		return err
 	}
 )

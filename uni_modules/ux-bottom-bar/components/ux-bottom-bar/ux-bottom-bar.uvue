@@ -81,6 +81,12 @@
 				type: Number,
 				default: 1
 			},
+			
+			// 默认选中选项
+			curr: {
+				type: Number,
+				default: 0
+			},
 
 			// tab数据
 			tabs: {
@@ -89,6 +95,10 @@
 					return [] as BottomBarItem[]
 				}
 			}
+		},
+		
+		created() {
+			this.idx = this.curr
 		},
 
 		methods: {
