@@ -1,53 +1,50 @@
-import { UxRequest, DataResult, FailInfo, SuccessInfo } from '@/uni_modules/ux-request/js_sdk/request.uts'
+import UxRequest from '@/uni_modules/ux-request/js_sdk/request.uts'
+import UxInterceptor from '@/uni_modules/ux-request/js_sdk/interceptors.uts'
+import { UxRequestOptions, UxResponseFail } from '@/uni_modules/ux-request/js_sdk/types.uts'
 
-// 初始化时，参数配置
-const reqParams = new Map<string, any>()
-reqParams.set('baseURL', 'https://www.fastmock.site/mock/f3db82b0eeba8d6ec09d1947627bb194/uni-x')
-reqParams.set('header', {
-	'Content-Type': 'application/json'
-} as UTSJSONObject)
-
-// 请求实例
-const reqIns = new UxRequest(reqParams)
-
-// 请求前拦截
-reqIns.interceptors.request.use((config : Map<string, any>) : Map<string, any> => {
-	console.log('config ======> ', config)
-	return config
-})
-
-// 响应拦截
-reqIns.interceptors.response.use(
-	(res : SuccessInfo) : SuccessInfo => {
-		// 走到这里的都是200 500 404 403之类的
-		// 在这里只需要判断逻辑出错即可，并给于提示
-		console.log('res ======> ', res)
-		// 此处的处理情况，请根据自己的项目自定义
-		if(res.statusCode != 200) {
-			// 300,400,500
-			uni.showToast({
-				title: '请求出错',
-				icon: 'none'
-			})
-		} else {
-			if(res.data.code != 1000) {
-				uni.showToast({
-					title: '业务逻辑出错：' + res.data.msg,
-					icon: 'none'
-				})
-			}
-		}
-		return res
-	},
-	(err : FailInfo) : FailInfo => {
-		// 走到这里的，说明服务端有问题
-		console.log('err ======> ', err)
+// 请求拦截器示例
+class HttpInterceptor extends UxInterceptor {
+	constructor() {
+		super()
+	}
+	override beforeRequest(config : UxRequestOptions) : UxRequestOptions {
+		config.baseURL = 'http://36.142.155.88:8888'
+		config.url = config.baseURL + config.api
+		config.header['Content-Type'] = 'application/json'
+		return config
+	}
+	override afterResponseSucc(response : UTSJSONObject) : UTSJSONObject {
+		return response
+	}
+	override afterResponseFail(error : UxResponseFail) : UxResponseFail {
 		uni.showToast({
-			title: '网络逻辑出错：' + err.errMsg,
+			title: '错误码: ' + error.errCode + ', 错误信息: ' + error.errMsg,
 			icon: 'none'
 		})
-		return err
+		return error
 	}
-)
+}
 
-export { reqIns, DataResult }
+// 日志拦截器示例
+class LogInterceptor extends UxInterceptor {
+	constructor() {
+		super()
+	}
+	override beforeRequest(config : UxRequestOptions) : UxRequestOptions {
+		console.log('请求前拦截器日志：', config)
+		return config
+	}
+	override afterResponseFail(error : UxResponseFail) : UxResponseFail {
+		console.log('请求失败拦截器日志：', error)
+		return error
+	}
+}
+
+// 请求实例
+const ins = UxRequest.create()
+
+// 添加拦截器
+ins.addInterceptor(new HttpInterceptor())
+ins.addInterceptor(new LogInterceptor())
+
+export default ins

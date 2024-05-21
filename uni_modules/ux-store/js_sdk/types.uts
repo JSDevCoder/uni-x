@@ -1,0 +1,8 @@
+export type Action = {
+	type : string,
+	payload ?: any
+}
+
+export interface Plugin<S> {
+	execute(state: S): void
+}

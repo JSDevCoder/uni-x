@@ -1,0 +1,22 @@
+import UxCreateStore from '../../uni_modules/ux-store/js_sdk/store'
+import { Action, Plugin } from '@/uni_modules/ux-store/js_sdk/types'
+export type CounterState = {
+	index : number
+}
+export const counterInitialState : CounterState = { index: 0 }
+export const counterReducer = (state : CounterState, action : Action) : void => {
+	switch (action.type) {
+		case 'INCREMENT':
+			state.index++
+			break
+		case 'DECREMENT':
+			state.index--
+			break
+		default:
+			console.error('无效的action')
+	}
+}
+
+const counterStore = new UxCreateStore<CounterState>(counterInitialState, counterReducer)
+
+export default counterStore

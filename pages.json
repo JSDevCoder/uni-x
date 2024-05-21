@@ -68,6 +68,14 @@
 				"navigationBarTitleText" : "主题管理",
 				"enablePullDownRefresh" : false
 			}
+		},
+		{
+			"path" : "pages/comps/index",
+			"style" : 
+			{
+				"navigationBarTitleText" : "组件",
+				"navigationStyle": "custom"
+			}
 		}
 	],
 	

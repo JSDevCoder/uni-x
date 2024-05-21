@@ -1,18 +1,9 @@
 <script lang="uts">
-	import { setHasLogin } from './stores/index.uts'
 	let firstBackTime = 0
+
 	export default {
 		onLaunch: function () {
-			console.log('App Launch')
-			// 判断登录状态
-			const localHasLogin = uni.getStorageSync('hasLogin')
-			if (typeof localHasLogin == 'boolean' && localHasLogin != false) {
-				setHasLogin(localHasLogin as boolean)
-			} else {
-				uni.redirectTo({
-					url: '/pages/users/index'
-				})
-			}
+			
 		},
 		onShow: function () {
 			console.log('App Show')
@@ -47,7 +38,7 @@
 	 * 默认主题色
 	 */
 	$ux-default-color: #007aff;
-	
+
 	.ux-default-color {
 		background-color: $ux-default-color;
 	}

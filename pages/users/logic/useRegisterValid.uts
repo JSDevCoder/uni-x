@@ -1,4 +1,4 @@
-import useValidate, { Valid } from '../../../common/hooks/useValidate.uts'
+import useValidate, { Valid } from '@/uni_modules/ux-validate/js_sdk/use-validate.uts'
 
 /**
  * 验证用户注册表单
@@ -21,23 +21,23 @@ export function useRegisterValid(username : string, mobile : string, verify : st
 	// 验证规则
 	const rules = new Map<string, Array<Valid>>()
 	rules.set('username', [{
-		require: 'y',
+		require: true,
 		msg: '用户名必填'
 	}] as Array<Valid>)
 	rules.set('mobile', [{
-		require: 'y',
+		require: true,
 		msg: '手机号必填'
 	}] as Array<Valid>)
 	rules.set('verify', [{
-		require: 'y',
+		require: true,
 		msg: '验证码必填'
 	}] as Array<Valid>)
 	rules.set('password', [{
-		require: 'y',
+		require: true,
 		msg: '密码必填'
 	}] as Array<Valid>)
 	rules.set('repassword', [{
-		require: 'y',
+		require: true,
 		msg: '重复密码必填'
 	}] as Array<Valid>)
 

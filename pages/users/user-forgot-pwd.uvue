@@ -86,27 +86,27 @@
 				uni.showLoading({
 					title: 'loading'
 				})
-				sendSms(this.mobile).then(res => {
-					if (res.code == 1000) {
-						this.timer = setInterval(() => {
-							if (this.time <= 0) {
-								clearInterval(this.timer as number)
-								this.time = 60
-								this.sendText = '发送验证码'
-							} else {
-								this.time -= 1
-								this.sendText = this.time + 's后重发'
-							}
-						}, 1000)
-						uni.showToast({
-							title: '手机验证码已发送，请查收',
-							icon: 'none',
-							position: 'top'
-						})
-					}
-				}).finally(() => {
-					uni.hideLoading()
-				})
+				// sendSms(this.mobile).then(res => {
+				// 	if (res.code == 1000) {
+				// 		this.timer = setInterval(() => {
+				// 			if (this.time <= 0) {
+				// 				clearInterval(this.timer as number)
+				// 				this.time = 60
+				// 				this.sendText = '发送验证码'
+				// 			} else {
+				// 				this.time -= 1
+				// 				this.sendText = this.time + 's后重发'
+				// 			}
+				// 		}, 1000)
+				// 		uni.showToast({
+				// 			title: '手机验证码已发送，请查收',
+				// 			icon: 'none',
+				// 			position: 'top'
+				// 		})
+				// 	}
+				// }).finally(() => {
+				// 	uni.hideLoading()
+				// })
 			},
 
 			formSubmit() {
@@ -122,23 +122,23 @@
 				uni.showLoading({
 					title: 'loading'
 				})
-				userForgotPwd(this.username, this.mobile, this.verify).then(res => {
-					if (res.code == 1000) {
-						uni.showModal({
-							title: '温馨提示',
-							content: `您的密码是${res.data}`,
-							confirmText: '立即复制',
-							confirmColor: '#007aff',
-							success: res => {
-								if (res.confirm) {
-									// 复制密码
-								}
-							}
-						})
-					}
-				}).finally(() => {
-					uni.hideLoading()
-				})
+				// userForgotPwd(this.username, this.mobile, this.verify).then(res => {
+				// 	if (res.code == 1000) {
+				// 		uni.showModal({
+				// 			title: '温馨提示',
+				// 			content: `您的密码是${res.data}`,
+				// 			confirmText: '立即复制',
+				// 			confirmColor: '#007aff',
+				// 			success: res => {
+				// 				if (res.confirm) {
+				// 					// 复制密码
+				// 				}
+				// 			}
+				// 		})
+				// 	}
+				// }).finally(() => {
+				// 	uni.hideLoading()
+				// })
 			},
 
 			toBack() {

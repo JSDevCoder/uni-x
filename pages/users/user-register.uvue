@@ -82,7 +82,7 @@
 
 <script>
 	import { sendSms } from '@/common/request/apis/app.uts';
-	import { userRegister } from '@/common/request/apis/users.uts';
+	// import { userRegister } from '@/common/request/apis/users.uts';
 	import { useSmsValid } from './logic/useSmsValid.uts'
 	import { useRegisterValid } from './logic/useRegisterValid.uts'
 	export default {
@@ -122,27 +122,27 @@
 				uni.showLoading({
 					title: 'loading'
 				})
-				sendSms(this.mobile).then(res => {
-					if (res.code == 1000) {
-						this.timer = setInterval(() => {
-							if (this.time <= 0) {
-								clearInterval(this.timer as number)
-								this.time = 60
-								this.sendText = '发送验证码'
-							} else {
-								this.time -= 1
-								this.sendText = this.time + 's后重发'
-							}
-						}, 1000)
-						uni.showToast({
-							title: '手机验证码已发送，请查收',
-							icon: 'none',
-							position: 'top'
-						})
-					}
-				}).finally(() => {
-					uni.hideLoading()
-				})
+				// sendSms(this.mobile).then(res => {
+				// 	if (res.code == 1000) {
+				// 		this.timer = setInterval(() => {
+				// 			if (this.time <= 0) {
+				// 				clearInterval(this.timer as number)
+				// 				this.time = 60
+				// 				this.sendText = '发送验证码'
+				// 			} else {
+				// 				this.time -= 1
+				// 				this.sendText = this.time + 's后重发'
+				// 			}
+				// 		}, 1000)
+				// 		uni.showToast({
+				// 			title: '手机验证码已发送，请查收',
+				// 			icon: 'none',
+				// 			position: 'top'
+				// 		})
+				// 	}
+				// }).finally(() => {
+				// 	uni.hideLoading()
+				// })
 			},
 
 			formSubmit() {
@@ -158,25 +158,25 @@
 				uni.showLoading({
 					title: 'loading'
 				})
-				userRegister(this.username, this.mobile, this.verify, this.password).then(res => {
-					if (res.code == 1000) {
-						uni.showModal({
-							title: '温馨提示',
-							content: '注册成功，请登录',
-							confirmText: '立即登录',
-							confirmColor: '#007aff',
-							success: res => {
-								if (res.confirm) {
-									uni.navigateBack({
-										delta: 1
-									})
-								}
-							}
-						})
-					}
-				}).finally(() => {
-					uni.hideLoading()
-				})
+				// userRegister(this.username, this.mobile, this.verify, this.password).then(res => {
+				// 	if (res.code == 1000) {
+				// 		uni.showModal({
+				// 			title: '温馨提示',
+				// 			content: '注册成功，请登录',
+				// 			confirmText: '立即登录',
+				// 			confirmColor: '#007aff',
+				// 			success: res => {
+				// 				if (res.confirm) {
+				// 					uni.navigateBack({
+				// 						delta: 1
+				// 					})
+				// 				}
+				// 			}
+				// 		})
+				// 	}
+				// }).finally(() => {
+				// 	uni.hideLoading()
+				// })
 			},
 
 			toBack() {

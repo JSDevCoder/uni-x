@@ -54,7 +54,7 @@
 </template>
 
 <script>
-	import { userEditPwd } from '@/common/request/apis/users.uts'
+	// import { userEditPwd } from '@/common/request/apis/users.uts'
 	import { useEditValid } from './logic/userEditValid.uts';
 	export default {
 		data() {
@@ -80,18 +80,18 @@
 				uni.showLoading({
 					title: 'loading'
 				})
-				userEditPwd(this.username, this.userpwd, this.newuserpwd).then((res) => {
-					if (res.code == 1000) {
-						uni.showToast({
-							title: '修改密码成功',
-							icon: 'none',
-							position: 'top'
-						})
-						uni.navigateBack()
-					}
-				}).finally(() => {
-					uni.hideLoading()
-				})
+				// userEditPwd(this.username, this.userpwd, this.newuserpwd).then((res) => {
+				// 	if (res.code == 1000) {
+				// 		uni.showToast({
+				// 			title: '修改密码成功',
+				// 			icon: 'none',
+				// 			position: 'top'
+				// 		})
+				// 		uni.navigateBack()
+				// 	}
+				// }).finally(() => {
+				// 	uni.hideLoading()
+				// })
 
 			},
 

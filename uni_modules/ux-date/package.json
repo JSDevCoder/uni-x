@@ -1,7 +1,7 @@
 {
   "id": "ux-date",
   "displayName": "ux-date",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "ux-date时间日期格式、以及各种实用日期时间操作方法，持续集成中，欢迎关注，技术支持群: 484768861",
   "keywords": [
     "ux-date",
@@ -37,7 +37,8 @@
     "platforms": {
       "cloud": {
         "tcb": "y",
-        "aliyun": "y"
+        "aliyun": "y",
+        "alipay": "n"
       },
       "client": {
         "Vue": {

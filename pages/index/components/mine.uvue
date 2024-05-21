@@ -24,7 +24,7 @@
 </template>
 
 <script>
-	import { setHasLogin } from '@/stores/index.uts';
+	// import { setHasLogin } from '@/stores/index.uts';
 	import { $c } from '@/common/theme/index.uts'
 
 	type Menu = {
@@ -53,7 +53,7 @@
 			},
 
 			logout() {
-				setHasLogin(false)
+				// setHasLogin(false)
 				uni.reLaunch({
 					url: '/pages/users/index'
 				})

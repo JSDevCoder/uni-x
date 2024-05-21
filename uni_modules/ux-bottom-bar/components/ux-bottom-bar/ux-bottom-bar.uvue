@@ -1,42 +1,46 @@
 <template>
 	<view class="ux-bottom-bar">
 		<view class="ux-bottom-bar_item" :style="{width: (100 / tabs!.length) + '%', backgroundColor: bgColor}"
-			v-for="(item, index) in tabs" :key="item.pagePath" @tap="onTabActive(index)">
+			v-for="(item, index) in tabs" :key="index" @tap="onTabActive(index)">
 			<template v-if="!item.middle">
 				<!-- 图片 -->
-				<image v-if="item.icon == ''" class="icon" :style="{
+				<image class="icon" :style="{
 					width: iconSize + 'px',
 					height: iconSize + 'px'
-				}" :src="idx == index ? item.selectedIconPath : item.iconPath"></image>
+				}" :src="idx == index ? item.selectedImagePath : item.imagePath" v-if="item.imagePath != null"></image>
+
 				<!-- 图标 -->
-				<ux-icons :name="item.icon" :size="fontSize" :color="idx == index ? selectedColor : color"
-					v-else></ux-icons>
+				<ux-icons :name="idx == index ? item.selectIcon : item.icon" :size="fontSize"
+					:color="idx == index ? selectedColor : color" v-if="item.icon != null"></ux-icons>
+
 				<!-- 文本 -->
-				<text v-if="item.text != ''" class="text"
+				<text v-if="item.text != null" class="text"
 					:style="{color: idx == index ? selectedColor : color, fontSize}">{{item.text}}</text>
 			</template>
 			<template v-else>
 				<!-- 图片 -->
-				<image v-if="item.icon == ''" class="middle-icon" :style="{
+				<image class="middle-icon" :style="{
 					width: iconSize + 'px',
 					height: iconSize + 'px',
 					marginLeft: '-' + (iconSize / 2) + 'px',
 					transform: 'scale(' + scale + ',' + scale + ')',
 					bottom: (scale >= 1.8 ? (42 - iconSize) : ((42 - iconSize) / 2))  + 'px'
-				}" :src="idx == index ? item.selectedIconPath : item.iconPath"></image>
+				}" :src="idx == index ? item.selectedImagePath : item.imagePath" v-if="item.imagePath != null"></image>
+
 				<!-- 图标 -->
 				<ux-icons class="middle-icon" :style="{
 					marginLeft: '-' + (fontSize / 2) + 'px',
 					transform: 'scale(' + scale + ',' + scale + ')',
 					bottom: (scale >= 1.8 ? (42 - fontSize) : ((42 - fontSize) / 2))  + 'px'
-				}" :name="item.icon" :size="fontSize" :color="idx == index ? selectedColor : color" v-else></ux-icons>
+				}" :name="idx == index ? item.selectIcon : item.icon" :size="fontSize"
+					:color="idx == index ? selectedColor : color" v-if="item.icon != null"></ux-icons>
 			</template>
 		</view>
 	</view>
 </template>
 <script>
 	import type { PropType } from "vue"
-	import { BottomBarItem } from '../types/index.uts'
+	import { UxBottomItem } from './types/index.uts'
 
 	export default {
 		data() {
@@ -81,7 +85,7 @@
 				type: Number,
 				default: 1
 			},
-			
+
 			// 默认选中选项
 			curr: {
 				type: Number,
@@ -90,15 +94,16 @@
 
 			// tab数据
 			tabs: {
-				type: Array as PropType<BottomBarItem[]>,
-				default() : BottomBarItem[] {
-					return [] as BottomBarItem[]
+				type: Array as PropType<UxBottomItem[]>,
+				default() : UxBottomItem[] {
+					return [] as UxBottomItem[]
 				}
 			}
 		},
-		
+
 		created() {
 			this.idx = this.curr
+			console.log(this.tabs)
 		},
 
 		methods: {

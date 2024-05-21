@@ -1,4 +1,4 @@
-import useValidate, { Valid } from '../../../common/hooks/useValidate.uts'
+import useValidate, { Valid } from '@/uni_modules/ux-validate/js_sdk/use-validate.uts'
 
 /**
  * 验证用户修改密码表单
@@ -17,15 +17,15 @@ export function useEditValid(username : string, userpwd : string, reuserpwd : st
 	// 验证规则
 	const rules = new Map<string, Array<Valid>>()
 	rules.set('username', [{
-		require: 'y',
+		require: true,
 		msg: '用户名必填'
 	}] as Array<Valid>)
 	rules.set('userpwd', [{
-		require: 'y',
+		require: true,
 		msg: '原密码必填'
 	}] as Array<Valid>)
 	rules.set('newuserpwd', [{
-		require: 'y',
+		require: true,
 		msg: '新密码必填'
 	}] as Array<Valid>)
 

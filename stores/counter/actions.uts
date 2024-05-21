@@ -1,0 +1,12 @@
+import { Action } from "@/uni_modules/ux-store/js_sdk/types"
+
+export const INCREMENT = 'INCREMENT'
+export const DECREMENT = 'DECREMENT'
+
+export function increment(num: number): Action {
+	return { type: INCREMENT, payload: num } as Action
+}
+
+export function decrement(): Action {
+	return { type: DECREMENT } as Action
+}

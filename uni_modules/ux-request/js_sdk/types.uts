@@ -1,0 +1,29 @@
+/**
+ * 请求配置
+ */
+export type UxRequestOptions = {
+	url : string
+	baseURL : string
+	api : string
+	method : RequestMethod
+	data : UTSJSONObject | null
+	header : UTSJSONObject
+	timeout : number
+}
+
+/**
+ * 请求失败信息类型
+ */
+export type UxResponseFail = {
+	errCode : RequestErrorCode
+	errMsg : string
+}
+
+/**
+ * request请求参数
+ */
+export type UxParam = {
+	api : string
+	method : RequestMethod
+	data : UTSJSONObject | null
+}

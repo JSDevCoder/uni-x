@@ -1,0 +1,250 @@
+// 验证规则
+export type Valid = {
+	require ?: boolean
+	mobile ?: boolean
+	email ?: boolean
+	password ?: boolean
+	min ?: number
+	max ?: number
+	equal ?: boolean
+	ip ?: boolean
+	url ?: boolean
+	idcard ?: boolean
+	msg : string
+}
+
+// 返回值
+type UxValidate = {
+	isEmpty : (value : string) => boolean
+	isMobile : (value : string) => boolean
+	isPwd : (value : string) => boolean
+	isEmail : (value : string) => boolean
+	isMin : (value : string, len : number) => boolean
+	isMax : (value : string, len : number) => boolean
+	isBetween : (value : string, maxLen : number, minLen : number) => boolean
+	isEqual : (val1 : string, val2 : string) => boolean
+	isIp : (value : string) => boolean
+	isUrl : (value : string) => boolean
+	isIdCard : (value : string) => boolean
+	checkValid : (formData : Map<string, string>, rules : Map<string, Valid[]>) => boolean,
+	getError : () => string[]
+}
+
+/**
+ * 验证表单
+ * @returns UxValidate
+ */
+export default function useValidate() : UxValidate {
+	const emptyRegex = /^.+$/
+	const mobileRegex = /^1[3-9]\d{9}$/i
+	const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i
+	// 最少包含小写字母、大写字母、数字、特殊符号，以及不能小于8位
+	const pwdRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/i
+	const urlRegex = /^(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/i
+	const ipRegex = /^((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){3}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})$/i
+	const idCard = /^[1-9]\d{5}(19|20)\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[0-1])\d{3}(\d|X)$/i
+
+	/**
+	 * 判断是否为空
+	 * @param value 待验证字符串
+	 * @returns 是否验证通过
+	 */
+	const isEmpty = (value : string) : boolean => {
+		return emptyRegex.test(value)
+	}
+
+	/**
+	 * 判断是否为手机号
+	 * @param value 手机号
+	 * @returns 是否验证通过
+	 */
+	const isMobile = (value : string) : boolean => {
+		return mobileRegex.test(value)
+	}
+
+	/**
+	 * 判断是否为密码，验证规则为：最少包含小写字母、大写字母、数字、特殊符号，以及不能小于8位
+	 * @param value 密码
+	 * @returns 是否验证通过
+	 */
+	const isPwd = (value : string) : boolean => {
+		return pwdRegex.test(value)
+	}
+
+	/**
+	 * 判断是否为email
+	 * @param value eamil
+	 * @returns 是否验证通过
+	 */
+	const isEmail = (value : string) : boolean => {
+		return emailRegex.test(value);
+	}
+
+	/**
+	 * 验证身份证号格式
+	 * @param value 身份证号
+	 * @returns 是否验证通过
+	 */
+	const isIdCard = (value : string) : boolean => {
+		return idCard.test(value)
+	}
+
+	/**
+	 * 判断最小位数
+	 * @param value 待验证字符串
+	 * @param len 待验证位数
+	 * @returns 是否验证通过
+	 */
+	const isMin = (value : string, len : number) : boolean => {
+		return value.length >= len
+	}
+
+	/**
+	 * 判断最大位数
+	 * @param value 待验证字符串
+	 * @param len 待验证位数
+	 * @returns 是否验证通过
+	 */
+	const isMax = (value : string, len : number) : boolean => {
+		return value.length <= len
+	}
+
+	/**
+	 * 判断是否在最大位数和最小位数之间
+	 * @param value 待验证字符串
+	 * @param maxLen 最大位数
+	 * @param minLen 最小位数
+	 * @returns 是否验证通过
+	 */
+	const isBetween = (value : string, maxLen : number, minLen : number) : boolean => {
+		return value.length >= minLen && value.length <= maxLen
+	}
+
+	/**
+	 * 判断两个字符串是否相同
+	 * @param val1 字符串1
+	 * @param val2 字符串2
+	 * @returns 是否验证通过
+	 */
+	const isEqual = (val1 : string, val2 : string) : boolean => {
+		return val1 == val2
+	}
+	/**
+	 * 判断是否为ip
+	 * @param value ip
+	 * @returns 是否验证通过
+	 */
+	const isIp = (value : string) : boolean => {
+		return (ipRegex.test(value));
+	}
+	/**
+	 * 判断是否为url
+	 * @param value url
+	 * @returns 是否验证通过
+	 */
+	const isUrl = (value : string) : boolean => {
+		return urlRegex.test(value)
+	}
+
+	// 错误信息
+	const errorMsg : Array<string> = []
+
+
+	/**
+	 * 验证数据
+	 * @param formData 待验证数据
+	 * @param rules 验证规则
+	 * @returns 是否验证通过
+	 */
+	const checkValid = (formData : Map<string, string>, rules : Map<string, Array<Valid>>) : boolean => {
+		let statusArr : Array<string> = []
+		formData.forEach((v, k) => {
+			if (rules.has(k) && rules.get(k) != null) {
+				rules.get(k)!.forEach(_v => {
+					if (_v.require == true && !isEmpty(v)) {
+						statusArr.push('n')
+						errorMsg.push(_v.msg)
+						return
+					}
+					if (_v.mobile == true && !isMobile(v)) {
+						statusArr.push('n')
+						errorMsg.push(_v.msg)
+						return
+					}
+					if (_v.email == true && !isEmail(v)) {
+						statusArr.push('n')
+						errorMsg.push(_v.msg)
+						return
+					}
+					if (_v.password == true && !isPwd(v)) {
+						statusArr.push('n')
+						errorMsg.push(_v.msg)
+						return
+					}
+					if (_v.min != null && !isMin(v, (_v.min as number))) {
+						statusArr.push('n')
+						errorMsg.push(_v.msg)
+						return
+					}
+					if (_v.min != null && !isMin(v, (_v.max as number))) {
+						statusArr.push('n')
+						errorMsg.push(_v.msg)
+						return
+					}
+					if (_v.max != null && _v.min != null && !isBetween(v, (_v.max as number), (_v.min as number))) {
+						statusArr.push('n')
+						errorMsg.push(_v.msg)
+						return
+					}
+					if (_v.equal == true) {
+						const val1 = v.split(',')[0]
+						const val2 = v.split(',')[1]
+						if (!isEqual(val1, val2)) {
+							statusArr.push('n')
+							errorMsg.push(_v.msg)
+							return
+						}
+					}
+					if (_v.ip == true && !isIp(v)) {
+						statusArr.push('n')
+						errorMsg.push(_v.msg)
+						return
+					}
+					if (_v.url == true && !isUrl(v)) {
+						statusArr.push('n')
+						errorMsg.push(_v.msg)
+						return
+					}
+					if(_v.idcard == true) {
+						statusArr.push('n')
+						errorMsg.push(_v.msg)
+						return
+					}
+					statusArr.push('y')
+				})
+			}
+		})
+		return statusArr.indexOf('n') == -1
+	}
+
+	// 表单错误信息
+	const getError = () : Array<string> => {
+		return errorMsg
+	}
+
+	return {
+		isEmpty,
+		isMobile,
+		isPwd,
+		isEmail,
+		isMin,
+		isMax,
+		isBetween,
+		isEqual,
+		isIp,
+		isUrl,
+		isIdCard,
+		checkValid,
+		getError
+	} as UxValidate
+}

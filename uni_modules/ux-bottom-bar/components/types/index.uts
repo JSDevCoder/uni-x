@@ -1,8 +1,0 @@
-export type BottomBarItem = {
-	iconPath : string
-	text : string
-	selectedIconPath : string
-	pagePath : string
-	middle : boolean
-	icon : string
-}

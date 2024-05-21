@@ -63,7 +63,7 @@
 </template>
 
 <script>
-	import { userLogin } from '@/common/request/apis/users.uts'
+	// import { userLogin } from '@/common/request/apis/users.uts'
 	import { useLoginValid } from './logic/useLoginValid.uts';
 	import { setHasLogin } from '@/stores/index.uts'
 
@@ -128,18 +128,17 @@
 				uni.showLoading({
 					title: 'loading'
 				})
-				userLogin(this.username, this.userpwd).then((res) => {
-					console.log(res)
-					if (res.code == 1000) {
-						uni.setStorageSync('username', this.username)
-						setHasLogin(true)
-						uni.redirectTo({
-							url: '/pages/index/index'
-						})
-					}
-				}).finally(() => {
-					uni.hideLoading()
-				})
+				// userLogin(this.username, this.userpwd).then((res) => {
+				// 	if (res.code == 1000) {
+				// 		uni.setStorageSync('username', this.username)
+				// 		setHasLogin(true)
+				// 		uni.redirectTo({
+				// 			url: '/pages/index/index'
+				// 		})
+				// 	}
+				// }).finally(() => {
+				// 	uni.hideLoading()
+				// })
 
 			},
 

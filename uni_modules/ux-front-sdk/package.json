@@ -1,8 +1,8 @@
 {
   "id": "ux-front-sdk",
   "displayName": "ux-front-sdk",
-  "version": "1.0.3",
-  "description": "基于uniapp-x的前端sdk集合，持续集成中，欢迎关注，技术支持QQ群：484768861",
+  "version": "1.0.5",
+  "description": "基于uniapp-x的前端sdk集合，持续集成中，欢迎关注",
   "keywords": [
     "ux-front-sdk",
     "uts",
@@ -35,13 +35,17 @@
   "uni_modules": {
     "dependencies": [
 		"ux-request",
-		"ux-theme"
+		"ux-theme",
+		"ux-date",
+		"ux-validate",
+		"ux-store"
 	],
     "encrypt": [],
     "platforms": {
       "cloud": {
         "tcb": "y",
-        "aliyun": "y"
+        "aliyun": "y",
+        "alipay": "n"
       },
       "client": {
         "Vue": {

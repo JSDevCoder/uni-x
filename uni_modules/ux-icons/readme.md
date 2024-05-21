@@ -1,7 +1,9 @@
 # ux-icons
 
 ### 图标预览
-[ux-icons图标预览](https://hexinkuo.gitee.io/uni-x/iconfont/demo_index.html)
+[ux-icons图标预览](https://hexinkuo.gitee.io/uni-x/iconfont/demo_index.html)   
+注意： 因gitee的Gitee Pages功能紧急维护，目前预览功能暂不可用，后续等gitee官方维护完，可正常使用    
+
 
 ### 使用方式
 
@@ -30,3 +32,4 @@
 5. 找到数组中每一项的unicode属性，将值改为\u开头，建议使用搜索替换  
 6. 将找到的iconfont.ttf更名为ux.ttf，同时，复制到组件的fonts目录下   
 7. 如果有必要，请将字体文件上传服务器，使用远程方式，并更新ux-icons.uvue文件中的@font-face  
+

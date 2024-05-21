@@ -1,4 +1,4 @@
-import useValidate, { Valid } from '../../../common/hooks/useValidate.uts'
+import useValidate, { Valid } from '@/uni_modules/ux-validate/js_sdk/use-validate.uts'
 
 /**
  * 验证用户登录表单
@@ -15,14 +15,14 @@ export function useLoginValid(username : string, userpwd : string) : Array<strin
 	// 验证规则
 	const rules = new Map<string, Array<Valid>>()
 	rules.set('username', [{
-		require: 'y',
+		require: true,
 		msg: '用户名必填'
 	}] as Array<Valid>)
 	rules.set('userpwd', [{
-		require: 'y',
+		require: true,
 		msg: '密码必填'
 	}] as Array<Valid>)
-
+	
 	const validate = useValidate()
 	const valid = validate.checkValid(formData, rules);
 	if (!valid) {

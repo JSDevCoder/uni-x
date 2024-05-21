@@ -1,8 +1,8 @@
 {
   "id": "ux-request",
   "displayName": "ux-request",
-  "version": "1.0.3",
-  "description": "封装基于uni.request的带拦截器的请求，支持uni-app x，技术支持QQ群：484768861",
+  "version": "1.0.4",
+  "description": "使用uts封装的基于uni.request请求插件，支持三端（android/ios/web），支持Promise，支持多拦截器",
   "keywords": [
     "ux-request",
     "uts",
@@ -38,7 +38,8 @@
     "platforms": {
       "cloud": {
         "tcb": "y",
-        "aliyun": "y"
+        "aliyun": "y",
+        "alipay": "n"
       },
       "client": {
         "Vue": {

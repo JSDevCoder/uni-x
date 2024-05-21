@@ -1,0 +1,52 @@
+import { Action } from './types';
+import UxDispatcher from './dispatcher';
+
+/**
+ * 创建store
+ */
+export default class UxCreateStore<S> {
+	state : S
+	dispatcher : UxDispatcher
+	private listeners : Set<(state : S) => void> = new Set()
+
+	/**
+	 * 创建store
+	 * @param initialState 初始化state
+	 * @param reducer 处理antion的reducer函数
+	 */
+	constructor(initialState : S, reducer : (state : S, action : Action) => void) {
+		this.state = initialState
+		// 调用用户自定义插件创建回调函数（如果提供）
+		this.dispatcher = new UxDispatcher()
+		this.dispatcher.register((action : Action) => {
+			reducer(this.state, action)
+			this._notifyListeners()
+		});
+	}
+
+	/**
+	 * 获取state
+	 */
+	useState(callback : (state : S) => any) : any {
+		return callback(this.state)
+	}
+
+	/**
+	 * 分发action
+	 */
+	dispatch(action : Action) : void {
+		this.dispatcher.dispatch(action)
+	}
+
+	subscribe(listener : (state : S) => void) : void {
+		this.listeners.add(listener)
+	}
+
+	/**
+	* 监听器
+	*/
+	private _notifyListeners() : void {
+		this.listeners.forEach(listener => listener(this.state))
+	}
+
+}

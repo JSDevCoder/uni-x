@@ -1,6 +1,6 @@
 // useDate的返回类型
 type UxDate = {
-	format : (time : string, format : string) => string
+	format : (time : string, format : string, isSec: boolean) => string
 	timeAgo : (time : number) => string
 }
 
@@ -13,10 +13,21 @@ export default function useDate() : UxDate {
 	 * 日期格式化
 	 * @param datetime 时间日期字符串、时间戳
 	 * @param format 格式化的类型，YYYY-MM-DD hh:mm:ss WW任意组合
+	 * @param isSec 是否毫秒值，true|false
 	 * @returns 返回处理好的事件日期字符串，比如 2023-12-10 12:30:22 星期日
 	 */
-	const format = (datetime : string, format : string) : string => {
-		const oDate = new Date(datetime)
+	const format = (datetime : string, format : string, isSec: boolean) : string => {
+		let oDate: Date|null = null
+		if(isSec == true) {
+			// 秒级
+			if(datetime.length <= 10) {
+				datetime = datetime + '000'
+			}
+			// 毫秒级会直接转
+			oDate = new Date(parseInt(datetime))
+		} else {
+			oDate = new Date(datetime)
+		}
 		const check = (val : number) : string => val < 10 ? `0${val}` : `${val}`
 		const year = check(oDate.getFullYear())
 		const month = check(oDate.getMonth() + 1)
@@ -33,7 +44,7 @@ export default function useDate() : UxDate {
 		options.set('mm', minute)
 		options.set('ss', second)
 		options.set('WW', weekday)
-		
+
 		// v-当前匹配到的字符串
 		// i 当前匹配到的字符串的下标
 		// str 当前进行匹配的字符串

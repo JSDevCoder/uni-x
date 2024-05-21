@@ -1,108 +1,80 @@
 <template>
-	<!-- 导航栏 -->
-	<ux-top-bar :title="pageTitle" color="#fff" :bg-color="c('primary')" :position="true"
-		:right-menus="rightMenus"></ux-top-bar>
-
+	<ux-top-bar :title="currTitle" :bg-color="c('primary')" color="#fff"></ux-top-bar>
 
 	<!-- #ifdef APP -->
-	<scroll-view class="scroll-view">
+	<scroll-view style="flex: 1">
 	<!-- #endif -->
-
-		<view class="container" :style="{padding: `${topBarHeight}px 0 50px`}">
-			<Home v-if="idx == 0"></Home>
-			<Middle v-if="idx == 1"></Middle>
-			<Mine v-if="idx == 2"></Mine>
-		</view>
-
+		<component :is="currPage"></component>
 	<!-- #ifdef APP -->
 	</scroll-view>
 	<!-- #endif -->
 
-	<ux-bottom-bar :scale="1.4" :curr="idx" color="#333" :selected-color="c('primary')" :tabs="customTabs"
-		@on-tab-active="onTabActive"></ux-bottom-bar>
+
+	<ux-bottom-bar :tabs="tabs" @on-tab-active="onTabActive"></ux-bottom-bar>
 </template>
 
 <script>
-	import { BottomBarItem } from '@/uni_modules/ux-bottom-bar/components/types/index.uts'
-	import Home from './components/home.uvue'
-	import Middle from './components/middle.uvue'
-	import Mine from './components/Mine.uvue'
-	import { Menu } from '@/uni_modules/ux-top-bar/components/ux-top-bar/types/types.uts'
+	import { UxBottomItem } from '@/uni_modules/ux-bottom-bar/components/ux-bottom-bar/types/index.uts';
+	import home from './components/home.uvue'
+	import comps from './components/comps.uvue'
+	import apis from './components/apis.uvue'
+	import mine from './components/mine.uvue'
+	
 	import { $c } from '@/common/theme/index.uts'
-
 	export default {
 		components: {
-			Home,
-			Middle,
-			Mine
+			home,
+			comps,
+			apis,
+			mine
 		},
 		data() {
 			return {
 				idx: 0,
-				customTabs: [
-					{
-						iconPath: "/static/images/tabbar/index.png",
-						selectedIconPath: "/static/images/tabbar/index-active.png",
-						pagePath: "components/home",
-						text: "首页",
-						middle: false,
-						icon: 'all'
-					},
-					{
-						iconPath: "/static/images/tabbar/middle.png",
-						selectedIconPath: "/static/images/tabbar/middle-active.png",
-						pagePath: "/pages/index/index",
-						text: "中间按钮",
-						middle: true,
-						icon: 'atm'
-					},
-					{
-						iconPath: "/static/images/tabbar/mine.png",
-						selectedIconPath: "/static/images/tabbar/mine-active.png",
-						pagePath: "components/mine",
-						text: "我的",
-						middle: false,
-						icon: 'account'
-					},
-				] as BottomBarItem[],
-				pageTitle: '首页',
-				// 右侧按钮
-				rightMenus: [{
-					icon: 'remind',
-					color: '#fff',
-					text: '消息',
-					size: 12
-				}] as Menu[],
+				currPage: 'home',
+				currTitle: '首页',
+				pages: ['home', 'comps', 'apis', 'mine'],
+				pageTitles: ['首页', '组件', 'API', '我的'],
+				tabs: [{
+					text: '首页',
+					icon: 'all',
+					selectIcon: 'link',
+					middle: false
+				}, {
+					text: '组件',
+					icon: 'all',
+					selectIcon: 'link',
+					middle: false
+				}, {
+					text: 'API',
+					icon: 'discount',
+					selectIcon: 'discount',
+					middle: false
+				}, {
+					text: '我的',
+					icon: 'bussiness-man',
+					selectIcon: 'bussiness-man',
+					middle: false
+				}] as UxBottomItem[]
+				
 			}
 		},
-
-		computed: {
-			topBarHeight() : number {
-				return uni.getSystemInfoSync().statusBarHeight + 44
-			},
-
-		},
-
-		onLoad() {
-			const title = ['首页', '自定义', '我的']
-			this.pageTitle = title[this.idx]
-		},
-
+		
 		methods: {
+			onTabActive(index: number) {
+				console.log(index)
+				this.idx = index
+				this.currPage = this.pages[index]
+				this.currTitle = this.pageTitles[index]
+			}, 
+			
 			c(color: string): string {
 				return $c(color)
 			},
-			onTabActive(index : number) {
-				this.idx = index
-				const title = ['首页', '自定义', '我的']
-				this.pageTitle = title[index]
-			}
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
-	.scroll-view {
-		flex: 1;
-	}
+
 </style>

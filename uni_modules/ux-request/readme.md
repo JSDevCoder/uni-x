@@ -1,206 +1,151 @@
 # ux-request 封装请求
 
-基于uni.request封装的带拦截器的请求  
+1. 基于uts封装uni.request请求  
+2. 带拦截器，支持多拦截器  
+3. 支持uni-app x  
 
-### new UxRequest时可配置的一些参数
+### 使用注意事项
 
-| 参数名    | 类型    | 默认值    | 是否必传    | 备注 |
-| :---:    | :---:   | :---:     | :---:      |:---:      |
-| baseURL | string |  | 是 | 请求域名 |
-| api | string |  | 是 | 请求的api接口 |
-| method | RequestMethod | GET | 否 | 请求方法 |
-| data | UTSJSONObject | {} | 否 | 请求的数据 |
-| header | UTSJSONObject | {} | 否 | 请求的headers |
+1. 本插件支持Android、Web、Ios端  
+2. ios端未测试，因为作者没有mac  
+3. 因为官方的泛型只用于类型推断，无法作为值传递，所以封装本插件时，返回的数据均以UTSJSONObject方式操作，参考[UTSJSONObject文档](https://doc.dcloud.net.cn/uni-app-x/tutorial/request.html)
+4. 如果有任何问题，可以在uni-im留言  
 
-### 需要说明的一些问题
+### 插件通用配置
 
-一、关于请求成功之后返回的业务逻辑数据：   
+| 参数名    | 类型    | 默认值       | 备注 |
+| :---:    | :---:   | :---:          |:---:      |
+| url | string |   | 请求的完整链接 |
+| baseURL | string |   | 请求域名 |
+| api | string |   | 请求的api接口 |
+| method | RequestMethod | GET  | 请求方法 |
+| data | UTSJSONObject|null |  请求的数据 |
+| header | UTSJSONObject | {}  | 请求的header |
 
-```
-{
-    "cookies": [],
-    "data": {
-        "code": 1000,
-        "data": "123456",
-        "msg": "找回密码成功"
-    },
-    "header": {
-        "access-control-allow-credentials": "true",
-        "connection": "keep-alive",
-        "content-length": "58",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Thu, 07 Dec 2023 03:47:35 GMT",
-        "etag": "W/\"3a-EuzQv5dmM0vEsEM+q0p1aaqnS6k\"",
-        "server": "nginx/1.17.8",
-        "set-cookie": "connect.sid=s%3Ae5n7Pr_MPPN-FsRPTRDnz9pzPwnK5gxi.wwne4O8XMwbh19LiMT4qqPJ4Zt5FN%2BNbdCZ7VUWlgfc; Path=/; Expires=Thu, 07 Dec 2023 15:47:35 GMT; HttpOnly",
-        "vary": "Accept, Origin, Accept-Encoding",
-        "x-powered-by": "Express"
-    },
-    "statusCode": 200
-}
-```
-
-这里需要注意的是，第一层返回的data的类型，官方提供的是T，需要使用者自行定义类型，本插件默认定义如下  
-
-| 参数名    | 类型    | 默认值    | 是否必传    | 备注 |
-| :---:    | :---:   | :---:     | :---:      |:---:      |
-| code | number |  | 是 | 请求的业务逻辑code |
-| data | any |  | 是 | 请求的业务逻辑数据  |
-| msg | string | 是 | 否 | 请求返回的提示信息 |
-
-如果有用户跟本插件定义的类型不一致，如果在不能更改的情况下，请打开插件目录下的interceptors.uts文件，修改DataResult类型代码即可  
-如非必要，请勿修改！  
-
-二、前置拦截器的拦截逻辑  
-
-拦截器config > request/post/get方法参数 > new Request()参数 > 默认参数  
 
 ### 使用方式  
 
-在项目根目录下common/request/index.uts，配置拦截器  
+在项目根目录下创建common/request/index.uts配置拦截器，也可根据自己的项目自行配置  
+创建拦截器需要注意的是：  
+1. 定义的拦截器须继承UxInterceptor基类  
+2. 继承之后，须重写beforeRequest/afterResponseSucc/afterResponseFail三个方法  
+3. 重写之后，在各个方法里面实现自己的拦截逻辑（如下示例）  
+
+| 方法名    | 备注 |
+| :---:    |:---:      |
+| beforeRequest | 请求之前拦截 |
+| afterResponseSucc | 请求成功拦截 |
+| afterResponseFail | 请求失败拦截 |
 
 ```
 // 当前common/request/index.uts
+import UxRequest from '@/uni_modules/ux-request/js_sdk/request.uts'
+import UxInterceptor from '@/uni_modules/ux-request/js_sdk/interceptors.uts'
+import { UxParam, UxRequestOptions, UxResponseFail } from '@/uni_modules/ux-request/js_sdk/types.uts'
 
-import { UxRequest, DataResult, FailInfo, SuccessInfo } from '@/uni_modules/ux-request/js_sdk/request.uts'
-
-// 初始化时，参数配置
-const reqParams = new Map<string, any>()
-reqParams.set('baseURL', 'https://www.fastmock.site/mock/f3db82b0eeba8d6ec09d1947627bb194/uni-x')
-reqParams.set('header', {
-	'Content-Type': 'application/json'
-} as UTSJSONObject)
-
-// 请求实例
-const reqIns = new UxRequest(reqParams)
-
-// 请求前拦截
-reqIns.interceptors.request.use((config : Map<string, any>) : Map<string, any> => {
-	console.log('config ======> ', config)
-	// 在拦截器中添加token
-	// token 可能会被添加到data或者header中
-	
-	//const token = uni.getStorageSync('token') as string
-	// 1. 在header中添加token
-	//config.header.set('token', token) // header的类型是UTSJSONOject
-	
-	// 2. 在data中添加token
-	// config.data.set('token', token) // data的类型是UTSJSONOject
-	
-	return config
-})
-
-// 响应拦截
-reqIns.interceptors.response.use(
-	(res : SuccessInfo) : SuccessInfo => {
-		// 走到这里的都是200 500 404 403之类的
-		// 在这里只需要判断逻辑出错即可，并给于提示
-		console.log('res ======> ', res)
-		// 此处的处理情况，请根据自己的项目自定义
-		if(res.statusCode != 200) {
-			// 300,400,500
-			uni.showToast({
-				title: '请求出错',
-				icon: 'none'
-			})
-		} else {
-			if(res.data.code != 1000) {
-				uni.showToast({
-					title: '业务逻辑出错：' + res.data.msg,
-					icon: 'none'
-				})
-			}
-		}
-		return res
-	},
-	(err : FailInfo) : FailInfo => {
-		// 走到这里的，说明服务端有问题
-		console.log('err ======> ', err)
+// 请求拦截器示例
+class HttpInterceptor extends UxInterceptor {
+	constructor() {
+		super()
+	}
+	override beforeRequest(config : UxRequestOptions) : UxRequestOptions {
+		config.baseURL = 'http://127.0.0.1:8888' // 请填写自己的域名或者本机ip
+		config.url = config.baseURL + config.api
+		config.timeout = 50000
+		config.header['Content-Type'] = 'application/x-www-form-urlencoded'
+		return config
+	}
+	override afterResponseSucc(response : UTSJSONObject) : UTSJSONObject {
+		return response
+	}
+	override afterResponseFail(error : UxResponseFail) : UxResponseFail {
 		uni.showToast({
-			title: '网络逻辑出错：' + err.errMsg,
+			title: '错误码: ' + error.errCode + ', 错误信息: ' + error.errMsg,
 			icon: 'none'
 		})
-		return err
+		return error
 	}
-)
+}
+const ins = UxRequest.create()
+ins.addInterceptor(new HttpInterceptor())
 
-export { reqIns, DataResult }
+export default ins
+```
+### 多拦截器说明
+
+本插件支持多拦截器，按照ins.addInterceptor添加的顺序执行   
+ 
+```
+// 本插件支持多拦截器
+import UxRequest from '@/uni_modules/ux-request/js_sdk/request.uts'
+import UxInterceptor from '@/uni_modules/ux-request/js_sdk/interceptors.uts'
+import { UxRequestOptions, UxResponseFail } from '@/uni_modules/ux-request/js_sdk/types.uts'
+
+// 请求拦截器示例
+class HttpInterceptor extends UxInterceptor {
+	constructor() {
+		super()
+	}
+	override beforeRequest(config : UxRequestOptions) : UxRequestOptions {
+		config.baseURL = 'http://127.0.0.1:8888' // 请填写自己的域名或者本机ip
+		config.url = config.baseURL + config.api
+		config.timeout = 50000
+		config.header['Content-Type'] = 'application/x-www-form-urlencoded'
+		return config
+	}
+	override afterResponseSucc(response : UTSJSONObject) : UTSJSONObject {
+		// 根据返回的数，在此处做请求状态处理
+		// ...
+		return response
+	}
+	override afterResponseFail(error : UxResponseFail) : UxResponseFail {
+		uni.showToast({
+			title: '错误码: ' + error.errCode + ', 错误信息: ' + error.errMsg,
+			icon: 'none'
+		})
+		return error
+	}
+}
+
+// 日志拦截器示例
+class LogInterceptor extends UxInterceptor {
+	constructor() {
+		super()
+	}
+	override beforeRequest(config : UxRequestOptions) : UxRequestOptions {
+		console.log('请求前拦截器日志：', config)
+		return config
+	}
+	override afterResponseFail(error : UxResponseFail) : UxResponseFail {
+		console.log('请求失败拦截器日志：', error)
+		return error
+	}
+}
+const ins = UxRequest.create()
+ins.addInterceptor(new HttpInterceptor())
+ins.addInterceptor(new LogInterceptor())
+
+export default ins
 ```
 
-关于响应拦截器中的res的一些说明：  
-
-`(res: SuccessInfo) => SuccessInfo` 中的res实际上是拦截器拦截到的响应数据，他的本质就是数据  
-用户在使用过程中，只需要对数据做一些处理，比如判断请求状态、修改res中的某个属性值。。。  
-最后记得一定要return res，res是修改后的数据，不要return其他数据  
-
-api中使用  
+### 定义sevices
 
 ```
 // 当前common/request/apis/app.uts
 
-import {reqIns, DataResult} from '../index.uts'
+import ins from "../index.uts"
 
-/**
- * 发送验证码
- * @param mobile {String} 手机号
- */
-export function sendSms(mobile : string) : Promise<DataResult> {
-	return reqIns.post('/api/app/send_sms', { mobile } as UTSJSONObject, null)
+export const getList = (): Promise<UTSJSONObject> => {
+	return ins.getData('/project/list', null)
 }
 ```
 
-页面中使用  
+### 页面中使用
 
 ```
-// 当前pages/users/user-register.uvue
+import { getList } from '@/common/request/apis/app.uts'
 
-import { sendSms } from '@/request/apis/app.uts';
-
-methods: {
-	// 发送验证码
-	sendSms() {
-		if (this.time < 60) return
-		const result = useSmsValid(this.mobile)
-		if (result != null) {
-			uni.showToast({
-				title: result[0],
-				icon: 'none',
-				position: 'top'
-			})
-			return
-		}
-		if(this.password != this.repassword) {
-			uni.showToast({
-				title: '密码和重复密码不一致',
-				icon: 'none',
-				position: 'top'
-			})
-			return
-		}
-		uni.showLoading({
-			title: 'loading'
-		})
-		sendSms(this.mobile).then(res => {
-			if (res.code == 1000) {
-				this.timer = setInterval(() => {
-					if (this.time <= 0) {
-						clearInterval(this.timer as number)
-						this.time = 60
-						this.sendText = '发送验证码'
-					} else {
-						this.time -= 1
-						this.sendText = this.time + 's后重发'
-					}
-				}, 1000)
-				uni.showToast({
-					title: '手机验证码已发送，请查收',
-					icon: 'none',
-					position: 'top'
-				})
-			}
-		}).finally(() => {
-			uni.hideLoading()
-		})
-	},
-}
+getList().then((res: UTSJSONObject)  => {
+	console.log(res) // UTSJSONObject
+})
 ```

@@ -1,0 +1,24 @@
+import { Action } from "./types"
+
+type Callback = (action : Action) => void
+
+/**
+ * 全局的事件调度中心，负责接收和分发动作(Actions)
+ */
+export default class UxDispatcher {
+	callbacks : Callback[] = []
+	
+	/**
+	 * 注册action
+	 */
+	register(callback : Callback) {
+		this.callbacks.push(callback)
+	}
+	
+	/**
+	 * 分发action
+	 */
+	dispatch(action : Action) {
+		this.callbacks.forEach(callback => callback(action))
+	}
+}

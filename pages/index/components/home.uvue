@@ -5,10 +5,16 @@
 		<button class="mt10" type="primary" @tap="open('right')">点击打开右侧弹窗</button>
 		<button class="mt10" type="primary" @tap="open('top')">点击打开顶部弹窗</button>
 		<button class="mt10" type="primary" @tap="open('bottom')">点击打开底部弹窗</button>
+		<view v-for="(item, index) in list" :key="index">
+			{{item.get('app')}}
+		</view>
+		<!-- <view class="">
+			{{list.get('app')}}
+		</view> -->
 		
 		<ux-popup ref="uxPopup" :pos="pos">
-			<view :class="[`pos-${pos}`]">
-				测试弹窗
+			<view style="background-color: #fff;">
+				<ux-message></ux-message>
 				<view @tap="close">
 					点击关闭
 				</view>
@@ -19,13 +25,16 @@
 
 <script>
 	import { $c, $t, switchTheme } from '@/common/theme/index.uts'
-	import useDate from '@/uni_modules/ux-date/js_sdk/use-date.uts'
+	// import useDate from '@/uni/_modules/ux-date/js_sdk/use-date.uts'
+	import {Item} from '@/common/request/models/index.uts'
+	// import {getSetting} from '@/common/request/apis/app.uts'
 	
 	export default {
 		data() {
 			return {
 				unit: '10px',
-				pos: 'center'
+				pos: 'center',
+				list: [] as UTSJSONObject[]
 			}
 		},
 		computed: {
@@ -35,9 +44,8 @@
 		},
 		
 		created() {
-			const {format, timeAgo} = useDate()
-			console.log(format(new Date().toString(), 'YYYY-MM-DD WW'))
-			console.log(timeAgo(new Date().getTime() - 2 * 60 * 60 * 1000))
+			
+			
 		},
 		
 		methods: {

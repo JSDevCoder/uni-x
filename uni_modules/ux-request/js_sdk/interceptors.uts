@@ -1,154 +1,29 @@
-// 成功时，返回的数据中的data的类型
-export type DataResult = {
-	code : number
-	data : any
-	msg : string
-}
+import { UxRequestOptions, UxResponseFail } from "./types";
 
-// 成功时的返回类型
-export type SuccessInfo = {
-	data : DataResult
-	statusCode : number
-	header : any
-	cookies : string[]
-}
-
-// 失败时的返回类型
-export type FailInfo = {
-	errCode : 5 | 1000 | 100001 | 100002 | 600003 | 600009 | 602001
-	data : any | null,
-	errMsg : string
-}
-
-/**
- * 请求拦截器类型
- */
-type RequestInterceptor = {
-	use : (fn : (config : Map<string, any>) => Map<string, any>) => void
-	run : (fn : (config : Map<string, any>) => void) => void
-}
-
-/**
- * 响应拦截器类型
- */
-type ResponseInterceptor = {
-	use : (sFn : (response : SuccessInfo) => SuccessInfo, fFn : (response : FailInfo) => FailInfo) => void
-	sRun : (fn : (response : SuccessInfo) => void) => void
-	fRun : (fn : (response : FailInfo) => void) => void
-}
-
-// uts不支持yield,后续优化
-// 临时的运行方法， 用来作为run和use的桥接
-let reqRun = function () { }
-
-// 临时的运行方法， 用来作为run和use的桥接
-let resRun = function () { }
 /**
  * 拦截器
- * @desc 拦截请求/响应
  */
-class Interceptors {
-	// 请求配置
-	requestConfig : Map<string, any> = new Map<string, any>()
-
-	// 请求成功
-	responseSuccess : SuccessInfo = {
-		data: {
-			data: {} as any,
-			code: 1,
-			msg: ''
-		} as DataResult,
-		statusCode: 200,
-		header: {},
-		cookies: [] as string[]
-	} as SuccessInfo
-
-	// 请求失败
-	responseFail : FailInfo = {
-		errCode: 5,
-		data: {} as any,
-		errMsg: ''
-	} as FailInfo
-
-	// 响应状态
-	responseStatus : number = 1
-
-
-
+class UxInterceptor {
 	/**
-	 * 请求拦截器
-	 * @TYPE RequestInterceptor
+	 * 请求之前拦截
 	 */
-	request : RequestInterceptor = {
-		use(fn : (config : Map<string, any>) => Map<string, any>) : void {
-			reqRun = function () {
-				this.requestConfig = fn(this.requestConfig)
-			}
-		},
-
-		run(fn : (config : Map<string, any>) => void) : void {
-			reqRun()
-			fn(this.requestConfig)
-		}
-	} as RequestInterceptor
-
-	/**
-	 * 响应拦截器
-	 * @TYPE RequestInterceptor
-	 */
-	response : ResponseInterceptor = {
-		use(sFn : (response : SuccessInfo) => SuccessInfo, fFn : (response : FailInfo) => FailInfo) : void {
-			resRun = function () {
-				if (this.responseStatus == 1) {
-					this.responseSuccess = sFn(this.responseSuccess)
-				} else if (this.responseStatus == 2) {
-					this.responseFail = fFn(this.responseFail)
-				}
-			}
-		},
-
-		sRun(fn : (response : SuccessInfo) => void) : void {
-			resRun()
-			fn(this.responseSuccess)
-		},
-
-		fRun(fn : (response : FailInfo) => void) : void {
-			resRun()
-			fn(this.responseFail)
-		}
-	} as ResponseInterceptor
-
-	/**
-	 * 拦截到请求配置
-	 * @param config 请求时的配置参数
-	 */
-	setReqConfig(config : Map<string, any>) : void {
-		this.requestConfig = config
+	beforeRequest(config : UxRequestOptions) : UxRequestOptions {
+		return config
 	}
 
 	/**
-	 * 拦截到响应数据
-	 * @param responseSuccess 请求成功的数据
+	 * 响应之后拦截请求成功
 	 */
-	setResSuccess(responseSuccess : SuccessInfo) {
-		this.responseSuccess = responseSuccess
+	afterResponseSucc(response : UTSJSONObject) : UTSJSONObject {
+		return response
 	}
 
 	/**
-	 * 拦截到响应错误数据
-	 * @param responseFail 请求失败时的数据
+	 * 响应之后拦截请求失败
 	 */
-	setResFail(responseFail : FailInfo) {
-		this.responseFail = responseFail
-	}
-
-	/**
-	 * 设置响应时的状态
-	 * @param status 1-请求成功 2-请求失败
-	 */
-	setResStatus(status : number) {
-		this.responseStatus = status
+	afterResponseFail(error : UxResponseFail) : UxResponseFail {
+		return error
 	}
 }
 
-export default Interceptors
+export default UxInterceptor
