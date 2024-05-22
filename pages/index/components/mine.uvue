@@ -1,8 +1,8 @@
 <template>
-	<view class="header" :style="{backgroundColor: c('primary')}">
+	<view class="header" :style="{backgroundColor: C('primary')}">
 		<view class="info">
-			<view class="face" :style="{border: '1px solid ' + c('primary')}">
-				<text class="face-text" :style="{color: c('primary')}">酷</text>
+			<view class="face" :style="{border: '1px solid ' + C('primary')}">
+				<text class="face-text" :style="{color: C('primary')}">酷</text>
 			</view>
 			<view class="nick">
 				<text class="id">ID: 00000001</text>
@@ -13,19 +13,18 @@
 
 	<view class="list">
 		<view class="list-item" v-for="(item, index) in menus" :key="index" @tap="linkTo(item.link)">
-			<ux-icons :name="item.icon" :size="14" :color="c('primary')"></ux-icons>
+			<ux-icons :name="item.icon" :size="14" :color="C('primary')"></ux-icons>
 			<text class="list-item-text">{{item.text}}</text>
-			<ux-icons :name="item.right" :size="12" :color="c('borderColor')"></ux-icons>
+			<ux-icons :name="item.right" :size="12" :color="C('borderColor')"></ux-icons>
 		</view>
 	</view>
-	<view class="logout" :style="{backgroundColor: c('primary')}" @tap="logout">
+	<view class="logout" :style="{backgroundColor: C('primary')}" @tap="logout">
 		<text class="logout-txt">退出登录</text>
 	</view>
 </template>
 
 <script>
-	// import { setHasLogin } from '@/stores/index.uts';
-	import { $c } from '@/common/theme/index.uts'
+	import theme from '@/common/theme/index.uts'
 
 	type Menu = {
 		icon : string
@@ -36,15 +35,19 @@
 	export default {
 		data() {
 			return {
+				theme: theme,
 				menus: [
 					{ icon: 'plus', text: '系统管理', right: 'angle-right', link: 'mine-system' },
 					{ icon: 'plus', text: '用户管理', right: 'angle-right', link: 'mine-user' },
 				] as Array<Menu>
 			}
 		},
+		create() {
+			console.log(this.theme)
+		},
 		methods: {
-			c(color : string) : string {
-				return $c(color)
+			C(color: string): string{
+				return theme.C(color)
 			},
 			linkTo(link : string) {
 				uni.navigateTo({

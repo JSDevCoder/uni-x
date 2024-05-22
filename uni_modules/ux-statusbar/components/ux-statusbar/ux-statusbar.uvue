@@ -3,6 +3,7 @@
 </template>
 
 <script>
+	type FrontColor = '#000000'|'#ffffff'
 	export default {
 		name: "ux-status-bar",
 		data() {
@@ -34,7 +35,7 @@
 		},
 		created() {
 			uni.setNavigationBarColor({
-				frontColor: this.color,
+				frontColor: this.color as FrontColor,
 				backgroundColor: this.bgColor
 			})
 		}

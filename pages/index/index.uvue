@@ -1,5 +1,5 @@
 <template>
-	<ux-top-bar :title="currTitle" :bg-color="c('primary')" color="#fff"></ux-top-bar>
+	<ux-top-bar :title="currTitle" :bg-color="C('primary')" color="#fff"></ux-top-bar>
 
 	<!-- #ifdef APP -->
 	<scroll-view style="flex: 1">
@@ -10,7 +10,7 @@
 	<!-- #endif -->
 
 
-	<ux-bottom-bar :tabs="tabs" @on-tab-active="onTabActive"></ux-bottom-bar>
+	<ux-bottom-bar :selected-color="C('primary')" :tabs="tabs" @on-tab-active="onTabActive"></ux-bottom-bar>
 </template>
 
 <script>
@@ -20,7 +20,7 @@
 	import apis from './components/apis.uvue'
 	import mine from './components/mine.uvue'
 	
-	import { $c } from '@/common/theme/index.uts'
+	import theme from '@/common/theme/index.uts'
 	export default {
 		components: {
 			home,
@@ -60,17 +60,20 @@
 			}
 		},
 		
+		onLoad() {
+			
+		},
+		
 		methods: {
+			C(color: string): string {
+				return theme.C(color)
+			},
 			onTabActive(index: number) {
 				console.log(index)
 				this.idx = index
 				this.currPage = this.pages[index]
 				this.currTitle = this.pageTitles[index]
-			}, 
-			
-			c(color: string): string {
-				return $c(color)
-			},
+			}
 		}
 	}
 </script>

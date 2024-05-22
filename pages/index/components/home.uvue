@@ -1,109 +1,23 @@
 <template>
 	<view class="home">
-		<button class="mt10" type="primary" @tap="open('center')">点击打开居中弹窗</button>
-		<button class="mt10" type="primary" @tap="open('left')">点击打开左侧弹窗</button>
-		<button class="mt10" type="primary" @tap="open('right')">点击打开右侧弹窗</button>
-		<button class="mt10" type="primary" @tap="open('top')">点击打开顶部弹窗</button>
-		<button class="mt10" type="primary" @tap="open('bottom')">点击打开底部弹窗</button>
-		<view v-for="(item, index) in list" :key="index">
-			{{item.get('app')}}
-		</view>
-		<!-- <view class="">
-			{{list.get('app')}}
-		</view> -->
-		
-		<ux-popup ref="uxPopup" :pos="pos">
-			<view style="background-color: #fff;">
-				<ux-message></ux-message>
-				<view @tap="close">
-					点击关闭
-				</view>
-			</view>
-		</ux-popup>
+		首页
 	</view>
 </template>
 
 <script>
-	import { $c, $t, switchTheme } from '@/common/theme/index.uts'
-	// import useDate from '@/uni/_modules/ux-date/js_sdk/use-date.uts'
-	import {Item} from '@/common/request/models/index.uts'
-	// import {getSetting} from '@/common/request/apis/app.uts'
-	
 	export default {
 		data() {
 			return {
-				unit: '10px',
-				pos: 'center',
-				list: [] as UTSJSONObject[]
+				
 			}
-		},
-		computed: {
-			textUnit() : string {
-				return this.unit
-			},
-		},
-		
-		created() {
-			
-			
 		},
 		
 		methods: {
-			c(color: string): string {
-				return $c(color)
-			},
-			t(style: string): UTSJSONObject {
-				return $t(style)
-			},
-			st(theme : string) {
-				switchTheme(theme)
-			},
 			
-			open(pos: string) {
-				this.pos = pos
-				const popup = this.$refs['uxPopup'] as UxPopupComponentPublicInstance
-				popup.open()
-			},
-			
-			close() {
-				const popup = this.$refs['uxPopup'] as UxPopupComponentPublicInstance
-				
-				popup.close()
-			},
-
-			toDetail() {
-				uni.navigateTo({
-					url: '/pages/index/ux-title-detail'
-				})
-			}
 		}
 	}
 </script>
 
 <style lang="scss">
-	.home {
-		padding: 10px;
-
-		.mt10 {
-			margin-top: 10px;
-		}
-		
-		.pos-center {
-			width: 320px;
-			height: 480px;
-			background-color: #fff;
-		}
-		
-		.pos-left, .pos-right {
-			width: 320px;
-			height: 100%;
-			background-color: #fff;
-		}
-		
-		.pos-top, .pos-bottom {
-			width: 100%;
-			height: 320px;
-			background-color: #fff;
-		}
-	}
+	
 </style>

@@ -1,10 +1,10 @@
 <template>
-	<ux-top-bar title="主题管理" :bg-color="c('primary')" color="#fff" :back="true"></ux-top-bar>
+	<ux-top-bar title="主题管理" :bg-color="C('primary')" color="#fff" :back="true"></ux-top-bar>
 	<view class="container">
 		<view class="title">切换主题</view>
 		<view class="themes">
 			<view class="theme" :style="{backgroundColor: idx == index ? '#fcbd71' : '#fff'}"
-				v-for="(item, index) in themes" :key="item.theme" @tap="st(item.theme, index)">
+				v-for="(item, index) in themes" :key="item.theme" @tap="switchTheme(item.theme, index)">
 				<view class="color" :style="{backgroundColor: item.colors.primary}"></view>
 				<view class="color" :style="{backgroundColor: item.colors.darkPrimary}"></view>
 				<view class="color" :style="{backgroundColor: item.colors.lightPrimary}"></view>
@@ -16,24 +16,29 @@
 </template>
 
 <script>
-	import { $c, switchTheme, uxTheme } from '@/common/theme/index.uts'
-	import { Theme } from '@/uni_modules/ux-theme/js_sdk/ux-theme.uts';
+	import theme from '@/common/theme/index.uts'
+	import { Theme } from '@/uni_modules/ux-theme/js_sdk/types.uts';
 	export default {
 		data() {
 			return {
 				idx: 0,
-				themes: uxTheme.themes as Theme[]
+				themes: [] as Theme[]
 			};
+		},
+		
+		created() {
+			this.themes = theme.uxThemeAttr.themes
+			this.idx = this.themes.map((v: Theme): string => v.theme).indexOf(theme.uxThemeAttr.currTheme)
 		},
 
 		methods: {
-			c(color : string) : string {
-				return $c(color)
+			C(color: string): string{
+				return theme.C(color)
 			},
-
-			st(theme : string, index : number) {
+			switchTheme(currTheme: string, index: number) {
 				this.idx = index
-				switchTheme(theme)
+				theme.switchTheme(currTheme)
+				console.log(theme)
 			}
 		}
 	}

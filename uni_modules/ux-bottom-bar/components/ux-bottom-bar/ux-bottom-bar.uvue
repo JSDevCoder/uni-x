@@ -100,12 +100,12 @@
 				}
 			}
 		},
-
+		
 		created() {
+			console.log(this.curr)
 			this.idx = this.curr
-			console.log(this.tabs)
 		},
-
+		
 		methods: {
 			onTabActive(index : number) {
 				this.idx = index

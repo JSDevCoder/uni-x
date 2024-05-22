@@ -1,5 +1,5 @@
 <template>
-	<ux-top-bar title="系统管理" :bg-color="c('primary')" color="#fff" :back="true"></ux-top-bar>
+	<ux-top-bar title="系统管理" :bg-color="C('primary')" color="#fff" :back="true"></ux-top-bar>
 	<view class="container">
 		<view class="list">
 			<view class="list-item" v-for="(item, index) in menus" :key="index" @tap="linkTo(item.route)">
@@ -11,7 +11,7 @@
 </template>
 
 <script>
-	import { $c } from '@/common/theme/index.uts'
+	import theme from '@/common/theme/index.uts'
 
 	type Item = {
 		name : string
@@ -22,6 +22,7 @@
 	export default {
 		data() {
 			return {
+				theme: theme,
 				menus: [
 					{ name: '主题管理', icon: 'discount', route: '/pages/mine/system/mine-system-theme' },
 					{ name: '多语言管理', icon: 'template-default', route: '' },
@@ -32,10 +33,9 @@
 			// theme: () : string => state.theme
 		},
 		methods: {
-			c(color : string) : string {
-				return $c(color)
+			C(color: string): string{
+				return theme.C(color)
 			},
-			
 			linkTo(route: string) {
 				uni.navigateTo({
 					url: route

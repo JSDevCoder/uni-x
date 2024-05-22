@@ -1,0 +1,25 @@
+import { ColorSchema } from "./color/type"
+import { TextStyleSchema } from "./text_style/type"
+
+/**
+ * theme主题类型
+ */
+export type Theme = {
+	theme : string
+	colors : ColorSchema
+	textStyles : TextStyleSchema
+}
+
+export type UxThemeAttr = {
+	// 将所有主题
+	themes : Theme[]
+
+	// 默认主题中的主题色
+	colors : ColorSchema
+
+	// 默认主题中的文本样式
+	textStyles : TextStyleSchema
+
+	// 默认主题名
+	currTheme : string
+}
